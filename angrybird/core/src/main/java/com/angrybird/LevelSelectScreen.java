@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -57,87 +58,76 @@ public class LevelSelectScreen implements Screen {
         // Create buttons and UI
         createButtons();
     }
+    private void createButtons() {
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
 
-private void createButtons() {
-    int row_height = Gdx.graphics.getWidth() / 12;
-    int col_width = Gdx.graphics.getWidth() / 12;
+        float centerX = Gdx.graphics.getWidth() / 2f;
+        float buttonSpacing = col_width * 2.5f;
 
-    // Calculate the center position for Level 2
-    float centerX = Gdx.graphics.getWidth() / 2f;
+        // Create Level 2 button (middle)
+        ImageButton.ImageButtonStyle styleLevel2 = new ImageButton.ImageButtonStyle();
+        styleLevel2.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_1.png")));
+        ImageButton Level2 = new ImageButton(styleLevel2);
+        Level2.setSize(col_width * 2.15f, row_height * 2.15f);
+        Level2.setPosition(centerX - Level2.getWidth() / 2, row_height * 3);
+        Level2.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Level2Screen(game));  // Navigate to Level 2 Screen
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(Level2);
 
-    // Define the spacing between buttons
-    float buttonSpacing = col_width * 2.5f; // Adjust this to control spacing
+        // Create Level 1 button (left)
+        ImageButton.ImageButtonStyle styleLevel1 = new ImageButton.ImageButtonStyle();
+        styleLevel1.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img.png")));
+        ImageButton Level1 = new ImageButton(styleLevel1);
+        Level1.setSize(col_width * 2f, row_height * 2f);
+        Level1.setPosition(centerX - buttonSpacing - Level1.getWidth(), row_height * 3);
+        Level1.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Level1Screen(game));  // Navigate to Level 1 Screen
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(Level1);
 
-    // Create Level 2 button (middle)
-    ImageButton.ImageButtonStyle styleLevel2 = new ImageButton.ImageButtonStyle();
-    styleLevel2.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img_1.png"))));
-    styleLevel2.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img_1.png"))));
-    ImageButton Level2 = new ImageButton(styleLevel2);
-    Level2.setSize(col_width * 2.15f, row_height * 2.15f);
-    Level2.setPosition(centerX - Level2.getWidth() / 2, row_height * 3); // Center Level 2
-    Level2.addListener(new InputListener() {
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Level 2 Selected");
-        }
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Pressed Level 2 Button");
-            return true;
-        }
-    });
-    stage.addActor(Level2);
+        // Create Level 3 button (right)
+        ImageButton.ImageButtonStyle styleLevel3 = new ImageButton.ImageButtonStyle();
+        styleLevel3.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_2.png")));
+        ImageButton Level3 = new ImageButton(styleLevel3);
+        Level3.setSize(col_width * 2.15f, row_height * 2.15f);
+        Level3.setPosition(centerX + buttonSpacing, row_height * 3);
+        Level3.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Level3Screen(game));  // Navigate to Level 3 Screen
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(Level3);
 
-    // Create Level 1 button (left)
-    ImageButton.ImageButtonStyle styleLevel1 = new ImageButton.ImageButtonStyle();
-    styleLevel1.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img.png"))));
-    styleLevel1.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img.png"))));
-    ImageButton Level1 = new ImageButton(styleLevel1);
-    Level1.setSize(col_width * 2f, row_height * 2f);
-    Level1.setPosition(centerX - buttonSpacing - Level1.getWidth(), row_height * 3); // Place Level 1 to the left
-    Level1.addListener(new InputListener() {
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Level 1 Selected");
-        }
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Pressed Level 1 Button");
-            return true;
-        }
-    });
-
-
-    stage.addActor(Level1);
-
-    // Create Level 3 button (right)
-    ImageButton.ImageButtonStyle styleLevel3 = new ImageButton.ImageButtonStyle();
-    styleLevel3.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img_2.png"))));
-    styleLevel3.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("img_2.png"))));
-    ImageButton Level3 = new ImageButton(styleLevel3);
-    Level3.setSize(col_width * 2.15f, row_height * 2.15f);
-    Level3.setPosition(centerX + buttonSpacing, row_height * 3); // Place Level 3 to the right
-    Level3.addListener(new InputListener() {
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Level 3 Selected");
-        }
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            outputLabel.setText("Pressed Level 3 Button");
-            return true;
-        }
-    });
-    stage.addActor(Level3);
-
-    // Output label
-    outputLabel = new Label("Press a Button", skin, "black");
-    outputLabel.setSize(Gdx.graphics.getWidth(), row_height);
-    outputLabel.setPosition(0, row_height);
-    outputLabel.setAlignment(Align.center);
-    stage.addActor(outputLabel);
-}
-
+        BitmapFont font = new BitmapFont();
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        outputLabel = new Label("Press a Button", labelStyle);
+        outputLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        outputLabel.setPosition(0, row_height);
+        outputLabel.setAlignment(Align.center);
+        stage.addActor(outputLabel);
+    }
     @Override
     public void render(float delta) {
         // Clear the screen
