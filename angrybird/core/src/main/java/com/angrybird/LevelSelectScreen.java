@@ -86,7 +86,7 @@ private void createButtons() {
     Level2.setSize(col_width * 2.5f, row_height * 2.15f);
     Level2.getStyle().imageUp = new TextureRegionDrawable(new Texture("img_1.png")); // Ensure this image is different
     Level2.getStyle().imageDown = new TextureRegionDrawable(new Texture("img_1.png"));
-    Level2.setPosition(col_width * 2, row_height * 1); // Position this below Level 1 button
+    Level2.setPosition(col_width * 2, row_height); // Position this below Level 1 button
     Level2.addListener(new InputListener() {
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
