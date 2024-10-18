@@ -1,0 +1,12 @@
+red bird.png
+wood obstacle.png
+blue bird.webp
+default pig.png
+blank.png
+Toons_Glass_Block.webp
+Toons_Stone_Block.webp
+weak pig.png
+yellow bird.png
+Slingshot.png
+pig king.png
+Pig soldier.png
