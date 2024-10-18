@@ -162,6 +162,8 @@ private void createButtons() {
             return true;
         }
     });
+
+
     stage.addActor(Level1);
 
     // Create Level 3 button (right)
