@@ -6,11 +6,11 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        this.setScreen(new FirstScreen(this)); // Set StartScreen as the initial screen
+        this.setScreen(new FirstScreen(this));
     }
 
     @Override
     public void dispose() {
-        super.dispose(); // Dispose of all resources used by the game
+        super.dispose();
     }
 }
