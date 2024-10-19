@@ -24,6 +24,7 @@ public class Level implements Screen {
     ArrayList<Bird> birds= new ArrayList<Bird>();
     ArrayList<Pig> pigs=new ArrayList<Pig>();
     ArrayList<Obstacle> obstacles=new ArrayList<Obstacle>();
+    ArrayList<Obstacle> horizontal=new ArrayList<Obstacle>();
     Texture SlingshotTexture=new Texture("Slingshot.png");
     Sprite SlingshotSprite=new Sprite(SlingshotTexture);
 
@@ -45,7 +46,7 @@ public class Level implements Screen {
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         SlingshotSprite.draw(spriteBatch);
         for(Bird bird:birds){
-            bird.getSprite().setSize(5,5);
+            bird.getSprite().setSize(bird.getXsize(),bird.getYsize());
             bird.getSprite().draw(spriteBatch);
         }
         for(Obstacle obstacle:obstacles){
@@ -53,8 +54,14 @@ public class Level implements Screen {
             obstacle.getSprite().setOriginCenter();
             obstacle.getSprite().draw(spriteBatch);
         }
+        for(Obstacle obstacle:horizontal){
+            obstacle.getSprite().setRotation(90);
+            obstacle.getSprite().setSize(5,20);
+            obstacle.getSprite().setOriginCenter();
+            obstacle.getSprite().draw(spriteBatch);
+        }
         for(Pig pig:pigs){
-            pig.getSprite().setSize(5,5);
+            pig.getSprite().setSize(pig.getXsize(),pig.getYsize());
             pig.getSprite().draw(spriteBatch);
         }
         SlingshotSprite.setSize(15, 15);

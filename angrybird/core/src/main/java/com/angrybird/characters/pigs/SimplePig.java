@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class SimplePig extends Pig{
-    public SimplePig(int xpos,int ypos){
+    public SimplePig(float xpos,float ypos){
         super(xpos, ypos);
+        this.xsize=5;
+        this.ysize=5;
         this.texture=new Texture("default pig.png");
         this.sprite=new Sprite(texture);
         this.health=30;

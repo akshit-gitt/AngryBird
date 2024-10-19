@@ -25,23 +25,22 @@ public class Level1 extends Level{
 
     @Override
     public void show() {
+        int base=26;
         background=new Texture("level1.jpg");
         viewport = new FitViewport(250, 120);
         SlingshotSprite.setX(25);
-        SlingshotSprite.setY(26);
-        birds.add(new RedBird(13,26));
-        birds.add(new YellowBird(20,26));
+        SlingshotSprite.setY(base);
+        birds.add(new RedBird(13,base));
+        birds.add(new YellowBird(20,base));
         birds.add(new RedBird(31,34));
-        obstacles.add(new Wood(100,26));
-        obstacles.add(new Wood(180,26));
-        Obstacle o1=new Wood(100,36);
-        Obstacle o2=new Wood(180,36);
-        o1.getSprite().setRotation(90);
-        o2.getSprite().setRotation(90);
-        obstacles.add(o2);
-        obstacles.add(o1);
+        obstacles.add(new Wood(100,base));
+        obstacles.add(new Wood(180,base));
+        horizontal.add(new Wood(100,36));
+        horizontal.add(new Wood(180,36));
+        horizontal.add(new Wood(140,base-7.3f));
         pigs.add(new SimplePig(100,48));
         pigs.add(new SimplePig(180,48));
+        pigs.add(new SimplePig(140,base+5f));
     }
 
 

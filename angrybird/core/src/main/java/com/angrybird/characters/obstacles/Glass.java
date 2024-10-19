@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Glass extends Obstacle{
-    public Glass(int xpos,int ypos){
+    public Glass(float xpos,float ypos){
         super(xpos, ypos);
         this.texture=new Texture("glass.png");
         this.sprite=new Sprite(this.texture);

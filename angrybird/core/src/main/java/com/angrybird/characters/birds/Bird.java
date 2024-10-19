@@ -8,9 +8,11 @@ public class Bird {
     Sprite sprite;
     int damage;
     float speedMultiplier;
-    int xpos;
-    int ypos;
-    public Bird(int xpos,int ypos){
+    float xpos;
+    float ypos;
+    int xsize;
+    int ysize;
+    public Bird(float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
     }
@@ -31,11 +33,11 @@ public class Bird {
         return damage;
     }
 
-    public int getXpos() {
+    public float getXpos() {
         return xpos;
     }
 
-    public int getYpos() {
+    public float getYpos() {
         return ypos;
     }
 
@@ -61,5 +63,21 @@ public class Bird {
 
     public void setYpos(int ypos) {
         this.ypos = ypos;
+    }
+
+    public void setXsize(int xsize) {
+        this.xsize = xsize;
+    }
+
+    public void setYsize(int ysize) {
+        this.ysize = ysize;
+    }
+
+    public int getYsize() {
+        return ysize;
+    }
+
+    public int getXsize() {
+        return xsize;
     }
 }

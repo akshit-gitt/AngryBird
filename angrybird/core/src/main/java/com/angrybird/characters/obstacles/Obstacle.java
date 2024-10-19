@@ -8,9 +8,9 @@ public class Obstacle {
     Sprite sprite;
     int health;
     int damage;
-    int xpos;
-    int ypos;
-    public Obstacle(int xpos,int ypos){
+    float xpos;
+    float ypos;
+    public Obstacle(float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
     }
@@ -21,11 +21,11 @@ public class Obstacle {
     public Sprite getSprite() {
         return sprite;
     }
-    public int getXpos() {
+    public float getXpos() {
         return xpos;
     }
 
-    public int getYpos() {
+    public float getYpos() {
         return ypos;
     }
 

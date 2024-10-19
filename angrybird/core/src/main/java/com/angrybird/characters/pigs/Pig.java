@@ -9,9 +9,11 @@ public class Pig {
     int health;
     Texture injuredTexture=new Texture("weak pig.png");
     Sprite injuredSprite=new Sprite(injuredTexture);
-    int xpos;
-    int ypos;
-    public Pig(int xpos,int ypos){
+    float xpos;
+    float ypos;
+    int xsize;
+    int ysize;
+    public Pig(float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
     }
@@ -52,11 +54,11 @@ public class Pig {
         return texture;
     }
 
-    public int getYpos() {
+    public float getYpos() {
         return ypos;
     }
 
-    public int getXpos() {
+    public float getXpos() {
         return xpos;
     }
 
@@ -70,5 +72,29 @@ public class Pig {
 
     public Texture getInjuredTexture() {
         return injuredTexture;
+    }
+
+    public int getXsize() {
+        return xsize;
+    }
+
+    public void setXpos(float xpos) {
+        this.xpos = xpos;
+    }
+
+    public void setYpos(float ypos) {
+        this.ypos = ypos;
+    }
+
+    public int getYsize() {
+        return ysize;
+    }
+
+    public void setXsize(int xsize) {
+        this.xsize = xsize;
+    }
+
+    public void setYsize(int ysize) {
+        this.ysize = ysize;
     }
 }

@@ -3,7 +3,7 @@ package com.angrybird.characters.obstacles;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Wood extends Obstacle{
-    public Wood(int xpos,int ypos){
+    public Wood(float xpos,float ypos){
         super(xpos, ypos);
         this.texture=new Texture("wood.png");
         this.sprite=new Sprite(this.texture);

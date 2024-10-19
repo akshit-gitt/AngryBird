@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class BlueBird extends Bird{
-    public BlueBird(int xpos,int ypos){
+    public BlueBird(float xpos,float ypos){
         super(xpos,ypos);
+        this.xsize=10;
+        this.ysize=10;
         this.texture=new Texture("blue bird.png");
         this.sprite=new Sprite(this.texture);
         this.sprite.setX(xpos);

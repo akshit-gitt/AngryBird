@@ -64,6 +64,7 @@ public class LevelSelectScreen implements Screen {
         Level2.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Level2(game));
             }
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -95,6 +96,7 @@ public class LevelSelectScreen implements Screen {
         Level3.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                //game.setScreen(new Level3(game));
             }
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

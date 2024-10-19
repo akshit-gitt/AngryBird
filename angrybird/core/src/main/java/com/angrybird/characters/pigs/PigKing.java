@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class PigKing extends Pig{
-    public PigKing(int xpos,int ypos){
+    public PigKing(float xpos,float ypos){
         super(xpos, ypos);
         this.texture=new Texture("pig king.png");
         this.sprite=new Sprite(texture);
