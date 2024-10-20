@@ -63,11 +63,8 @@ public class LevelSelectScreen implements Screen {
         Level2.setPosition(centerX - Level2.getWidth() / 2, row_height * 3);
         Level2.addListener(new InputListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new Level2(game));
-            }
-            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Level2(game));
                 return true;
             }
         });
@@ -79,11 +76,9 @@ public class LevelSelectScreen implements Screen {
         Level1.setPosition(centerX - buttonSpacing - Level1.getWidth(), row_height * 3);
         Level1.addListener(new InputListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
                 game.setScreen(new Level1(game));
-            }
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
         });
