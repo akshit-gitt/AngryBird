@@ -33,6 +33,7 @@ skin/uiskin.json
 skin/uiskin.png
 Slingshot.png
 stone.png
+stoney.png
 weak pig.png
 wood.png
 yellow bird.png
