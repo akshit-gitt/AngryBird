@@ -25,6 +25,7 @@ public class Level1 extends Level{
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
         int base=26;
         background=new Texture("level1.jpg");
         viewport = new FitViewport(250, 120);

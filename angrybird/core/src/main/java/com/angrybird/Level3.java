@@ -9,6 +9,7 @@ import com.angrybird.characters.obstacles.Wood;
 import com.angrybird.characters.pigs.PigKing;
 import com.angrybird.characters.pigs.PigSoldier;
 import com.angrybird.characters.pigs.SimplePig;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,6 +22,7 @@ public class Level3 extends Level {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
         background = new Texture("level3.jpg");
         viewport = new FitViewport(250, 120);
         int base=37;

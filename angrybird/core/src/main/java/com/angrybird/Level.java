@@ -23,8 +23,8 @@ import java.util.Objects;
 
 public class Level implements Screen {
     private Main game;
-    private boolean isPaused = false;
-    private PauseMenuScreen pausemenuscreen;
+    boolean isPaused = false;
+    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
     FitViewport viewport;
     Texture background;
@@ -35,7 +35,7 @@ public class Level implements Screen {
     Texture SlingshotTexture=new Texture("Slingshot.png");
     Sprite SlingshotSprite=new Sprite(SlingshotTexture);
     public Stage stage;
-    private ImageButton pauseButton;
+    ImageButton pauseButton;
 //    public Level(Main game){
 //        this.game=game;
 //        pausemenuscreen = new PauseMenuScreen(game);
@@ -68,7 +68,7 @@ public Level(Main game){
     this.game = game;
     pausemenuscreen = new PauseMenuScreen(game);
     this.spriteBatch = new SpriteBatch();
-    this.viewport = new FitViewport(800,600);
+    this.viewport = new FitViewport(250,120);
     stage = new Stage(viewport);
 
     // Set the button style
@@ -77,10 +77,10 @@ public Level(Main game){
 
     // Use the class-level pauseButton
     pauseButton = new ImageButton(style);
-    pauseButton.setSize(100, 100);
+    pauseButton.setSize(20, 20);
 
     // Set the position of the pause button (top right corner)
-    pauseButton.setPosition(viewport.getWorldWidth() - pauseButton.getWidth() - 10, viewport.getWorldHeight() - pauseButton.getHeight() - 10);
+    pauseButton.setPosition(viewport.getWorldWidth() - pauseButton.getWidth() - 10, viewport.getWorldHeight() - pauseButton.getHeight() - 5);
 
     // Add a click listener to the pause button
     pauseButton.addListener(new InputListener() {
@@ -148,6 +148,8 @@ public Level(Main game){
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+
+
     }
 
     @Override
