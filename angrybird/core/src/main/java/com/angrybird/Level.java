@@ -36,37 +36,10 @@ public class Level implements Screen {
     Sprite SlingshotSprite=new Sprite(SlingshotTexture);
     public Stage stage;
     ImageButton pauseButton;
-//    public Level(Main game){
-//        this.game=game;
-//        pausemenuscreen = new PauseMenuScreen(game);
-//        this.spriteBatch=new SpriteBatch();
-//        this.viewport = new FitViewport(800,600);
-//        stage = new Stage(viewport);
-//        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-//        style.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("pause.png")));
-//        ImageButton pauseButton = new ImageButton(style);
-//        pauseButton.setSize(100,100);
-//        // Set the position of the pause button (top right corner)
-//        pauseButton.setPosition(viewport.getWorldWidth() - pauseButton.getWidth() - 10, viewport.getWorldHeight() - pauseButton.getHeight() - 10);
 //
-//
-//        // Add a click listener to the pause button
-//        pauseButton.addListener(new InputListener() {
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y,int pointer, int button) {
-//                isPaused = true;
-//
-//                game.setScreen(pausemenuscreen);
-//
-//                return true;
-//            }
-//        });
-//        stage.addActor(pauseButton);
-//
-//    }
 public Level(Main game){
     this.game = game;
-    pausemenuscreen = new PauseMenuScreen(game);
+    pausemenuscreen = new PauseMenuScreen(game,this);
     this.spriteBatch = new SpriteBatch();
     this.viewport = new FitViewport(250,120);
     stage = new Stage(viewport);
@@ -145,6 +118,7 @@ public Level(Main game){
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
     }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
