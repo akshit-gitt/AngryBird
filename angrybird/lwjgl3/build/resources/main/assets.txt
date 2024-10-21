@@ -24,6 +24,7 @@ pause_background.png
 blue bird.webp
 default pig.png
 blank.png
+wood_texture.png
 Toons_Glass_Block.webp
 intro.png
 img.png
@@ -43,6 +44,7 @@ blue bird.png
 poached_eggs_world_2_background_by_brianloudarts_dha3rik-pre.jpg
 glass.png
 yellow bird.png
+back.png
 images.png
 images.jpg
 Slingshot.png

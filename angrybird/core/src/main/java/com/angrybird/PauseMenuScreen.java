@@ -28,7 +28,7 @@ public class PauseMenuScreen implements Screen {
     private final TextButton muteButton;
     private boolean isMuted = false;
     private final FitViewport viewport;
-
+    private Table buttonTable;
     public PauseMenuScreen(Main game, Level level) {
         this.game = game;
         this.level = level;
@@ -44,7 +44,7 @@ public class PauseMenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // Create a skin (can be your custom skin or default one)
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         // Create buttons
         resumeButton = new TextButton("Resume", skin);
@@ -79,16 +79,57 @@ public class PauseMenuScreen implements Screen {
         });
 
         // Set up the table layout for the buttons inside the exam board
-        Table buttonTable = new Table();
+//        Table buttonTable = new Table();
+//        buttonTable.center();
+////        buttonTable.setFillParent(true); // Ensure it fills the parent layout
+//        float buttonTableWidth = examboardWidth * 0.6f;  // Make the table smaller than the examboard
+//        float buttonTableHeight = examboardHeight * 0.5f; // Adjust the height proportionally
+//
+//// Position the button table to be in the center of the examboard
+//        float buttonTableX = examboardX + (examboardWidth - buttonTableWidth) / 2;
+//        float buttonTableY = examboardY + (examboardHeight - buttonTableHeight) / 2;
+//        buttonTable.setBounds(buttonTableX, buttonTableY, buttonTableWidth, buttonTableHeight);
+//        // Add buttons to the table
+//        resumeButton.getLabel().setFontScale(0.6f); // Scale down the text inside the button
+//        resumeButton.setTransform(true); // Enable transformation for scaling
+//        resumeButton.setScale(0.7f); // Scale down the button
+//
+//        saveAndQuitButton.getLabel().setFontScale(0.6f);
+//        saveAndQuitButton.setTransform(true);
+//        saveAndQuitButton.setScale(0.7f);
+//
+//        muteButton.getLabel().setFontScale(0.6f);
+//        muteButton.setTransform(true);
+//        muteButton.setScale(0.7f);
+//
+//// Add buttons to the table
+//        buttonTable.add(resumeButton).pad(8).row();
+//        buttonTable.add(saveAndQuitButton).pad(8).row();
+//        buttonTable.add(muteButton).pad(8).row();
+//
+//        // Add the button table to the stage
+//        stage.addActor(buttonTable);
+        buttonTable = new Table();
         buttonTable.center();
-        buttonTable.setFillParent(true); // Ensure it fills the parent layout
+        buttonTable.setFillParent(false); // Ensure it doesn't fill the entire screen
 
-        // Add buttons to the table
-        buttonTable.add(resumeButton).pad(10).row();
-        buttonTable.add(saveAndQuitButton).pad(10).row();
-        buttonTable.add(muteButton).pad(10).row();
+// Add buttons to the table
+        resumeButton.getLabel().setFontScale(0.6f);
+        resumeButton.setTransform(true);
+        resumeButton.setScale(0.7f);
 
-        // Add the button table to the stage
+        saveAndQuitButton.getLabel().setFontScale(0.6f);
+        saveAndQuitButton.setTransform(true);
+        saveAndQuitButton.setScale(0.7f);
+
+        muteButton.getLabel().setFontScale(0.6f);
+        muteButton.setTransform(true);
+        muteButton.setScale(0.7f);
+
+        buttonTable.add(resumeButton).pad(8).row();
+        buttonTable.add(saveAndQuitButton).pad(8).row();
+        buttonTable.add(muteButton).pad(8).row();
+
         stage.addActor(buttonTable);
     }
 
@@ -99,7 +140,28 @@ public class PauseMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // Clear the screen and draw the background
+//        // Clear the screen and draw the background
+//        ScreenUtils.clear(Color.BLACK);
+//
+//        // Begin the sprite batch to draw textures
+//        spriteBatch.setProjectionMatrix(viewport.getCamera().combined); // Update sprite batch with the viewport's camera
+//        spriteBatch.begin();
+//
+//        // Draw the background texture to fill the entire viewport
+//        spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+//
+//        // Draw the examboard in the center of the screen
+//        float examboardWidth = 600;
+//        float examboardHeight = 600;
+//        float examboardX = (viewport.getWorldWidth() - examboardWidth) / 2;
+//        float examboardY = (viewport.getWorldHeight() - examboardHeight) / 2;
+//        spriteBatch.draw(examboardTexture, examboardX, examboardY, examboardWidth, examboardHeight);
+//
+//        spriteBatch.end();
+//
+//        // Draw the stage containing the buttons
+//        stage.act(delta);
+//        stage.draw();
         ScreenUtils.clear(Color.BLACK);
 
         // Begin the sprite batch to draw textures
@@ -111,10 +173,19 @@ public class PauseMenuScreen implements Screen {
 
         // Draw the examboard in the center of the screen
         float examboardWidth = 600;
-        float examboardHeight = 400;
+        float examboardHeight = 600;
         float examboardX = (viewport.getWorldWidth() - examboardWidth) / 2;
         float examboardY = (viewport.getWorldHeight() - examboardHeight) / 2;
         spriteBatch.draw(examboardTexture, examboardX, examboardY, examboardWidth, examboardHeight);
+
+        // Set button table size and position relative to the examboard
+        float buttonTableWidth = examboardWidth * 0.6f;
+        float buttonTableHeight = examboardHeight * 0.5f;
+        float buttonTableX = examboardX + (examboardWidth - buttonTableWidth) / 2 + 50;
+        float buttonTableY = examboardY + (examboardHeight - buttonTableHeight) / 2 ;
+
+        // Update button table's bounds
+        buttonTable.setBounds(buttonTableX, buttonTableY, buttonTableWidth, buttonTableHeight);
 
         spriteBatch.end();
 
