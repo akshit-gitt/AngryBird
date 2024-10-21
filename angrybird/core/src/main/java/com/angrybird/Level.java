@@ -36,6 +36,7 @@ public class Level implements Screen {
     Sprite SlingshotSprite=new Sprite(SlingshotTexture);
     public Stage stage;
     ImageButton pauseButton;
+    ImageButton backButton;
 //
 public Level(Main game){
     this.game = game;
@@ -46,14 +47,16 @@ public Level(Main game){
 
     // Set the button style
     ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+    ImageButton.ImageButtonStyle style2 = new ImageButton.ImageButtonStyle();
     style.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("pause.png")));
+    style2.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("back.png")));
 
     // Use the class-level pauseButton
     pauseButton = new ImageButton(style);
     pauseButton.setSize(20, 20);
 
     // Set the position of the pause button (top right corner)
-    pauseButton.setPosition(viewport.getWorldWidth() - pauseButton.getWidth() - 10, viewport.getWorldHeight() - pauseButton.getHeight() - 5);
+    pauseButton.setPosition(viewport.getWorldWidth() - pauseButton.getWidth() - 10, viewport.getWorldHeight() - pauseButton.getHeight() - 3);
 
     // Add a click listener to the pause button
     pauseButton.addListener(new InputListener() {
@@ -64,9 +67,18 @@ public Level(Main game){
             return true;
         }
     });
-
+    backButton=new ImageButton(style2);
+    backButton.setSize(16,16);
+    backButton.setPosition(backButton.getWidth()-10,viewport.getWorldHeight()-backButton.getHeight()-6);
+    backButton.addListener(new InputListener(){
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            game.setScreen(new LevelSelectScreen(game));
+            return true;
+        }
+    });
     // Add the pause button to the stage
     stage.addActor(pauseButton);
+    stage.addActor(backButton);
 }
 
     public Stage getStage() {
