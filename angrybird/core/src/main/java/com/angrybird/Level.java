@@ -164,7 +164,7 @@ public class Level implements Screen {
 //
 //        dialog.show(stage);
 //    }
-private void showPauseDialog() {
+public void showPauseDialog() {
 
     // Create dialog
     Dialog dialog = new Dialog("Pause Menu", skin);
@@ -176,16 +176,17 @@ private void showPauseDialog() {
     // Set dialog size to 50% of the screen size
     float dialogWidth = screenWidth * 0.5f;
     float dialogHeight = screenHeight * 0.5f;
-    dialog.setSize(dialogWidth, dialogHeight);
+    dialog.setSize(125, 60);
 
     // Center the dialog in the screen
-    dialog.setPosition((screenWidth - dialogWidth) / 2, (screenHeight - dialogHeight) / 2);
+    //dialog.setPosition((screenWidth - dialogWidth) / 2, (screenHeight - dialogHeight) / 2);
+    dialog.setPosition(125,60);
 
     // Set background image with proper scaling
     dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)) {
         @Override
         public void draw(Batch batch, float x, float y, float width, float height) {
-            batch.draw(examboardTexture, x, y, dialogWidth, dialogHeight);
+            batch.draw(examboardTexture, 47, 18, 155, 90);
         }
     });
     dialog.getColor().a = 0f;
