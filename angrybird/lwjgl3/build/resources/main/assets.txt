@@ -18,6 +18,7 @@ level1.jpg
 level1.png
 LevelSelect.png
 download.png
+unmute.png
 rename.png
 wood obstacle.png
 pause_background.png
@@ -38,11 +39,13 @@ tumblr_inline_n312f5a8UM1rbgnxv.jpg
 stone.png
 pause.png
 Toons_Stone_Block.webp
+saveandexit.png
 glass.webp
 weak pig.png
 blue bird.png
 poached_eggs_world_2_background_by_brianloudarts_dha3rik-pre.jpg
 glass.png
+mute.png
 yellow bird.png
 back.png
 images.png

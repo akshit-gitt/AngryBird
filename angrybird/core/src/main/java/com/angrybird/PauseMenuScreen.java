@@ -55,7 +55,7 @@ public class PauseMenuScreen implements Screen {
         resumeButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                level.isPaused = false;
+//                level.isPaused = false;
                 game.setScreen(level); // Resume the game
                 return true;
             }
