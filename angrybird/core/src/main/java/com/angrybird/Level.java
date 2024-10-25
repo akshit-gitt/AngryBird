@@ -15,9 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -26,7 +24,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 public class Level implements Screen {
     private Main game;
 //    PauseMenuScreen pausemenuscreen;
@@ -49,7 +46,8 @@ public class Level implements Screen {
     private Texture muteTexture;
     private Texture unmuteTexture;
     private boolean isMuted = false;
-
+    TextButton winButton;
+    TextButton loseButton;
     public Level(Main game) {
         this.game = game;
 //        pausemenuscreen = new PauseMenuScreen(game, this);
@@ -94,88 +92,14 @@ public class Level implements Screen {
                 game.setScreen(new LevelSelectScreen(game));
             }
         });
-
+        setupWinAndLoseButtons();
         // Add buttons to the stage
         stage.addActor(pauseButton);
         stage.addActor(backButton);
+        stage.addActor(winButton);
+        stage.addActor(loseButton);
     }
 
-//public void showPauseDialog() {
-//
-//    // Create dialog
-//    Dialog dialog = new Dialog("Pause Menu", skin);
-//
-//    // Get actual screen dimensions
-//    float screenWidth = Gdx.graphics.getWidth();
-//    float screenHeight = Gdx.graphics.getHeight();
-//
-//    // Set dialog size to 50% of the screen size
-//    float dialogWidth = screenWidth * 0.5f;
-//    float dialogHeight = screenHeight * 0.5f;
-//    dialog.setSize(125, 60);
-//
-//    // Center the dialog in the screen
-//    //dialog.setPosition((screenWidth - dialogWidth) / 2, (screenHeight - dialogHeight) / 2);
-//    dialog.setPosition(125,60);
-//
-//    // Set background image with proper scaling
-//    dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)) {
-//        @Override
-//        public void draw(Batch batch, float x, float y, float width, float height) {
-//            batch.draw(examboardTexture, 47, 18, 155, 90);
-//        }
-//    });
-//    dialog.getColor().a = 0f;
-//    dialog.addAction(Actions.fadeIn(0.5f));
-//    Table overlay = new Table();
-//        overlay.setFillParent(true);
-//      overlay.setBackground(new TextureRegionDrawable(new Texture(1, 1, Pixmap.Format.RGB888)).tint(new Color(0, 0, 0, 0.5f)));
-//      stage.addActor(overlay);
-//    overlay.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f)));
-//        stage.addActor(dialog);
-//    // Create buttons
-//    ImageButton resumeButton = new ImageButton(new TextureRegionDrawable(resumeTexture));
-//    ImageButton saveButton = new ImageButton(new TextureRegionDrawable(saveTexture));
-//    final ImageButton muteButton = new ImageButton(isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture));
-//
-//    // Set up button listeners
-//    resumeButton.addListener(new ClickListener() {
-//        @Override
-//        public void clicked(InputEvent event, float x, float y) {
-//            dialog.hide();
-//            resumeGame();
-//        }
-//    });
-//
-//    saveButton.addListener(new ClickListener() {
-//        @Override
-//        public void clicked(InputEvent event, float x, float y) {
-//            // Implement save logic
-//            game.setScreen(new LevelSelectScreen(game));
-//        }
-//    });
-//
-//    muteButton.addListener(new ClickListener() {
-//        @Override
-//        public void clicked(InputEvent event, float x, float y) {
-//            isMuted = !isMuted;
-//            muteButton.getStyle().imageUp = new TextureRegionDrawable(isMuted ? unmuteTexture : muteTexture);
-//            // Implement mute/unmute logic
-//        }
-//    });
-//
-//    // Add buttons to the dialog
-//    Table buttonTable = new Table();
-//    buttonTable.add(resumeButton).pad(10).size(100, 40).row();
-//    buttonTable.add(saveButton).pad(10).size(100, 40).row();
-//    buttonTable.add(muteButton).pad(10).size(100, 40).row();
-//
-//// Adding buttonTable to dialog's content table
-//    dialog.getContentTable().add(buttonTable).expand().center().pad(10);
-//
-//    // Add dialog to stage and display
-//    dialog.show(stage);
-//}
 public void showPauseDialog() {
     // Create dialog
     Dialog dialog = new Dialog("", skin);
@@ -259,6 +183,33 @@ public void showPauseDialog() {
 
     dialog.show(stage);
 }
+    private void setupWinAndLoseButtons() {
+        // Initialize the Win button with smaller size
+        winButton = new TextButton("Win", skin);
+        winButton.setSize(40, 20); // Reduced size for smaller appearance
+        winButton.setPosition(viewport.getWorldWidth() - winButton.getWidth() - 10, 10); // Bottom-right corner
+        winButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                 game.setScreen(new WinScreen(game)); // Uncomment if WinScreen exists
+            }
+        });
+
+        // Initialize the Lose button with smaller size
+        loseButton = new TextButton("Lose", skin);
+        loseButton.setSize(40, 20); // Reduced size for smaller appearance
+        loseButton.setPosition(viewport.getWorldWidth() - loseButton.getWidth() - 60, 10); // Bottom-right corner
+        loseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                 game.setScreen(new LoseScreen(game)); // Uncomment if LoseScreen exists
+            }
+        });
+
+        // Add buttons to the stage
+        stage.addActor(winButton);
+        stage.addActor(loseButton);
+    }
     public void resumeGame() {
         Gdx.input.setInputProcessor(stage);
     }
