@@ -185,13 +185,15 @@ private void showPauseDialog() {
 }
     private void setupWinAndLoseButtons() {
         // Initialize the Win button with smaller size
+        final Level curLevel = this;
         winButton = new TextButton("Win", skin);
         winButton.setSize(40, 20); // Reduced size for smaller appearance
         winButton.setPosition(viewport.getWorldWidth() - winButton.getWidth() - 10, 10); // Bottom-right corner
         winButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(new WinScreen(game)); // Uncomment if WinScreen exists
+//
+                game.setScreen(new WinScreen(game , curLevel));
             }
         });
 
@@ -202,7 +204,8 @@ private void showPauseDialog() {
         loseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 game.setScreen(new LoseScreen(game)); // Uncomment if LoseScreen exists
+//                 game.setScreen(new LoseScreen(game)); // Uncomment if LoseScreen exists
+                 game.setScreen(new LoseScreen(game ,curLevel)); // Uncomment if LoseScreen exists
             }
         });
 

@@ -24,7 +24,7 @@ public class WinScreen implements Screen {
     private TextButton restartButton;
     private Label youWinLabel;
 
-    public WinScreen(Game game) {
+    public WinScreen(Game game , Level level) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -39,12 +39,19 @@ public class WinScreen implements Screen {
         stage.addActor(youWinLabel);
 
         // Next Level Button
-        nextLevelButton = new TextButton("Choose Level", skin);
+        nextLevelButton = new TextButton("Next Level", skin);
         nextLevelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelSelectScreen((Main) game));
-                // Go to the next level
+//                game.setScreen(new LevelSelectScreen((Main) game));
+                if(level instanceof Level1){
+                    game.setScreen(new Level2((Main) game));
+                } else if (level instanceof Level2) {
+                    game.setScreen(new Level3(((Main) game)));
+                }
+                else{
+                    game.setScreen(new LevelSelectScreen((Main) game));
+                }
             }
         });
         stage.addActor(nextLevelButton);
@@ -54,8 +61,16 @@ public class WinScreen implements Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new Level3((Main) game));
+//                game.setScreen(new Level3((Main) game));
                 // Restart the level
+                if(level instanceof Level1){
+                    game.setScreen(new Level1((Main) game));
+                } else if (level instanceof Level2) {
+                    game.setScreen((new Level2((Main) game) ));
+                }
+                else if(level instanceof Level3){
+                    game.setScreen(new Level3((Main) game));
+                }
             }
         });
         stage.addActor(restartButton);

@@ -24,7 +24,7 @@ public class LoseScreen implements Screen {
     private TextButton restartButton;
     private Label youLoseLabel;
 
-    public LoseScreen(Game game) {
+    public LoseScreen(Game game, Level level) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -54,8 +54,16 @@ public class LoseScreen implements Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new Level3((Main) game));
+//                game.setScreen(new Level3((Main) game));
                 // Restart the level
+                if(level instanceof Level1){
+                    game.setScreen(new Level1((Main) game));
+                } else if (level instanceof Level2) {
+                    game.setScreen((new Level2((Main) game) ));
+                }
+                else if(level instanceof Level3){
+                    game.setScreen(new Level3((Main) game));
+                }
             }
         });
         stage.addActor(restartButton);
