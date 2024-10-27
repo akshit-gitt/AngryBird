@@ -1,6 +1,7 @@
 package com.angrybird;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,8 +13,9 @@ public class FirstScreen implements Screen {
     private Main game;
     private SpriteBatch spriteBatch;
     private BitmapFont font;
-    Texture introimage;
-    FitViewport viewport;
+    private Texture introimage;
+    private FitViewport viewport;
+    private Music music;
 
     public FirstScreen(Main game) {
         this.game = game;
@@ -27,6 +29,10 @@ public class FirstScreen implements Screen {
     public void show() {
         introimage = new Texture("intro.png");
         viewport = new FitViewport(160, 120);
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(.5f);
+        music.play();
     }
 
     @Override
@@ -41,6 +47,7 @@ public class FirstScreen implements Screen {
         spriteBatch.end();
         if (Gdx.input.isTouched()) {
             game.setScreen(new LevelSelectScreen(game));
+            music.pause();
         }
     }
 
