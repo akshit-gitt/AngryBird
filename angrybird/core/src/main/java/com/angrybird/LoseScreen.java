@@ -24,7 +24,7 @@ public class LoseScreen implements Screen {
     private TextButton restartButton;
     private Label youWinLabel;
 
-    public LoseScreen(Game game) {
+    public LoseScreen(Game game, Level level) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
