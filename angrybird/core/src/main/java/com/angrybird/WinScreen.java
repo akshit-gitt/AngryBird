@@ -62,7 +62,14 @@ public class WinScreen implements Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new Level3((Main) game));
+                if(level instanceof Level1){
+                    game.setScreen(new Level1((Main) game));
+                } else if (level instanceof Level2) {
+                    game.setScreen((new Level2((Main) game) ));
+                }
+                else if(level instanceof Level3){
+                    game.setScreen(new Level3((Main) game));
+                }
                 // Restart the level
             }
         });
