@@ -22,9 +22,9 @@ public class LoseScreen implements Screen {
     private Image examboard;
     private TextButton nextLevelButton;
     private TextButton restartButton;
-    private Label youWinLabel;
+    private Label youLoseLabel;
 
-    public LoseScreen(Game game, Level level) {
+    public LoseScreen(Game game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -34,9 +34,9 @@ public class LoseScreen implements Screen {
         stage.addActor(examboard);
 
         // You Win Label
-        youWinLabel = new Label("You Lose!", skin);
-        youWinLabel.setFontScale(2);
-        stage.addActor(youWinLabel);
+        youLoseLabel = new Label("You Lose!", skin);
+        youLoseLabel.setFontScale(2);
+        stage.addActor(youLoseLabel);
 
         // Next Level Button
         nextLevelButton = new TextButton("Choose Level", skin);
@@ -54,14 +54,8 @@ public class LoseScreen implements Screen {
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(level instanceof Level1){
-                    game.setScreen(new Level1((Main) game));
-                } else if (level instanceof Level2) {
-                    game.setScreen((new Level2((Main) game) ));
-                }
-                else if(level instanceof Level3){
-                    game.setScreen(new Level3((Main) game));
-                }
+                game.setScreen(new Level3((Main) game));
+                // Restart the level
             }
         });
         stage.addActor(restartButton);
@@ -91,7 +85,7 @@ public class LoseScreen implements Screen {
         float buttonWidth = width * 0.25f;
         float buttonHeight = height * 0.08f;
         // Position label and buttons relative to examboard
-        youWinLabel.setPosition(width / 2 - youWinLabel.getWidth(), (height / 2 + examboardHeight / 2)  - examboardHeight/8);
+        youLoseLabel.setPosition(width / 2 - youLoseLabel.getWidth(), (height / 2 + examboardHeight / 2)  - examboardHeight/8);
         nextLevelButton.setSize(buttonWidth, buttonHeight);
         nextLevelButton.setPosition(width / 2 - nextLevelButton.getWidth() / 2, height / 2 - examboardHeight/4);
         restartButton.setSize(buttonWidth, buttonHeight);

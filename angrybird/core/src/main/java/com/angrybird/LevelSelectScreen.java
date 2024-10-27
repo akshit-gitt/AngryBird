@@ -28,6 +28,7 @@ public class LevelSelectScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private Label outputLabel;
+    Music music;
 
     // SelectLevelSprite and Texture
     private Sprite SelectLevelSprite;
