@@ -3,6 +3,7 @@ import com.angrybird.characters.birds.*;
 import com.angrybird.characters.obstacles.*;
 import com.angrybird.characters.pigs.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,6 +12,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Level implements Screen {
+    protected   World world;
+    protected Box2DDebugRenderer debugRenderer;
     private Main game;
 //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
@@ -54,6 +62,8 @@ public class Level implements Screen {
         this.spriteBatch = new SpriteBatch();
         this.viewport = new FitViewport(250, 120);
         stage = new Stage(viewport);
+        world = new World(new Vector2(0, -10), true);
+        debugRenderer = new Box2DDebugRenderer();
 
         // Load textures
 //        background = new Texture("background.png");
@@ -98,6 +108,22 @@ public class Level implements Screen {
         stage.addActor(backButton);
         stage.addActor(winButton);
         stage.addActor(loseButton);
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                handleCollision(contact);
+            }
+
+            @Override
+            public void endContact(Contact contact) {}
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {}
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {}
+        });
     }
 
 private void showPauseDialog() {
@@ -224,6 +250,18 @@ private void showPauseDialog() {
 
     @Override
     public void render(float delta) {
+        for (Bird bird : birds) {
+            Sprite sprite = bird.getSprite();
+            Body body = bird.getBody();
+            sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+        }
+        world.step(1 / 60f, 6, 2);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            Bird bird = birds.get(0); // Example: first bird in the list
+            bird.getBody().applyLinearImpulse(new Vector2(50, 100), bird.getBody().getWorldCenter(), true);
+            System.out.println("Impulse applied to bird!");
+        }
+        debugRenderer.render(world, viewport.getCamera().combined);
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
@@ -265,6 +303,27 @@ private void showPauseDialog() {
         stage.getViewport().update(width, height, true);
     }
 
+    private void handleCollision(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+
+        Object userDataA = fixtureA.getBody().getUserData();
+        Object userDataB = fixtureB.getBody().getUserData();
+
+        // Bird collides with Pig
+        if (userDataA instanceof Pig && userDataB instanceof Bird) {
+            Pig pig = (Pig) userDataA;
+            pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
+        } else if (userDataB instanceof Pig && userDataA instanceof Bird) {
+            Pig pig = (Pig) userDataB;
+            pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
+        }
+
+        // Example: Add more collision logic here
+        if (userDataA instanceof Obstacle || userDataB instanceof Obstacle) {
+            // Handle obstacle collisions
+        }
+    }
     @Override
     public void pause() {}
 
@@ -276,6 +335,8 @@ private void showPauseDialog() {
 
     @Override
     public void dispose() {
+        world.dispose();
+        debugRenderer.dispose();
         spriteBatch.dispose();
         stage.dispose();
         background.dispose();

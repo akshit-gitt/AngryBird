@@ -13,6 +13,7 @@ dependencies {
   api "com.github.tommyettinger:colorful:$colorfulVersion"
   api "com.kotcrab.vis:vis-ui:$visUiVersion"
   api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
+  implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"

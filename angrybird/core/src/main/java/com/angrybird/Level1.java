@@ -31,17 +31,17 @@ public class Level1 extends Level{
         viewport = new FitViewport(250, 120);
         SlingshotSprite.setX(25);
         SlingshotSprite.setY(base);
-        birds.add(new RedBird(13,base));
-        birds.add(new YellowBird(20,base));
-        birds.add(new RedBird(31,34));
-        obstacles.add(new Wood(100,base));
-        obstacles.add(new Wood(180,base));
-        horizontal.add(new Wood(100,36));
-        horizontal.add(new Wood(180,36));
-        horizontal.add(new Wood(140,base-7.3f));
-        pigs.add(new SimplePig(100,48));
-        pigs.add(new SimplePig(180,48));
-        pigs.add(new SimplePig(140,base+5f));
+        birds.add(new RedBird(world,13,base));
+        birds.add(new YellowBird(world,20,base));
+        birds.add(new RedBird(world,31,34));
+        obstacles.add(new Wood(world,100,base,5,20));
+        obstacles.add(new Wood(world,180,base,5,20));
+        horizontal.add(new Wood(world,100,36,5,20));
+        horizontal.add(new Wood(world,180,36,5,20));
+        horizontal.add(new Wood(world,140,base-7.3f,5,20));
+        pigs.add(new SimplePig(world,100,48));
+        pigs.add(new SimplePig(world,180,48));
+        pigs.add(new SimplePig(world,140,base+5f));
     }
 
 

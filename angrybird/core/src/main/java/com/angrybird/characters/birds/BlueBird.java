@@ -2,10 +2,11 @@ package com.angrybird.characters.birds;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class BlueBird extends Bird{
-    public BlueBird(float xpos,float ypos){
-        super(xpos,ypos);
+    public BlueBird(World world, float xpos, float ypos){
+        super(world,xpos, ypos);
         this.xsize=10;
         this.ysize=10;
         this.texture=new Texture("blue bird.png");

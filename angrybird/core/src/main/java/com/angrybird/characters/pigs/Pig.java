@@ -2,8 +2,10 @@ package com.angrybird.characters.pigs;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Pig {
+    private Body body;
     Texture texture;
     Sprite sprite;
     int health;
@@ -13,9 +15,32 @@ public class Pig {
     float ypos;
     int xsize;
     int ysize;
-    public Pig(float xpos,float ypos){
+    public Pig(World world,float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody; // Pigs are stationary unless moved by external forces
+        bodyDef.position.set(xpos, ypos);
+        this.body = world.createBody(bodyDef);
+
+        // Define Box2D shape
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(xsize / 2, ysize / 2); // Half-width and half-height
+
+        // Define fixture
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0.5f; // Adjust density for appropriate reactions
+        fixtureDef.friction = 0.5f;
+        fixtureDef.restitution = 0.2f; // Slight bounce when hit
+
+        this.body.createFixture(fixtureDef);
+        shape.dispose();
+        this.body.setUserData(this);
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     public void setYpos(int ypos) {

@@ -2,9 +2,11 @@ package com.angrybird.characters.birds;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Bird {
     Texture texture;
+    private Body body;
     Sprite sprite;
     int damage;
     float speedMultiplier;
@@ -12,9 +14,27 @@ public class Bird {
     float ypos;
     int xsize;
     int ysize;
-    public Bird(float xpos,float ypos){
+    public Bird(World world,float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(xpos, ypos);
+        body = world.createBody(bodyDef);
+        CircleShape shape = new CircleShape();
+        shape.setRadius(0.5f); // Adjust radius to bird size
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.5f;
+        fixtureDef.restitution = 0.8f; // Bouncy effect
+
+        body.createFixture(fixtureDef);
+        shape.dispose();
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     public Texture getTexture() {
