@@ -12,9 +12,13 @@ import com.angrybird.characters.pigs.SimplePig;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level2 extends Level{
+    int base=37;
     public Level2(Main game) {
         super(game);
         this.spriteBatch=new SpriteBatch();
@@ -23,7 +27,7 @@ public class Level2 extends Level{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        int base=37;
+        
         background=new Texture("level2.jpg");
         viewport = new FitViewport(250, 120);
         SlingshotSprite.setX(30);
@@ -53,5 +57,25 @@ public class Level2 extends Level{
         pigs.add(new SimplePig(world,130,base+24.7f));
         pigs.add(new SimplePig(world,150,base+24.7f));
         pigs.add(new SimplePig(world,140,base+49.4f));
+        createGround();
+    }
+    private void createGround() {
+        // Define the ground body
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.type = BodyDef.BodyType.StaticBody;
+        groundBodyDef.position.set(125, base - 3); // Center X at 125, Y slightly below base
+
+        // Create the body
+        Body groundBody = world.createBody(groundBodyDef);
+
+        // Define the shape of the ground
+        PolygonShape groundShape = new PolygonShape();
+        groundShape.setAsBox(125, 5); // Adjust width and height
+
+        // Attach the shape to the body
+        groundBody.createFixture(groundShape, 0.0f);
+
+        // Dispose of the shape to free resources
+        groundShape.dispose();
     }
 }
