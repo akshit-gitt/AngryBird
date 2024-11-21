@@ -3,9 +3,7 @@ package com.angrybird;
 import com.angrybird.characters.birds.BlueBird;
 import com.angrybird.characters.birds.RedBird;
 import com.angrybird.characters.birds.YellowBird;
-import com.angrybird.characters.obstacles.Glass;
-import com.angrybird.characters.obstacles.Stone;
-import com.angrybird.characters.obstacles.Wood;
+import com.angrybird.characters.obstacles.*;
 import com.angrybird.characters.pigs.PigKing;
 import com.angrybird.characters.pigs.PigSoldier;
 import com.angrybird.characters.pigs.SimplePig;
@@ -36,49 +34,50 @@ public class Level3 extends Level {
         birds.add(new BlueBird(world,2,base));
         birds.add(new BlueBird(world,13,base));
         birds.add(new YellowBird(world,25,base));
-        birds.add(new RedBird(world,36,base+8));
+        birds.add(new RedBird(world,36,base));
 
-        obstacles.add(new Stone(world,132.5f,base,5,20));
-        obstacles.add(new Stone(world,147.5f,base,5,20));
-        obstacles.add(new Glass(world,127.4f,base,5,20));
-        obstacles.add(new Glass(world,152.7f,base,5,20));
-        obstacles.add(new Wood(world,115,base,5,20));
-        obstacles.add(new Wood(world,115,base+20,5,20));
-        obstacles.add(new Wood(world,115,base+40,5,20));
-        obstacles.add(new Wood(world,132.5f,base+40,5,20));
-        obstacles.add(new Wood(world,147.5f,base+40,5,20));
-        obstacles.add(new Wood(world,165.1f,base,5,20));
-        obstacles.add(new Wood(world,165.1f,base+20,5,20));
-        obstacles.add(new Wood(world,165.1f,base+40,5,20));
+        obstacles.add(new Stone(world,132.5f,base+10,5,20));
+        obstacles.add(new Stone(world,147.5f,base+10,5,20));
+        obstacles.add(new Glass(world,127.4f,base+10,5,20));
+        obstacles.add(new Glass(world,152.7f,base+10,5,20));
+        obstacles.add(new Wood(world,115,base+10,5,20));
+        obstacles.add(new Wood(world,165.1f,base+10,5,20));
+        obstacles.add(new Wood(world,115,base+30,5,20));
+        obstacles.add(new Wood(world,115,base+50,5,20));
+        obstacles.add(new Wood(world,132.5f,base+53,5,20));
+        obstacles.add(new Wood(world,147.5f,base+53,5,20));
+
+        obstacles.add(new Wood(world,165.1f,base+30,5,20));
+        obstacles.add(new Wood(world,165.1f,base+50,5,20));
 
 
-        horizontal.add(new Stone(world,140,base+12.3f,5,20));
-        horizontal.add(new Stone(world,140,base+17.5f,5,20));
-        horizontal.add(new Wood(world,122.5f,base+52.5f,5,20));
-        horizontal.add(new Wood(world,140,base+22.6f,5,20));
-        horizontal.add(new Wood(world,140,base+27.6f,5,20));
-        horizontal.add(new Wood(world,157.5f,base+52.5f,5,20));
+        obstacles.add(new Stoneh(world,140,base+23.5f,20,5));
+        obstacles.add(new Stoneh(world,140,base+28.5f,20,5));
+        obstacles.add(new Woodh(world,122.5f,base+65f,20,5));
+        obstacles.add(new Woodh(world,140,base+33.6f,20,5));
+        obstacles.add(new Woodh(world,140,base+38.6f,20,5));
+        obstacles.add(new Woodh(world,157.5f,base+65f,20,5));
 
-        pigs.add(new PigKing(world,137.6f,base));
-        pigs.add(new PigSoldier(world,122.4f,base+19.5f));
-        pigs.add(new PigSoldier(world,149.4f,base+19.5f));
-        pigs.add(new PigSoldier(world,136.6f,base+39.5f));
-        pigs.add(new SimplePig(world,125,base+65));
-        pigs.add(new SimplePig(world,155,base+65));
+        pigs.add(new PigKing(world,141f,base+2));
+        pigs.add(new PigSoldier(world,127.4f,base+19.5f));
+        pigs.add(new PigSoldier(world,152.4f,base+19.5f));
+        pigs.add(new PigSoldier(world,140.6f,base+40.5f));
+        pigs.add(new SimplePig(world,125,base+70));
+        pigs.add(new SimplePig(world,155,base+70));
         createGround();
     }
     private void createGround() {
         // Define the ground body
         BodyDef groundBodyDef = new BodyDef();
         groundBodyDef.type = BodyDef.BodyType.StaticBody;
-        groundBodyDef.position.set(125, base - 3); // Center X at 125, Y slightly below base
+        groundBodyDef.position.set(125, base - 2); // Center X at 125, Y slightly below base
 
         // Create the body
         Body groundBody = world.createBody(groundBodyDef);
 
         // Define the shape of the ground
         PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsBox(125, 5); // Adjust width and height
+        groundShape.setAsBox(125, 3); // Adjust width and height
 
         // Attach the shape to the body
         groundBody.createFixture(groundShape, 0.0f);

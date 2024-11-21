@@ -38,15 +38,15 @@ public class Level1 extends Level{
         SlingshotSprite.setY(base);
         birds.add(new RedBird(world,13,base));
         birds.add(new YellowBird(world,20,base));
-        birds.add(new RedBird(world,31,34));
-        obstacles.add(new Wood(world,100,base,5,20));
-        obstacles.add(new Wood(world,180,base,5,20));
-        horizontal.add(new Wood(world,100,36,5,20));
-        horizontal.add(new Wood(world,180,36,5,20));
-        horizontal.add(new Wood(world,140,base-7.3f,5,20));
-        pigs.add(new SimplePig(world,100,48));
-        pigs.add(new SimplePig(world,180,48));
-        pigs.add(new SimplePig(world,140,base+5f));
+        birds.add(new RedBird(world,31,base));
+        obstacles.add(new Wood(world,100,base+10,5,20));
+        obstacles.add(new Wood(world,180,base+10,5,20));
+        obstacles.add(new Woodh(world,100,base+23.5f,20,5));
+        obstacles.add(new Woodh(world,180,base+23.5f,20,5));
+        obstacles.add(new Woodh(world,140,base+5,20,5));
+        pigs.add(new SimplePig(world,100,base+26));
+        pigs.add(new SimplePig(world,180,base+26));
+        pigs.add(new SimplePig(world,140,base+6));
         createGround();
     }
 
@@ -54,14 +54,14 @@ public class Level1 extends Level{
         // Define the ground body
         BodyDef groundBodyDef = new BodyDef();
         groundBodyDef.type = BodyDef.BodyType.StaticBody;
-        groundBodyDef.position.set(125, base - 3); // Center X at 125, Y slightly below base
+        groundBodyDef.position.set(125, base-2); // Center X at 125, Y slightly below base
 
         // Create the body
         Body groundBody = world.createBody(groundBodyDef);
 
         // Define the shape of the ground
         PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsBox(125, 5); // Adjust width and height
+        groundShape.setAsBox(125, 3); // Adjust width and height
 
         // Attach the shape to the body
         groundBody.createFixture(groundShape, 0.0f);

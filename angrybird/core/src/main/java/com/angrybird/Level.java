@@ -13,10 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -62,7 +59,7 @@ public class Level implements Screen {
         this.spriteBatch = new SpriteBatch();
         this.viewport = new FitViewport(250, 120);
         stage = new Stage(viewport);
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -19.6f), true);
         debugRenderer = new Box2DDebugRenderer();
 
         // Load textures
@@ -250,41 +247,53 @@ private void showPauseDialog() {
 
     @Override
     public void render(float delta) {
-        for (Bird bird : birds) {
-            Sprite sprite = bird.getSprite();
-            Body body = bird.getBody();
-            sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
-        }
+        // Step the physics world
         world.step(1 / 60f, 6, 2);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            Bird bird = birds.get(0); // Example: first bird in the list
-            bird.getBody().applyLinearImpulse(new Vector2(50, 100), bird.getBody().getWorldCenter(), true);
-            System.out.println("Impulse applied to bird!");
-        }
-        debugRenderer.render(world, viewport.getCamera().combined);
+
+        // Clear the screen
         ScreenUtils.clear(Color.BLACK);
+
+        // Apply the viewport
         viewport.apply();
+
+        // Render all sprites
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
+
+        // Draw background
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        SlingshotSprite.setSize(15, 15);
-        SlingshotSprite.draw(spriteBatch);
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            Bird bird = birds.get(0); // Example: Launch the first bird
+            bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
+            System.out.println("Impulse applied to bird!");
+        }
+        // Draw obstacles
+        for (Obstacle obstacle : obstacles) {
+            obstacle.getSprite().setSize(obstacle.getWidth(), obstacle.getHeight());
+            obstacle.getSprite().draw(spriteBatch);
+        }
+        for (Obstacle obstacle : obstacles) {
+            Sprite sprite = obstacle.getSprite();
+            Body body = obstacle.getBody();
+            sprite.setPosition(
+                    body.getPosition().x - sprite.getWidth() / 2,
+                    body.getPosition().y - sprite.getHeight() / 2
+            );
+            sprite.setRotation((float) Math.toDegrees(body.getAngle())); // Rotate based on physics body angle
+        }
+        // Draw birds and pigs
         for (Bird bird : birds) {
             bird.getSprite().setSize(bird.getXsize(), bird.getYsize());
             bird.getSprite().draw(spriteBatch);
         }
-        for (Obstacle obstacle : obstacles) {
-            obstacle.getSprite().setSize(5, 20);
-            obstacle.getSprite().setOriginCenter();
-            obstacle.getSprite().draw(spriteBatch);
-        }
-        for (Obstacle obstacle : horizontal) {
-            obstacle.getSprite().setRotation(90);
-            obstacle.getSprite().setSize(5, 20);
-            obstacle.getSprite().setOriginCenter();
-            obstacle.getSprite().draw(spriteBatch);
+        for (Bird bird : birds) {
+            Sprite sprite = bird.getSprite();
+            Body body = bird.getBody();
+            sprite.setPosition(
+                    body.getPosition().x - sprite.getWidth() / 2,
+                    body.getPosition().y - sprite.getHeight() / 2
+            );
         }
         for (Pig pig : pigs) {
             pig.getSprite().setSize(pig.getXsize(), pig.getYsize());
@@ -293,6 +302,10 @@ private void showPauseDialog() {
 
         spriteBatch.end();
 
+        // Draw the debug lines (hitboxes)
+        debugRenderer.render(world, viewport.getCamera().combined);
+
+        // Draw UI
         stage.act(delta);
         stage.draw();
     }
@@ -348,3 +361,7 @@ private void showPauseDialog() {
         unmuteTexture.dispose();
     }
 }
+
+
+
+

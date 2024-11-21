@@ -22,7 +22,7 @@ public class Bird {
         bodyDef.position.set(xpos, ypos);
         body = world.createBody(bodyDef);
         CircleShape shape = new CircleShape();
-        shape.setRadius(0.5f); // Adjust radius to bird size
+        shape.setRadius(1f); // Adjust radius to bird size
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
