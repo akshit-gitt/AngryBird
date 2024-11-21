@@ -17,7 +17,7 @@ public class Bird {
     public Bird(World world,float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
-        
+
     }
     public void update() {
         sprite.setPosition(

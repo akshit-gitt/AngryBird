@@ -32,6 +32,6 @@ public class BlueBird extends Bird{
         this.sprite.setY(ypos);
         this.damage=70;
         this.speedMultiplier=0.75f;
-        
+
     }
 }
