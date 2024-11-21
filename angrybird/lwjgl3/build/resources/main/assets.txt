@@ -8,6 +8,7 @@ download.png
 examboard.png
 glass.png
 glass.webp
+glassh.png
 images.jpg
 images.png
 img.png
@@ -44,6 +45,7 @@ skin/uiskin.json
 skin/uiskin.png
 Slingshot.png
 stone.png
+stoneh.png
 stoney.png
 Toons_Glass_Block.webp
 Toons_Stone_Block.webp
@@ -52,5 +54,6 @@ unmute.png
 weak pig.png
 wood obstacle.png
 wood.png
+woodh.png
 wood_texture.png
 yellow bird.png

@@ -274,13 +274,8 @@ private void showPauseDialog() {
             obstacle.getSprite().draw(spriteBatch);
         }
         for (Obstacle obstacle : obstacles) {
-            Sprite sprite = obstacle.getSprite();
-            Body body = obstacle.getBody();
-            sprite.setPosition(
-                    body.getPosition().x - sprite.getWidth() / 2,
-                    body.getPosition().y - sprite.getHeight() / 2
-            );
-            sprite.setRotation((float) Math.toDegrees(body.getAngle())); // Rotate based on physics body angle
+            obstacle.update();
+            obstacle.getSprite().draw(spriteBatch);
         }
         // Draw birds and pigs
         for (Bird bird : birds) {
