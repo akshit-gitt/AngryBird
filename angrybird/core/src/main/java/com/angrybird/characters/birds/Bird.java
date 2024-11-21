@@ -19,7 +19,13 @@ public class Bird {
         this.ypos=ypos;
         
     }
-
+    public void update() {
+        sprite.setPosition(
+            body.getPosition().x - sprite.getWidth() / 2,
+            body.getPosition().y - sprite.getHeight() / 2
+        );
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+    }
     public Body getBody() {
         return body;
     }

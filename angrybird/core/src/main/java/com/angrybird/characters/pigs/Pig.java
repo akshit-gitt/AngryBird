@@ -35,7 +35,13 @@ public class Pig {
         body.createFixture(fixtureDef);
         shape.dispose();
     }
-    
+    public void update() {
+        sprite.setPosition(
+            body.getPosition().x - sprite.getWidth() / 2,
+            body.getPosition().y - sprite.getHeight() / 2
+        );
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+    }
     // Getters
     public Body getBody() { return body; }
     public Texture getTexture() { return texture; }
