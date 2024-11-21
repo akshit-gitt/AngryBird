@@ -1,3 +1,4 @@
+
 package com.angrybird;
 import com.angrybird.characters.birds.*;
 import com.angrybird.characters.obstacles.*;
@@ -265,7 +266,7 @@ public class Level implements Screen {
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            Bird bird = birds.getLast(); // Example: Launch the first bird
+            Bird bird = birds.get(birds.size() - 1); // Example: Launch the first bird
             bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
             System.out.println("Impulse applied to bird!");
         }
@@ -408,6 +409,3 @@ public class Level implements Screen {
         unmuteTexture.dispose();
     }
 }
-
-
-
