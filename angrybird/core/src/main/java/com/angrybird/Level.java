@@ -281,6 +281,7 @@ private void showPauseDialog() {
                     body.getPosition().y - sprite.getHeight() / 2
             );
             sprite.setRotation((float) Math.toDegrees(body.getAngle())); // Rotate based on physics body angle
+            sprite.setOriginCenter();
         }
         // Draw birds and pigs
         for (Bird bird : birds) {
@@ -298,6 +299,14 @@ private void showPauseDialog() {
         for (Pig pig : pigs) {
             pig.getSprite().setSize(pig.getXsize(), pig.getYsize());
             pig.getSprite().draw(spriteBatch);
+        }
+        for (Pig pig : pigs) {
+            Sprite sprite = pig.getSprite();
+            Body body = pig.getBody();
+            sprite.setPosition(
+                    body.getPosition().x - sprite.getWidth() / 2,
+                    body.getPosition().y - sprite.getHeight() / 2
+            );
         }
 
         spriteBatch.end();
