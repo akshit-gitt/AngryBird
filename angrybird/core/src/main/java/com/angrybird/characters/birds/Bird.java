@@ -14,10 +14,12 @@ public class Bird {
     float ypos;
     int xsize;
     int ysize;
+    private float launchTime = -1f;
+    boolean islaunched;
     public Bird(World world,float xpos,float ypos){
         this.xpos=xpos;
         this.ypos=ypos;
-
+        this.islaunched=false;
     }
 
     public Body getBody() {
@@ -64,11 +66,11 @@ public class Bird {
         this.texture=texture;
     }
 
-    public void setXpos(int xpos) {
+    public void setXpos(float xpos) {
         this.xpos = xpos;
     }
 
-    public void setYpos(int ypos) {
+    public void setYpos(float ypos) {
         this.ypos = ypos;
     }
 
@@ -86,5 +88,21 @@ public class Bird {
 
     public int getXsize() {
         return xsize;
+    }
+
+    public boolean isIslaunched() {
+        return islaunched;
+    }
+
+    public void setIslaunched(boolean islaunched) {
+        this.islaunched = islaunched;
+    }
+
+    public float getLaunchTime() {
+        return launchTime;
+    }
+
+    public void setLaunchTime(float launchTime) {
+        this.launchTime = launchTime;
     }
 }
