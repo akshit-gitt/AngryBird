@@ -25,7 +25,7 @@ public class Pig {
         body = world.createBody(bodyDef);
         body.setUserData(this);
         CircleShape shape = new CircleShape();
-        shape.setRadius(1); // Adjust radius to bird size
+        shape.setRadius(2f); // Adjust radius to bird size
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
