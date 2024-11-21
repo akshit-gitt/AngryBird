@@ -20,6 +20,8 @@ public class Level2 extends Level{
     public Level2(Main game) {
         super(game);
         this.spriteBatch=new SpriteBatch();
+        this.slingshotx=38;
+        this.slingshoty=base+6;
     }
 
     @Override
@@ -50,6 +52,24 @@ public class Level2 extends Level{
 
         body.createFixture(fixtureDef);
         box.dispose();
+        BodyDef bodyDef2 = new BodyDef();
+        bodyDef2.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+        bodyDef2.position.set(30, base+2);
+        bodyDef2.gravityScale = 1.0f; // Add gravity
+
+        // Create the body
+        Body body2 = world.createBody(bodyDef2);
+        // Add this to constructor after creating the body
+        body.setUserData(this); // For collision detection
+        // Create the shape
+        PolygonShape box2 = new PolygonShape();
+        box2.setAsBox(2, 250); // Half-width and half-height
+
+        // Create the fixture
+        FixtureDef fixtureDef2 = new FixtureDef();
+        fixtureDef2.shape = box;
+        body2.createFixture(fixtureDef2);
+        box2.dispose();
         SlingshotSprite.setX(30);
         SlingshotSprite.setY(base);
         birds.add(new BlueBird(world,7,base));

@@ -30,10 +30,19 @@ import java.util.Objects;
 
 public class Level implements Screen {
     protected   World world;
+    private Bird selectedBird; // Bird being dragged
+    private boolean isDragging = false; // Whether the bird is being dragged
+    private Vector2 dragStart = new Vector2(); // Start point of the drag
+    private Vector2 dragEnd = new Vector2(); // End point of the drag
+    private final float MAX_DRAG_DISTANCE = 50f; // Maximum drag distance for the slingshot
     protected Box2DDebugRenderer debugRenderer;
     private Main game;
+    private float inputCooldown = 1.5f; // Cooldown time in seconds
+    private float elapsedTime = 0f; // Tracks time since the level was loaded
     //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
+    float slingshotx;
+    float slingshoty;
     FitViewport viewport;
     Texture background;
     ArrayList<Bird> birds = new ArrayList<Bird>();
@@ -254,14 +263,16 @@ public class Level implements Screen {
 
         // Clear the screen
         ScreenUtils.clear(Color.BLACK);
-
         // Apply the viewport
         viewport.apply();
-
+        elapsedTime += delta;
+        if(elapsedTime>inputCooldown && !birds.isEmpty()){
+            handleInput();
+        }
+        trackBirdTimers(delta);
         // Render all sprites
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
-
         // Draw background
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
@@ -270,6 +281,7 @@ public class Level implements Screen {
             bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
             System.out.println("Impulse applied to bird!");
         }
+
         SlingshotSprite.setSize(15, 15);
         SlingshotSprite.draw(spriteBatch);;
         // Draw obstacles
@@ -327,6 +339,98 @@ public class Level implements Screen {
         stage.draw();
     }
 
+    private void trackBirdTimers(float delta) {
+        ArrayList<Bird> toRemove = new ArrayList<>();
+
+        for (Bird bird : birds) {
+            if (bird.isIslaunched()) {
+                // Update the bird's launch timer
+                bird.setLaunchTime(bird.getLaunchTime() + delta);
+
+                // Check if the bird should be removed
+                if (bird.getLaunchTime() >= 15f) {
+                    // Mark the bird for removal
+                    toRemove.add(bird);
+                }
+            }
+        }
+
+        // Remove expired birds and shift remaining birds
+        for (Bird bird : toRemove) {
+            // Remove bird's body from the physics world
+            world.destroyBody(bird.getBody());
+
+            // Remove bird from the list
+            birds.remove(bird);
+
+            // Shift remaining birds
+            shiftBird();
+        }
+    }
+
+    private void shiftBird(){
+        if (birds.isEmpty()) return;
+
+        // Move remaining birds forward
+        /*for (int i = 1; i < birds.size(); i++) {
+            Bird currentBird = birds.get(i);
+            Bird previousBird = birds.get(i - 1);
+
+            // Move the current bird to the previous bird's position
+            Vector2 previousPosition = previousBird.getBody().getPosition();
+            currentBird.getBody().setTransform(previousPosition, 0);
+        }*/
+
+        // Set the last bird in the list to the slingshot position
+        Bird lastBird = birds.getLast();
+        lastBird.getBody().setTransform(new Vector2(slingshotx, slingshoty), 0); // Replace with slingshot position
+        lastBird.setIslaunched(false); // Make it ready for launching
+        lastBird.setLaunchTime(-1f); // Reset its timer
+    }
+
+    private void handleInput() {
+        if (elapsedTime <= inputCooldown) return;
+        if (Gdx.input.isTouched()) {
+            Vector2 pointer = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            selectedBird = birds.getLast();
+            float x=selectedBird.getXpos();
+            float y=selectedBird.getYpos();
+            if (!isDragging && !birds.isEmpty()) {
+                // Check if the last bird is clicked
+
+                if (selectedBird.getSprite().getBoundingRectangle().contains(pointer.x, pointer.y)) {
+                    isDragging = true;
+                    dragStart.set(selectedBird.getBody().getPosition()); // Bird's initial position
+                }
+            }
+
+            if (isDragging) {
+                // Update the drag position
+                dragEnd.set(pointer);
+
+                // Constrain drag distance
+                float dragDistance = dragStart.dst(dragEnd);
+                if (dragDistance > MAX_DRAG_DISTANCE) {
+                    dragEnd.set(dragStart.cpy().lerp(dragEnd, MAX_DRAG_DISTANCE / dragDistance));
+                }
+
+                // Draw a visual line to represent slingshot tension (optional for future)
+            }
+        } else if (isDragging && !selectedBird.isIslaunched()) {
+            // On release, launch the bird
+            Vector2 launchForce = dragStart.cpy().sub(dragEnd).scl(20); // Scale force
+            selectedBird.setIslaunched(true);
+            selectedBird.setLaunchTime(0f);
+            selectedBird.getBody().applyLinearImpulse(launchForce, selectedBird.getBody().getWorldCenter(), true);
+
+            // Remove launched bird from the list
+            //birds.remove(selectedBird);
+
+            // Reset dragging state
+            isDragging = false;
+            selectedBird = null;
+        }
+    }
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
