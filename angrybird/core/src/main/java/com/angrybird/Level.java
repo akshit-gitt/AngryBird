@@ -61,7 +61,7 @@ public class Level implements Screen {
         stage = new Stage(viewport);
         world = new World(new Vector2(0, -19.6f), true);
         debugRenderer = new Box2DDebugRenderer();
-
+        createWorldBounds();
         // Load textures
 //        background = new Texture("background.png");
         examboardTexture = new Texture("examboard.png");
@@ -345,6 +345,37 @@ private void showPauseDialog() {
         if (userDataA instanceof Obstacle || userDataB instanceof Obstacle) {
             // Handle obstacle collisions
         }
+    }
+    private void createWorldBounds() {
+        // Left boundary
+        BodyDef leftWallDef = new BodyDef();
+        leftWallDef.type = BodyDef.BodyType.StaticBody;
+        leftWallDef.position.set(0, viewport.getWorldHeight() / 2);
+        Body leftWall = world.createBody(leftWallDef);
+        EdgeShape leftEdge = new EdgeShape();
+        leftEdge.set(0, -viewport.getWorldHeight() / 2, 0, viewport.getWorldHeight() / 2);
+        leftWall.createFixture(leftEdge, 0);
+        leftEdge.dispose();
+    
+        // Right boundary
+        BodyDef rightWallDef = new BodyDef();
+        rightWallDef.type = BodyDef.BodyType.StaticBody;
+        rightWallDef.position.set(viewport.getWorldWidth(), viewport.getWorldHeight() / 2);
+        Body rightWall = world.createBody(rightWallDef);
+        EdgeShape rightEdge = new EdgeShape();
+        rightEdge.set(0, -viewport.getWorldHeight() / 2, 0, viewport.getWorldHeight() / 2);
+        rightWall.createFixture(rightEdge, 0);
+        rightEdge.dispose();
+    
+        // Top boundary
+        BodyDef topWallDef = new BodyDef();
+        topWallDef.type = BodyDef.BodyType.StaticBody;
+        topWallDef.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight());
+        Body topWall = world.createBody(topWallDef);
+        EdgeShape topEdge = new EdgeShape();
+        topEdge.set(-viewport.getWorldWidth() / 2, 0, viewport.getWorldWidth() / 2, 0);
+        topWall.createFixture(topEdge, 0);
+        topEdge.dispose();
     }
     @Override
     public void pause() {}
