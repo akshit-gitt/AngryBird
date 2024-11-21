@@ -31,7 +31,7 @@ public class Level implements Screen {
     protected   World world;
     protected Box2DDebugRenderer debugRenderer;
     private Main game;
-//    PauseMenuScreen pausemenuscreen;
+    //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
     FitViewport viewport;
     Texture background;
@@ -41,6 +41,7 @@ public class Level implements Screen {
     ArrayList<Obstacle> horizontal = new ArrayList<Obstacle>();
     Texture SlingshotTexture = new Texture("Slingshot.png");
     Sprite SlingshotSprite = new Sprite(SlingshotTexture);
+
     public Stage stage;
     ImageButton pauseButton;
     ImageButton backButton;
@@ -123,89 +124,89 @@ public class Level implements Screen {
         });
     }
 
-private void showPauseDialog() {
-    // Create dialog
-    Dialog dialog = new Dialog("", skin);
-    dialog.setSize(125, 60);
-    dialog.setPosition(47, 18);
+    private void showPauseDialog() {
+        // Create dialog
+        Dialog dialog = new Dialog("", skin);
+        dialog.setSize(125, 60);
+        dialog.setPosition(47, 18);
 
-    // Set background image
-    dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)) {
-        @Override
-        public void draw(Batch batch, float x, float y, float width, float height) {
-            batch.draw(examboardTexture, 47, 18, 155, 90);
-        }
-    });
+        // Set background image
+        dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)) {
+            @Override
+            public void draw(Batch batch, float x, float y, float width, float height) {
+                batch.draw(examboardTexture, 47, 18, 155, 90);
+            }
+        });
 
-    dialog.getColor().a = 0f;
-    dialog.addAction(Actions.fadeIn(0.5f));
+        dialog.getColor().a = 0f;
+        dialog.addAction(Actions.fadeIn(0.5f));
 
-    Table overlay = new Table();
-    overlay.setFillParent(true);
-    overlay.setBackground(new TextureRegionDrawable(new Texture(1, 1, Pixmap.Format.RGB888))
-            .tint(new Color(0, 0, 0, 0.5f)));
-    stage.addActor(overlay);
-    overlay.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f)));
+        Table overlay = new Table();
+        overlay.setFillParent(true);
+        overlay.setBackground(new TextureRegionDrawable(new Texture(1, 1, Pixmap.Format.RGB888))
+                .tint(new Color(0, 0, 0, 0.5f)));
+        stage.addActor(overlay);
+        overlay.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f)));
 
-    // Create and position buttons directly on stage
-    ImageButton resumeButton = new ImageButton(new TextureRegionDrawable(resumeTexture));
-    ImageButton saveButton = new ImageButton(new TextureRegionDrawable(saveTexture));
-    ImageButton muteButton = new ImageButton(
-            isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture)
-    );
+        // Create and position buttons directly on stage
+        ImageButton resumeButton = new ImageButton(new TextureRegionDrawable(resumeTexture));
+        ImageButton saveButton = new ImageButton(new TextureRegionDrawable(saveTexture));
+        ImageButton muteButton = new ImageButton(
+                isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture)
+        );
 
-    // Set fixed sizes for buttons
-    resumeButton.setSize(50, 25);
-    saveButton.setSize(50, 25);
-    muteButton.setSize(50, 25);
+        // Set fixed sizes for buttons
+        resumeButton.setSize(50, 25);
+        saveButton.setSize(50, 25);
+        muteButton.setSize(50, 25);
 
-    // Position buttons relative to examboard position
-    float startX = 105;  // Center of examboard
-    float startY = 70;   // Top of the button area
-    float spacing = 20;  // Space between buttons
+        // Position buttons relative to examboard position
+        float startX = 105;  // Center of examboard
+        float startY = 70;   // Top of the button area
+        float spacing = 20;  // Space between buttons
 
-    resumeButton.setPosition(startX, startY);
-    saveButton.setPosition(startX, startY - spacing);
-    muteButton.setPosition(startX, startY - spacing * 2);
+        resumeButton.setPosition(startX, startY);
+        saveButton.setPosition(startX, startY - spacing);
+        muteButton.setPosition(startX, startY - spacing * 2);
 
-    // Add listeners
-    resumeButton.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            resumeButton.remove();
-            saveButton.remove();
-            muteButton.remove();
-            overlay.remove();
-            dialog.hide();
-            resumeGame();
-        }
-    });
+        // Add listeners
+        resumeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                resumeButton.remove();
+                saveButton.remove();
+                muteButton.remove();
+                overlay.remove();
+                dialog.hide();
+                resumeGame();
+            }
+        });
 
-    saveButton.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            game.setScreen(new LevelSelectScreen(game));
-        }
-    });
+        saveButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LevelSelectScreen(game));
+            }
+        });
 
-    muteButton.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            isMuted = !isMuted;
-            muteButton.getStyle().imageUp = new TextureRegionDrawable(
-                    isMuted ? unmuteTexture : muteTexture
-            );
-        }
-    });
+        muteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isMuted = !isMuted;
+                muteButton.getStyle().imageUp = new TextureRegionDrawable(
+                        isMuted ? unmuteTexture : muteTexture
+                );
+            }
+        });
 
-    // Add buttons directly to stage
-    stage.addActor(dialog);
-    stage.addActor(resumeButton);
-    stage.addActor(saveButton);
-    stage.addActor(muteButton);
+        // Add buttons directly to stage
+        stage.addActor(dialog);
+        stage.addActor(resumeButton);
+        stage.addActor(saveButton);
+        stage.addActor(muteButton);
 
-    dialog.show(stage);
-}
+        dialog.show(stage);
+    }
     private void setupWinAndLoseButtons() {
         // Initialize the Win button with smaller size
         final Level curLevel = this;
@@ -228,7 +229,7 @@ private void showPauseDialog() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                 game.setScreen(new LoseScreen(game)); // Uncomment if LoseScreen exists
-                 game.setScreen(new LoseScreen(game ,curLevel)); // Uncomment if LoseScreen exists
+                game.setScreen(new LoseScreen(game ,curLevel)); // Uncomment if LoseScreen exists
             }
         });
 
@@ -262,13 +263,14 @@ private void showPauseDialog() {
 
         // Draw background
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-        SlingshotSprite.setSize(15, 15);
-        SlingshotSprite.draw(spriteBatch); 
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            Bird bird = birds.get(0); // Example: Launch the first bird
+            Bird bird = birds.getLast(); // Example: Launch the first bird
             bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
             System.out.println("Impulse applied to bird!");
         }
+        SlingshotSprite.setSize(15, 15);
+        SlingshotSprite.draw(spriteBatch);;
         // Draw obstacles
         for (Obstacle obstacle : obstacles) {
             obstacle.getSprite().setSize(obstacle.getWidth(), obstacle.getHeight());
@@ -296,6 +298,8 @@ private void showPauseDialog() {
                     body.getPosition().x - sprite.getWidth() / 2,
                     body.getPosition().y - sprite.getHeight() / 2
             );
+            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2)); // Rotate based on physics body angle
+            sprite.setOriginCenter();
         }
         for (Pig pig : pigs) {
             pig.getSprite().setSize(pig.getXsize(), pig.getYsize());
@@ -308,6 +312,8 @@ private void showPauseDialog() {
                     body.getPosition().x - sprite.getWidth() / 2,
                     body.getPosition().y - sprite.getHeight() / 2
             );
+            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2)); // Rotate based on physics body angle
+            sprite.setOriginCenter();
         }
 
         spriteBatch.end();
@@ -357,7 +363,7 @@ private void showPauseDialog() {
         leftEdge.set(0, -viewport.getWorldHeight() / 2, 0, viewport.getWorldHeight() / 2);
         leftWall.createFixture(leftEdge, 0);
         leftEdge.dispose();
-    
+
         // Right boundary
         BodyDef rightWallDef = new BodyDef();
         rightWallDef.type = BodyDef.BodyType.StaticBody;
@@ -367,7 +373,7 @@ private void showPauseDialog() {
         rightEdge.set(0, -viewport.getWorldHeight() / 2, 0, viewport.getWorldHeight() / 2);
         rightWall.createFixture(rightEdge, 0);
         rightEdge.dispose();
-    
+
         // Top boundary
         BodyDef topWallDef = new BodyDef();
         topWallDef.type = BodyDef.BodyType.StaticBody;
@@ -402,7 +408,6 @@ private void showPauseDialog() {
         unmuteTexture.dispose();
     }
 }
-
 
 
 

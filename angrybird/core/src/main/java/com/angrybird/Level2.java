@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -27,12 +28,34 @@ public class Level2 extends Level{
         
         background=new Texture("level2.jpg");
         viewport = new FitViewport(250, 120);
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+        bodyDef.position.set(38, base+2);
+        bodyDef.gravityScale = 1.0f; // Add gravity
+
+        // Create the body
+        Body body = world.createBody(bodyDef);
+        // Add this to constructor after creating the body
+        body.setUserData(this); // For collision detection
+        // Create the shape
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(3, 5); // Half-width and half-height
+
+        // Create the fixture
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = box;
+        fixtureDef.density = 0.5f;    // Mass property
+        fixtureDef.friction = 0.5f;  // Sliding friction
+        fixtureDef.restitution = 0.8f; // Bounciness
+
+        body.createFixture(fixtureDef);
+        box.dispose();
         SlingshotSprite.setX(30);
         SlingshotSprite.setY(base);
         birds.add(new BlueBird(world,7,base));
         birds.add(new YellowBird(world,18,base));
         birds.add(new RedBird(world,25,base));
-        birds.add(new YellowBird(world,36,base));
+        birds.add(new YellowBird(world,38,base+5));
 
         obstacles.add(new Wood(world,110,base+10,5,20));
         obstacles.add(new Wood(world,130,base+10,5,20));
