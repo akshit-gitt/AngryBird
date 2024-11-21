@@ -1,4 +1,3 @@
-
 package com.angrybird;
 import com.angrybird.characters.birds.*;
 import com.angrybird.characters.obstacles.*;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -62,6 +62,8 @@ public class Level implements Screen {
     private Texture muteTexture;
     private Texture unmuteTexture;
     private boolean isMuted = false;
+    private Texture arrowTexture;
+    private Sprite arrowSprite;
     TextButton winButton;
     TextButton loseButton;
     public Level(Main game) {
@@ -116,7 +118,8 @@ public class Level implements Screen {
         stage.addActor(backButton);
         stage.addActor(winButton);
         stage.addActor(loseButton);
-
+        arrowTexture = new Texture("arrow.png"); // Ensure this file exists in your assets
+        arrowSprite = new Sprite(arrowTexture);
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -254,6 +257,7 @@ public class Level implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        
     }
 
     @Override
@@ -328,7 +332,9 @@ public class Level implements Screen {
             sprite.setRotation((float) Math.toDegrees(body.getAngle()/2)); // Rotate based on physics body angle
             sprite.setOriginCenter();
         }
-
+        if (isDragging && selectedBird != null) {
+            drawLaunchArrow();
+        }
         spriteBatch.end();
 
         // Draw the debug lines (hitboxes)
@@ -382,7 +388,7 @@ public class Level implements Screen {
         }*/
 
         // Set the last bird in the list to the slingshot position
-        Bird lastBird = birds.getLast();
+        Bird lastBird = birds.get(birds.size() - 1);
         lastBird.getBody().setTransform(new Vector2(slingshotx, slingshoty), 0); // Replace with slingshot position
         lastBird.setIslaunched(false); // Make it ready for launching
         lastBird.setLaunchTime(-1f); // Reset its timer
@@ -392,7 +398,7 @@ public class Level implements Screen {
         if (elapsedTime <= inputCooldown) return;
         if (Gdx.input.isTouched()) {
             Vector2 pointer = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            selectedBird = birds.getLast();
+            selectedBird = birds.get(birds.size() - 1);
             float x=selectedBird.getXpos();
             float y=selectedBird.getYpos();
             if (!isDragging && !birds.isEmpty()) {
@@ -431,6 +437,26 @@ public class Level implements Screen {
             selectedBird = null;
         }
     }
+    private void drawLaunchArrow() {
+    if (dragStart.epsilonEquals(dragEnd, 0.1f)) return;
+
+    // Calculate the angle and length between dragStart and dragEnd
+    float dx = dragStart.x - dragEnd.x;
+    float dy = dragStart.y - dragEnd.y;
+    float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx);
+    float length = dragStart.dst(dragEnd);
+
+    // Set the arrow sprite properties
+    arrowSprite.setPosition(dragStart.x, dragStart.y-3);
+    arrowSprite.setSize(length, 5f); // Adjust the height for arrow thickness
+    arrowSprite.setOrigin(0, selectedBird.getSprite().getHeight() / 2);
+    arrowSprite.setRotation(angle);
+
+    // Draw the arrow sprite
+    arrowSprite.draw(spriteBatch);
+}
+
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
@@ -513,3 +539,5 @@ public class Level implements Screen {
         unmuteTexture.dispose();
     }
 }
+
+
