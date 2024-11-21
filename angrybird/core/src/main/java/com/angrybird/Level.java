@@ -262,7 +262,8 @@ private void showPauseDialog() {
 
         // Draw background
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-
+        SlingshotSprite.setSize(15, 15);
+        SlingshotSprite.draw(spriteBatch); 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             Bird bird = birds.get(0); // Example: Launch the first bird
             bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
