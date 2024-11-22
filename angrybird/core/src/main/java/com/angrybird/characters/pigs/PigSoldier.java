@@ -11,7 +11,7 @@ public class PigSoldier extends Pig{
         this.ysize=7;
         this.texture=new Texture("Pig soldier.png");
         this.sprite=new Sprite(texture);
-        this.health=60;
+        this.health=50;
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
     }

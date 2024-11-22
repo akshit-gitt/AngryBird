@@ -115,12 +115,12 @@ public class Level implements Screen {
                 game.setScreen(new LevelSelectScreen(game));
             }
         });
-        setupWinAndLoseButtons();
+        //setupWinAndLoseButtons();
         // Add buttons to the stage
         stage.addActor(pauseButton);
         stage.addActor(backButton);
-        stage.addActor(winButton);
-        stage.addActor(loseButton);
+        //stage.addActor(winButton);
+        //stage.addActor(loseButton);
         arrowTexture = new Texture("arrow.png"); // Ensure this file exists in your assets
         arrowSprite = new Sprite(arrowTexture);
         world.setContactListener(new ContactListener() {
@@ -213,9 +213,9 @@ public class Level implements Screen {
         muteButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                isMuted = !isMuted;
+                MusicManager.toggleMute();
                 muteButton.getStyle().imageUp = new TextureRegionDrawable(
-                        isMuted ? unmuteTexture : muteTexture
+                        MusicManager.isMuted ? unmuteTexture : muteTexture
                 );
             }
         });
@@ -247,20 +247,20 @@ public class Level implements Screen {
         });
 
         // Initialize the Lose button with smaller size
-        loseButton = new TextButton("Lose", skin);
-        loseButton.setSize(40, 20); // Reduced size for smaller appearance
-        loseButton.setPosition(viewport.getWorldWidth() - loseButton.getWidth() - 60, 10); // Bottom-right corner
-        loseButton.addListener(new ClickListener() {
+        //loseButton = new TextButton("Lose", skin);
+        //loseButton.setSize(40, 20); // Reduced size for smaller appearance
+        //loseButton.setPosition(viewport.getWorldWidth() - loseButton.getWidth() - 60, 10); // Bottom-right corner
+        /*loseButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                 game.setScreen(new LoseScreen(game)); // Uncomment if LoseScreen exists
                 game.setScreen(new LoseScreen(game ,curLevel)); // Uncomment if LoseScreen exists
             }
-        });
+        });*/
 
         // Add buttons to the stage
-        stage.addActor(winButton);
-        stage.addActor(loseButton);
+        //stage.addActor(winButton);
+        //stage.addActor(loseButton);
     }
     private void resumeGame() {
         paused = false;
@@ -276,13 +276,13 @@ public class Level implements Screen {
     @Override
     public void render(float delta) {
 
-        // if (paused) {
-        //     // If the game is paused, only render the stage (UI)
-        //     ScreenUtils.clear(Color.BLACK);
-        //     stage.act(delta);
-        //     stage.draw();
-        //     return;
-        // }
+        if(!MusicManager.isMuted){
+            MusicManager.play();
+        }
+        else{
+            MusicManager.pause();
+        }
+
         if (paused) {
             // If the game is paused, render the game screen first
             ScreenUtils.clear(Color.BLACK);
@@ -292,6 +292,9 @@ public class Level implements Screen {
 
             // Render all sprites
             spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+            if(!MusicManager.isMuted){
+                MusicManager.play();
+            }
             spriteBatch.begin();
             // Draw background
             spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -423,6 +426,12 @@ public class Level implements Screen {
             }
             obstaclesToRemove.clear(); // Clear the temporary list
         }
+        if(birds.isEmpty() &&!pigs.isEmpty()){
+            game.setScreen(new LoseScreen(game,this));
+        }
+        else if(!birds.isEmpty() && pigs.isEmpty()){
+            game.setScreen(new WinScreen(game,this));
+        }
         spriteBatch.end();
 
         // Draw the debug lines (hitboxes)
@@ -465,6 +474,16 @@ public class Level implements Screen {
     private void shiftBird(){
         if (birds.isEmpty()) return;
 
+        // Move remaining birds forward
+        /*for (int i = 1; i < birds.size(); i++) {
+            Bird currentBird = birds.get(i);
+            Bird previousBird = birds.get(i - 1);
+
+            // Move the current bird to the previous bird's position
+            Vector2 previousPosition = previousBird.getBody().getPosition();
+            currentBird.getBody().setTransform(previousPosition, 0);
+        }*/
+
         // Set the last bird in the list to the slingshot position
         Bird lastBird = birds.get(birds.size() - 1);
         lastBird.getBody().setTransform(new Vector2(slingshotx, slingshoty), 0); // Replace with slingshot position
@@ -502,7 +521,7 @@ public class Level implements Screen {
             }
         } else if (isDragging && !selectedBird.isIslaunched()) {
             // On release, launch the bird
-            Vector2 launchForce = dragStart.cpy().sub(dragEnd).scl(20); // Scale force
+            Vector2 launchForce = dragStart.cpy().sub(dragEnd).scl(100); // Scale force
             selectedBird.setIslaunched(true);
             selectedBird.setLaunchTime(0f);
             selectedBird.getBody().applyLinearImpulse(launchForce, selectedBird.getBody().getWorldCenter(), true);
@@ -582,7 +601,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataA;
             float impactForce = calculateImpactForce(contact);
             if (impactForce > 10) { // Threshold value
-                pig.setHealth(pig.getHealth() - (int) impactForce); 
+                pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
@@ -592,7 +611,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataB;
             float impactForce = calculateImpactForce(contact);
             if (impactForce > 5) { // Threshold value
-                pig.setHealth(pig.getHealth() - (int) impactForce); 
+                pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
@@ -626,16 +645,16 @@ public class Level implements Screen {
     private float calculateImpactForce(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
-    
+
         Vector2 relativeVelocity = bodyA.getLinearVelocity().sub(bodyB.getLinearVelocity());
         float relativeSpeed = relativeVelocity.len();
-    
+
         float massA = bodyA.getMass();
         float massB = bodyB.getMass();
         float effectiveMass = (massA * massB) / (massA + massB);
-    
+
         float impactForce = relativeSpeed * effectiveMass * 0.05f;
-    
+
         return impactForce;
     }
     private void createWorldBounds() {
@@ -694,4 +713,3 @@ public class Level implements Screen {
         font.dispose();
     }
 }
-

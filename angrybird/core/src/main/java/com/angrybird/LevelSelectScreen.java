@@ -40,6 +40,7 @@ public class LevelSelectScreen implements Screen {
 
     @Override
     public void show() {
+        // MusicManager.play();
         backgroundImage = new Texture("LevelSelect.png");
         SelectLevelTexture = new Texture("img_3.png");
         SelectLevelSprite = new Sprite(SelectLevelTexture);
@@ -115,7 +116,12 @@ public class LevelSelectScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-
+        if(!MusicManager.isMuted){
+            MusicManager.play();
+        }
+        else{
+            MusicManager.pause();
+        }
         spriteBatch.begin();
 
         float worldWidth = viewport.getWorldWidth();

@@ -17,7 +17,7 @@ public class FirstScreen implements Screen {
     private BitmapFont font;
     private Texture introimage;
     private FitViewport viewport;
-    private Music music;
+    // private Music music;
 
     public FirstScreen(Main game) {
         this.game = game;
@@ -31,10 +31,11 @@ public class FirstScreen implements Screen {
     public void show() {
         introimage = new Texture("intro.png");
         viewport = new FitViewport(160, 120);
-        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-        music.setLooping(true);
-        music.setVolume(.5f);
-        music.play();
+        // music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        // music.setLooping(true);
+        // music.setVolume(.5f);
+        // music.play();
+     
     }
 
     @Override
@@ -42,14 +43,21 @@ public class FirstScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        if(!MusicManager.isMuted){
+            MusicManager.play();
+        }
+        else{
+            MusicManager.pause();
+        }
         spriteBatch.begin();
         spriteBatch.draw(introimage, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
         spriteBatch.end();
         if (Gdx.input.isTouched()) {
+           
             game.setScreen(new LevelSelectScreen(game));
-            music.pause();
+            MusicManager.pause();
         }
     }
 
@@ -75,5 +83,6 @@ public class FirstScreen implements Screen {
         spriteBatch.dispose();
         font.dispose();
         introimage.dispose();
+
     }
 }

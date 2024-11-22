@@ -84,7 +84,6 @@ public class Level1 extends Level{
         obstacles.add(new Woodh(world,100,base+23.5f,20,5));
         obstacles.add(new Woodh(world,180,base+23.5f,20,5));
         obstacles.add(new Woodh(world,140,base+5,20,5));
-        obstacles.add(new Woodh(world,100,base+46,20,5));
         pigs.add(new SimplePig(world,100,base+26));
         pigs.add(new SimplePig(world,180,base+26));
         pigs.add(new SimplePig(world,140,base+6));

@@ -75,7 +75,7 @@ public class Level3 extends Level {
         SlingshotSprite.setY(base);
         birds.add(new BlueBird(world,2,base));
         birds.add(new BlueBird(world,13,base));
-        birds.add(new YellowBird(world,25,base));
+        birds.add(new RedBird(world,25,base));
         birds.add(new RedBird(world,38,base+5));
 
         obstacles.add(new Stone(world,132.5f,base+10,5,20));

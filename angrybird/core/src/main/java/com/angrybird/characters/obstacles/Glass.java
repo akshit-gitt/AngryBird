@@ -11,7 +11,7 @@ public class Glass extends Obstacle{
         this.sprite=new Sprite(this.texture);
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
-        this.health=50;
+        this.health=40;
         this.damage=60;
     }
 }

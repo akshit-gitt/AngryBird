@@ -19,9 +19,9 @@ public class YellowBird extends Bird{
         shape.setRadius(1.5f); // Adjust radius to bird size
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = 2f;
         fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.8f; // Bouncy effect
+        fixtureDef.restitution = 0.5f; // Bouncy effect
 
         body.createFixture(fixtureDef);
         shape.dispose();

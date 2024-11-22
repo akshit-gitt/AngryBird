@@ -11,7 +11,7 @@ public class Stone extends Obstacle{
         this.sprite=new Sprite(this.texture);
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
-        this.health=70;
+        this.health=60;
         this.damage=80;
     }
 }
