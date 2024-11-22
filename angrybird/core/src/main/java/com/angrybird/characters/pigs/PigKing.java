@@ -11,7 +11,7 @@ public class PigKing extends Pig{
         this.sprite=new Sprite(texture);
         this.xsize=10;
         this.ysize=10;
-        this.health=100;
+        this.health=70;
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
     }

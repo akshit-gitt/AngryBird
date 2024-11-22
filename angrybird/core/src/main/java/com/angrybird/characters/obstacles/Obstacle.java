@@ -40,10 +40,24 @@ public class Obstacle {
 
         // Create the fixture
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = box;
-        fixtureDef.density = 0.5f;    // Mass property
-        fixtureDef.friction = 0.5f;  // Sliding friction
-        fixtureDef.restitution = 0.8f; // Bounciness
+        if(this instanceof Wood || this instanceof Woodh) {
+            fixtureDef.shape = box;
+            fixtureDef.density = 0.5f;    // Mass property
+            fixtureDef.friction = 0.5f;  // Sliding friction
+            fixtureDef.restitution = 0.1f; // Bounciness
+        }
+        else if(this instanceof Glass || this instanceof Glassh){
+            fixtureDef.shape = box;
+            fixtureDef.density = 1f;    // Mass property
+            fixtureDef.friction = 0.5f;  // Sliding friction
+            fixtureDef.restitution = 0.1f; // Bounciness
+        }
+        else if(this instanceof Stone || this instanceof Stoneh){
+            fixtureDef.shape = box;
+            fixtureDef.density = 1.3f;    // Mass property
+            fixtureDef.friction = 0.5f;  // Sliding friction
+            fixtureDef.restitution = 0.1f; // Bounciness
+        }
 
         body.createFixture(fixtureDef);
         box.dispose();
@@ -88,7 +102,7 @@ public class Obstacle {
         updateShape();
     }
 
-    private void updateShape() {
+    public void updateShape() {
         // Remove existing fixtures
         body.destroyFixture(body.getFixtureList().first());
 
@@ -99,9 +113,9 @@ public class Obstacle {
         // Create new fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = box;
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = 3.0f;
         fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.8f;
+        fixtureDef.restitution = 0f;
 
         body.createFixture(fixtureDef);
         box.dispose();
@@ -126,9 +140,11 @@ public class Obstacle {
     public void setYpos(float ypos) {
         this.ypos = ypos;
     }
+
     public int getHealth() {
         return health;
     }
+
     public void setHealth(int health) {
         this.health = health;
     }
