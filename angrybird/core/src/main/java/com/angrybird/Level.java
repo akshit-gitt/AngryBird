@@ -764,9 +764,65 @@ public class Level implements Screen {
             }
 
         }
-
+        if (userDataA instanceof Pig && userDataB instanceof Obstacle) {
+            Pig pig = (Pig) userDataA;
+            float impactForce = calculateImpactForce(contact);
+            if (impactForce > 10) { // Threshold value
+                pig.setHealth(pig.getHealth() - (int) impactForce); 
+                if(pig.getHealth() <= 0){
+                    pigsToRemove.add(pig);
+                    pigs.remove(pig);
+                }
+            }
+        } else if (userDataB instanceof Pig && userDataA instanceof Obstacle) {
+            Pig pig = (Pig) userDataB;
+            float impactForce = calculateImpactForce(contact);
+            if (impactForce > 5) { // Threshold value
+                pig.setHealth(pig.getHealth() - (int) impactForce); 
+                if(pig.getHealth() <= 0){
+                    pigsToRemove.add(pig);
+                    pigs.remove(pig);
+                }
+            }
+        }
+        if (userDataA instanceof Pig && fixtureB.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            Pig pig = (Pig) userDataA;
+            if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
+                pig.setHealth( (int) (pig.getHealth()-((pig.getYpos()-pig.getSprite().getY())*0.5f)));
+                pig.setFalldamage(true);
+                if(pig.getHealth() <= 0){
+                    pigsToRemove.add(pig);
+                    pigs.remove(pig);
+                }
+            }
+        } else if (userDataB instanceof Pig && fixtureA.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            Pig pig = (Pig) userDataB;
+            if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
+                pig.setHealth((int) (pig.getHealth()-((pig.getYpos()-pig.getSprite().getY())*0.5f)));
+                pig.setFalldamage(true);
+                if(pig.getHealth() <= 0){
+                    pigsToRemove.add(pig);
+                    pigs.remove(pig);
+                }
+            }
+        }
         // Example: Add more collision logic here
 
+    }
+    private float calculateImpactForce(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+    
+        Vector2 relativeVelocity = bodyA.getLinearVelocity().sub(bodyB.getLinearVelocity());
+        float relativeSpeed = relativeVelocity.len();
+    
+        float massA = bodyA.getMass();
+        float massB = bodyB.getMass();
+        float effectiveMass = (massA * massB) / (massA + massB);
+    
+        float impactForce = relativeSpeed * effectiveMass * 0.05f;
+    
+        return impactForce;
     }
     private void createWorldBounds() {
         // Left boundary

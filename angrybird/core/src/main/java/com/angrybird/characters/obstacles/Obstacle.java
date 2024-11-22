@@ -101,7 +101,7 @@ public class Obstacle {
         fixtureDef.shape = box;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.8f;
+        fixtureDef.restitution = 0.1f;
 
         body.createFixture(fixtureDef);
         box.dispose();
