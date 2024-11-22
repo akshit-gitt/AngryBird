@@ -14,6 +14,7 @@ public class BlueBird extends Bird{
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(xpos, ypos);
         body = world.createBody(bodyDef);
+        body.setUserData(this);
         CircleShape shape = new CircleShape();
         shape.setRadius(3.5f); // Adjust radius to bird size
         FixtureDef fixtureDef = new FixtureDef();
