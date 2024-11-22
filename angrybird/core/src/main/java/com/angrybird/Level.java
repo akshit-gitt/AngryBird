@@ -762,7 +762,19 @@ public class Level implements Screen {
                 obstaclesToRemove.add(obstacle); // Add to removal list
                 obstacles.remove(obstacle);
             }
-
+        }
+        if (userDataA instanceof Pig && fixtureB.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            Pig pig = (Pig) userDataA;
+            if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
+                pig.setHealth(pig.getHealth()-10);
+                pig.setFalldamage(true);
+            }
+        } else if (userDataB instanceof Pig && fixtureA.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            Pig pig = (Pig) userDataB;
+            if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
+                pig.setHealth(pig.getHealth()-10);
+                pig.setFalldamage(true);
+            }
         }
 
         // Example: Add more collision logic here
