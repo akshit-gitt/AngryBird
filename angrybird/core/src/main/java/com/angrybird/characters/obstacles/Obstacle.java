@@ -126,4 +126,10 @@ public class Obstacle {
     public void setYpos(float ypos) {
         this.ypos = ypos;
     }
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }
