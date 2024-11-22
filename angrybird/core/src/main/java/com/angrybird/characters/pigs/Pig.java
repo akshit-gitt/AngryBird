@@ -13,6 +13,7 @@ public class Pig {
     protected float ypos;
     protected int xsize;
     protected int ysize;
+    boolean falldamage=false;
     
     public Pig(World world, float xpos, float ypos) {
         
@@ -35,13 +36,7 @@ public class Pig {
         body.createFixture(fixtureDef);
         shape.dispose();
     }
-    public void update() {
-        sprite.setPosition(
-            body.getPosition().x - sprite.getWidth() / 2,
-            body.getPosition().y - sprite.getHeight() / 2
-        );
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-    }
+    
     // Getters
     public Body getBody() { return body; }
     public Texture getTexture() { return texture; }
@@ -60,4 +55,12 @@ public class Pig {
     public void setYpos(float ypos) { this.ypos = ypos; }
     public void setXsize(int xsize) { this.xsize = xsize; }
     public void setYsize(int ysize) { this.ysize = ysize; }
+
+    public boolean isFalldamage() {
+        return falldamage;
+    }
+
+    public void setFalldamage(boolean falldamage) {
+        this.falldamage = falldamage;
+    }
 }
