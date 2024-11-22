@@ -35,7 +35,7 @@ public class Level implements Screen {
     private final float MAX_DRAG_DISTANCE = 50f; // Maximum drag distance for the slingshot
     protected Box2DDebugRenderer debugRenderer;
     private Main game;
-    private float inputCooldown = 1.5f; // Cooldown time in seconds
+    private float inputCooldown = 3f; // Cooldown time in seconds
     private float elapsedTime = 0f; // Tracks time since the level was loaded
     //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
@@ -140,182 +140,6 @@ public class Level implements Screen {
         });
     }
 
-    // private void showPauseDialog() {
-    //     // Create dialog
-    //     paused = true;
-    //     Dialog dialog = new Dialog("", skin);
-    //     dialog.setSize(125, 60);
-    //     dialog.setPosition(47, 18);
-
-    //     // Set background image
-    //     dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)) {
-    //         @Override
-    //         public void draw(Batch batch, float x, float y, float width, float height) {
-    //             batch.draw(examboardTexture, 47, 18, 155, 90);
-    //         }
-    //     });
-
-    //     dialog.getColor().a = 0f;
-    //     dialog.addAction(Actions.fadeIn(0.5f));
-
-    //     Table overlay = new Table();
-    //     overlay.setFillParent(true);
-    //     overlay.setBackground(new TextureRegionDrawable(new Texture(1, 1, Pixmap.Format.RGB888))
-    //             .tint(new Color(0, 0, 0, 0.5f)));
-    //     stage.addActor(overlay);
-    //     overlay.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f)));
-
-    //     // Create and position buttons directly on stage
-    //     ImageButton resumeButton = new ImageButton(new TextureRegionDrawable(resumeTexture));
-    //     ImageButton saveButton = new ImageButton(new TextureRegionDrawable(saveTexture));
-    //     ImageButton muteButton = new ImageButton(
-    //             isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture)
-    //     );
-
-    //     // Set fixed sizes for buttons
-    //     resumeButton.setSize(50, 25);
-    //     saveButton.setSize(50, 25);
-    //     muteButton.setSize(50, 25);
-
-    //     // Position buttons relative to examboard position
-    //     float startX = 105;  // Center of examboard
-    //     float startY = 70;   // Top of the button area
-    //     float spacing = 20;  // Space between buttons
-
-    //     resumeButton.setPosition(startX, startY);
-    //     saveButton.setPosition(startX, startY - spacing);
-    //     muteButton.setPosition(startX, startY - spacing * 2);
-
-    //     // Add listeners
-    //     resumeButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             resumeButton.remove();
-    //             saveButton.remove();
-    //             muteButton.remove();
-    //             overlay.remove();
-    //             dialog.hide();
-    //             resumeGame();
-    //         }
-    //     });
-
-    //     saveButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             game.setScreen(new LevelSelectScreen(game));
-    //         }
-    //     });
-
-    //     muteButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             isMuted = !isMuted;
-    //             muteButton.getStyle().imageUp = new TextureRegionDrawable(
-    //                     isMuted ? unmuteTexture : muteTexture
-    //             );
-    //         }
-    //     });
-
-    //     // Add buttons directly to stage
-    //     stage.addActor(dialog);
-    //     stage.addActor(resumeButton);
-    //     stage.addActor(saveButton);
-    //     stage.addActor(muteButton);
-
-    //     dialog.show(stage);
-    // }
-    // private void showPauseDialog() {
-    //     paused = true;
-
-    //     // Create darkening overlay
-    //     Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    //     pixmap.setColor(0, 0, 0, 0.5f);
-    //     pixmap.fill();
-    //     Texture overlayTexture = new Texture(pixmap);
-    //     pixmap.dispose();
-
-    //     Image overlay = new Image(overlayTexture);
-    //     overlay.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
-    //     overlay.setPosition(0, 0);
-    //     overlay.getColor().a = 0f;
-    //     overlay.addAction(Actions.fadeIn(0.3f));
-
-    //     // Create centered dialog
-    //     final Dialog dialog = new Dialog("", skin);
-    //     dialog.setSize(120, 70); // Increased height to accommodate buttons
-    //     dialog.setPosition(
-    //         (viewport.getWorldWidth() - dialog.getWidth()) / 2,
-    //         (viewport.getWorldHeight() - dialog.getHeight()) / 2
-    //     );
-    //     dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)));
-
-    //     // Create table with specific sizing
-    //     Table buttonTable = new Table();
-    //     buttonTable.defaults().pad(0.5f); // Add padding between buttons
-    //     buttonTable.center(); // Center align all contents
-
-    //     // Create uniform sized buttons
-    //     float buttonWidth = 60;
-    //     float buttonHeight = 15;
-
-    //     ImageButton resumeButton = new ImageButton(new TextureRegionDrawable(resumeTexture));
-    //     ImageButton saveButton = new ImageButton(new TextureRegionDrawable(saveTexture));
-    //     ImageButton muteButton = new ImageButton(
-    //             isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture)
-    //     );
-
-    //     // Set uniform sizes
-    //     resumeButton.setSize(buttonWidth, buttonHeight);
-    //     saveButton.setSize(buttonWidth, buttonHeight);
-    //     muteButton.setSize(buttonWidth, buttonHeight);
-
-    //     // Add buttons to table with uniform sizing
-    //     buttonTable.add(resumeButton).size(buttonWidth, buttonHeight).row();
-    //     buttonTable.add(saveButton).size(buttonWidth, buttonHeight).row();
-    //     buttonTable.add(muteButton).size(buttonWidth, buttonHeight).row();
-
-    //     // Center the table in the dialog
-    //     dialog.getContentTable().add(buttonTable).expand().center();
-
-    //     // Add listeners
-    //     resumeButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             overlay.remove();
-    //             dialog.remove();
-    //             resumeGame();
-    //         }
-    //     });
-
-    //     saveButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             game.setScreen(new LevelSelectScreen(game));
-    //         }
-    //     });
-
-    //     muteButton.addListener(new ClickListener() {
-    //         @Override
-    //         public void clicked(InputEvent event, float x, float y) {
-    //             isMuted = !isMuted;
-    //             muteButton.getStyle().imageUp = new TextureRegionDrawable(
-    //                     isMuted ? unmuteTexture : muteTexture
-    //             );
-    //         }
-    //     });
-
-    //     // Add overlay and dialog to stage
-    //     stage.addActor(overlay);
-    //     stage.addActor(dialog);
-
-    //     // Make dialog modal
-    //     dialog.setModal(true);
-    //     dialog.addListener(new InputListener() {
-    //         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-    //             return true;
-    //         }
-    //     });
-    // }
     private void showPauseDialog() {
         paused = true;
 
@@ -640,16 +464,6 @@ public class Level implements Screen {
 
     private void shiftBird(){
         if (birds.isEmpty()) return;
-
-        // Move remaining birds forward
-        /*for (int i = 1; i < birds.size(); i++) {
-            Bird currentBird = birds.get(i);
-            Bird previousBird = birds.get(i - 1);
-
-            // Move the current bird to the previous bird's position
-            Vector2 previousPosition = previousBird.getBody().getPosition();
-            currentBird.getBody().setTransform(previousPosition, 0);
-        }*/
 
         // Set the last bird in the list to the slingshot position
         Bird lastBird = birds.get(birds.size() - 1);
