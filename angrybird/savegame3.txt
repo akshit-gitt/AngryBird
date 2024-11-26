@@ -1,0 +1,27 @@
+Level: 3
+Bird: BlueBird Position: 3.5049999,41.504993 Velocity: 0.0,0.0 Damage: 70 Launched: false
+Bird: BlueBird Position: 13.0,41.504993 Velocity: 0.0,0.0 Damage: 70 Launched: false
+Bird: RedBird Position: 25.0,39.504993 Velocity: 0.0,0.0 Damage: 50 Launched: false
+Bird: RedBird Position: 121.17666,40.466557 Velocity: -6.152811,-6.909956 Damage: 50 Launched: true
+Pig: PigKing Position: 141.0,41.004993 Velocity: 0.0,0.0 Health: 70
+Pig: PigSoldier Position: 127.64333,57.319157 Velocity: 0.043955386,-10.135473 Health: 50
+Pig: PigSoldier Position: 152.40822,60.018623 Velocity: 0.0,0.0 Health: 50
+Pig: PigSoldier Position: 140.56932,80.07014 Velocity: 0.010862206,-0.004417945 Health: 50
+Pig: SimplePig Position: 122.29845,99.27092 Velocity: -6.090071,-12.101499 Health: 30
+Pig: SimplePig Position: 154.6457,105.09273 Velocity: -0.030352525,-0.021330064 Health: 30
+Obstacle: Stone Position: 132.66637,48.016132 Velocity: 0.0043571517,-1.1752127E-7 Health: 60 Rotation: -6.24413E-5
+Obstacle: Stone Position: 147.50555,48.01497 Velocity: 0.003388962,1.0931399E-7 Health: 60 Rotation: -6.190289E-5
+Obstacle: Glass Position: 152.70203,48.015053 Velocity: 0.0,0.0 Health: 40 Rotation: -1.7857045E-4
+Obstacle: Wood Position: 165.07481,48.017887 Velocity: -8.273661E-5,7.8249665E-5 Health: 20 Rotation: 0.001177342
+Obstacle: Wood Position: 117.21275,68.8848 Velocity: 1.7464671,-27.780128 Health: 20 Rotation: 0.10426181
+Obstacle: Wood Position: 132.54912,88.08233 Velocity: 0.07764608,0.020846326 Health: 20 Rotation: 7.119914E-4
+Obstacle: Wood Position: 147.24387,88.08561 Velocity: 0.022110691,-0.033531275 Health: 20 Rotation: -0.0030854056
+Obstacle: Wood Position: 165.03784,68.03369 Velocity: -9.525516E-5,4.081612E-4 Health: 20 Rotation: 0.0015376894
+Obstacle: Wood Position: 164.92044,88.048515 Velocity: 7.4424036E-4,7.365841E-4 Health: 20 Rotation: 0.0015462915
+Obstacle: Stoneh Position: 140.00581,60.53023 Velocity: 0.0068592452,-2.1967944E-4 Health: 60 Rotation: -8.8992165E-5
+Obstacle: Stoneh Position: 139.99744,65.54333 Velocity: 0.011686921,-5.5619347E-4 Health: 60 Rotation: -1.04889674E-4
+Obstacle: Woodh Position: 121.85001,89.98787 Velocity: -0.085178,-18.666128 Health: 20 Rotation: 1.0171325
+Obstacle: Woodh Position: 139.99126,70.555084 Velocity: 0.020805698,-8.876717E-4 Health: 20 Rotation: -1.0362427E-4
+Obstacle: Woodh Position: 139.97552,75.5659 Velocity: 0.034325063,-0.001706941 Health: 20 Rotation: -1.0732372E-4
+Obstacle: Woodh Position: 157.14668,100.58368 Velocity: -0.0028605442,-0.016363168 Health: 20 Rotation: -0.001681948
+230

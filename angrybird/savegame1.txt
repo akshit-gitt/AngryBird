@@ -1,0 +1,12 @@
+Level: 1
+Bird: RedBird Position: 13.0,28.504995 Velocity: 0.0,0.0 Damage: 50 Launched: false
+Bird: YellowBird Position: 20.0,28.504995 Velocity: 0.0,0.0 Damage: 40 Launched: false
+Bird: RedBird Position: 105.768776,29.587074 Velocity: 12.702414,1.5131471 Damage: 50 Launched: true
+Pig: SimplePig Position: 99.97425,57.227287 Velocity: -0.0413602,-0.06964451 Health: 30
+Pig: SimplePig Position: 179.9994,54.026714 Velocity: 0.0,0.0 Health: 30
+Pig: SimplePig Position: 140.0,34.02002 Velocity: 0.0,0.0 Health: 30
+Obstacle: Wood Position: 180.00317,37.013668 Velocity: 0.0,0.0 Health: 20 Rotation: -2.8896437E-4
+Obstacle: Woodh Position: 101.717766,52.73208 Velocity: 2.9447598,-0.057602465 Health: 20 Rotation: 0.712675
+Obstacle: Woodh Position: 179.99971,49.52575 Velocity: 0.0,0.0 Health: 20 Rotation: -2.276108E-4
+Obstacle: Woodh Position: 140.0,29.515032 Velocity: 0.0,0.0 Health: 20 Rotation: 3.826663E-6
+70

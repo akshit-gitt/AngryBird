@@ -1,0 +1,23 @@
+Level: 2
+Bird: BlueBird Position: 7.0,41.504993 Velocity: 0.0,0.0 Damage: 70 Launched: false
+Bird: YellowBird Position: 18.0,39.504993 Velocity: 0.0,0.0 Damage: 40 Launched: false
+Bird: RedBird Position: 25.0,39.504993 Velocity: 0.0,0.0 Damage: 50 Launched: false
+Bird: YellowBird Position: 102.14436,56.38128 Velocity: -5.4396744,-5.661837 Damage: 40 Launched: true
+Pig: SimplePig Position: 120.0,40.004993 Velocity: 0.0,0.0 Health: 30
+Pig: PigSoldier Position: 137.0,40.004993 Velocity: 0.0,0.0 Health: 50
+Pig: SimplePig Position: 160.0,40.004993 Velocity: 0.0,0.0 Health: 30
+Pig: SimplePig Position: 128.62825,65.60458 Velocity: -2.6810858,-3.583118 Health: 25
+Pig: SimplePig Position: 149.98886,65.03581 Velocity: -6.7755935E-4,0.001044532 Health: 30
+Pig: SimplePig Position: 140.10677,90.168816 Velocity: -0.2060948,-2.0724783 Health: 30
+Obstacle: Wood Position: 129.98576,48.015205 Velocity: 1.6703227E-4,1.345179E-7 Health: 20 Rotation: 8.4341715E-5
+Obstacle: Wood Position: 150.0015,48.015 Velocity: 3.6342023E-4,-3.0710362E-7 Health: 20 Rotation: -2.2497331E-6
+Obstacle: Wood Position: 170.01135,48.015 Velocity: 7.959444E-4,-1.0061922E-7 Health: 20 Rotation: 9.2616284E-7
+Obstacle: Glass Position: 118.9566,68.67141 Velocity: -1.7268244,-12.356208 Health: 40 Rotation: -0.14014478
+Obstacle: Glass Position: 140.00519,73.046425 Velocity: 0.003031474,0.0023271067 Health: 40 Rotation: -3.665606E-5
+Obstacle: Glass Position: 160.00644,73.04568 Velocity: 0.0029333439,4.438132E-4 Health: 40 Rotation: 2.304319E-5
+Obstacle: Woodh Position: 120.37453,55.368927 Velocity: -0.5089241,-12.990208 Health: 20 Rotation: 0.6958593
+Obstacle: Woodh Position: 141.0249,60.531013 Velocity: 0.0015934459,0.0019108218 Health: 20 Rotation: -3.023926E-5
+Obstacle: Woodh Position: 161.04076,60.530605 Velocity: 0.0015524678,1.8725549E-4 Health: 20 Rotation: 3.160094E-5
+Obstacle: Glassh Position: 129.83696,83.56719 Velocity: -0.56703514,-6.0636616 Health: 40 Rotation: 0.26616874
+Obstacle: Glassh Position: 150.74773,85.561646 Velocity: 0.0045641223,0.001442345 Health: 40 Rotation: -4.942916E-5
+75
