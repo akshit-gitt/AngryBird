@@ -23,6 +23,7 @@ level1.png
 level2.jpg
 level3.jpg
 LevelSelect.png
+load_game.png
 music.mp3
 mute.png
 pause.png

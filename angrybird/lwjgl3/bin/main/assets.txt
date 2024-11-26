@@ -1,4 +1,5 @@
 angry_birds___poached_eggs_theme_i_background_by_yoshibowserfanatic_d6qa909-fullview.jpg
+arrow.png
 back.png
 blank.png
 blue bird.png
@@ -8,6 +9,7 @@ download.png
 examboard.png
 glass.png
 glass.webp
+glassh.png
 images.jpg
 images.png
 img.png
@@ -21,6 +23,7 @@ level1.png
 level2.jpg
 level3.jpg
 LevelSelect.png
+load_game.png
 music.mp3
 mute.png
 pause.png
@@ -44,6 +47,7 @@ skin/uiskin.json
 skin/uiskin.png
 Slingshot.png
 stone.png
+stoneh.png
 stoney.png
 Toons_Glass_Block.webp
 Toons_Stone_Block.webp
@@ -52,5 +56,6 @@ unmute.png
 weak pig.png
 wood obstacle.png
 wood.png
+woodh.png
 wood_texture.png
 yellow bird.png

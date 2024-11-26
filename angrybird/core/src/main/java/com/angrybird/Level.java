@@ -436,7 +436,6 @@ public class Level implements Screen {
 
         // Draw the debug lines (hitboxes)
         debugRenderer.render(world, viewport.getCamera().combined);
-
         // Draw UI
         stage.act(delta);
         stage.draw();
