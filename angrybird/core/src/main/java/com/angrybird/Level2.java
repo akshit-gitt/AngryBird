@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Level2 extends Level{
     int base=37;
+    
     public Level2(Main game) {
         super(game);
         this.spriteBatch=new SpriteBatch();

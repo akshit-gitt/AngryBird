@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
+import com.badlogic.gdx.Preferences;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,6 +37,11 @@ public class Level implements Screen {
     private Main game;
     private float inputCooldown = 3f; // Cooldown time in seconds
     private float elapsedTime = 0f; // Tracks time since the level was loaded
+    private int score;
+    private int highScoreLevel1;
+    private int highScoreLevel2;
+    private int highScoreLevel3;
+    private Preferences prefs;
     //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
     float slingshotx;
@@ -64,6 +69,7 @@ public class Level implements Screen {
     private Texture arrowTexture;
     private Sprite arrowSprite;
     private boolean paused = false;
+    private BitmapFont font1;
     TextButton winButton;
     TextButton loseButton;
     public Level(Main game) {
@@ -85,7 +91,12 @@ public class Level implements Screen {
         saveTexture = new Texture("saveandexit.png");
         muteTexture = new Texture("mute.png");
         unmuteTexture = new Texture("unmute.png");
-
+        score = 0;
+        font1 = new BitmapFont();
+        prefs = Gdx.app.getPreferences("MyPreferences");
+        highScoreLevel1 = prefs.getInteger("highScoreLevel1", 0); // Default to 0 if not set
+    highScoreLevel2 = prefs.getInteger("highScoreLevel2", 0); // Default to 0 if not set
+    highScoreLevel3 = prefs.getInteger("highScoreLevel3", 0); // Default to 0 if not set
         // Initialize the skin for UI elements
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
@@ -345,6 +356,7 @@ public class Level implements Screen {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         // Draw background
+        
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         for (Pig pig : pigs) {
             Vector2 position = pig.getBody().getPosition(); // Get pig's position
@@ -427,11 +439,29 @@ public class Level implements Screen {
             obstaclesToRemove.clear(); // Clear the temporary list
         }
         if(birds.isEmpty() &&!pigs.isEmpty()){
+            updateHighScore();
             game.setScreen(new LoseScreen(game,this));
         }
         else if(!birds.isEmpty() && pigs.isEmpty()){
+            updateHighScore();
             game.setScreen(new WinScreen(game,this));
         }
+        
+        font1.setColor(Color.WHITE);
+        font1.getData().setScale(0.4f); // Adjust the scale as needed
+        String scoreText = "Score: " + score;
+        String highScoreText = "High Score: ";
+        if (this instanceof Level1) {
+            highScoreText += highScoreLevel1;
+        } else if (this instanceof Level2) {
+            highScoreText += highScoreLevel2;
+        } else if (this instanceof Level3) {
+            highScoreText += highScoreLevel3;
+        }
+        float x = 60; // X position of the score
+        float y = viewport.getWorldHeight() - 10; // Y position of the score
+        font1.draw(spriteBatch, scoreText, x, y);
+        font1.draw(spriteBatch, highScoreText, x, y - 10); // Adjust Y position for high score
         spriteBatch.end();
 
         // Draw the debug lines (hitboxes)
@@ -440,7 +470,27 @@ public class Level implements Screen {
         stage.act(delta);
         stage.draw();
     }
-
+    private void updateHighScore() {
+        if (this instanceof Level1) {
+            if (score > highScoreLevel1) {
+                highScoreLevel1 = score;
+                prefs.putInteger("highScoreLevel1", highScoreLevel1);
+                prefs.flush(); // Save the updated high score
+            }
+        } else if (this instanceof Level2) {
+            if (score > highScoreLevel2) {
+                highScoreLevel2 = score;
+                prefs.putInteger("highScoreLevel2", highScoreLevel2);
+                prefs.flush();
+            }
+        } else if (this instanceof Level3) {
+            if (score > highScoreLevel3) {
+                highScoreLevel3 = score;
+                prefs.putInteger("highScoreLevel3", highScoreLevel3);
+                prefs.flush();
+            }
+        }
+    }
     private void trackBirdTimers(float delta) {
         ArrayList<Bird> toRemove = new ArrayList<>();
 
@@ -569,51 +619,65 @@ public class Level implements Screen {
         // Bird collides with Pig
         if (userDataA instanceof Pig && userDataB instanceof Bird) {
             Pig pig = (Pig) userDataA;
-            pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
+            pig.setHealth(pig.getHealth() - 20);
+            score+=20;
             if (pig.getHealth() <= 0) {
                 pigsToRemove.add(pig); // Add to removal list
+                score+=100;
             }
         } else if (userDataB instanceof Pig && userDataA instanceof Bird) {
             Pig pig = (Pig) userDataB;
             pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
+            score+=20;
             if (pig.getHealth() <= 0) {
-                pigsToRemove.add(pig); // Add to removal list
+                pigsToRemove.add(pig);
+                score+=100;
             }
         }
         if (userDataA instanceof Obstacle && userDataB instanceof Bird) {
             Obstacle obstacle = (Obstacle) userDataA;
             obstacle.setHealth(obstacle.getHealth() - 20); // Reduce pig's health
+            score+=20;
             if (obstacle.getHealth() <= 0) {
                 obstaclesToRemove.add(obstacle); // Add to removal list
                 obstacles.remove(obstacle);
+                score+=50;
             }
         } else if (userDataB instanceof Obstacle && userDataA instanceof Bird) {
             Obstacle obstacle = (Obstacle) userDataB;
-            obstacle.setHealth(obstacle.getHealth() - 20); // Reduce pig's health
+            obstacle.setHealth(obstacle.getHealth() - 20);
+             // Reduce pig's health
+            score+=20;
             if (obstacle.getHealth() <= 0) {
                 obstaclesToRemove.add(obstacle); // Add to removal list
                 obstacles.remove(obstacle);
+                score+=50;
             }
 
         }
         if (userDataA instanceof Pig && userDataB instanceof Obstacle) {
             Pig pig = (Pig) userDataA;
             float impactForce = calculateImpactForce(contact);
-            if (impactForce > 10) { // Threshold value
+            
+            if (impactForce > 5) { // Threshold value
+                score+=impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
+                    score+=100;
                 }
             }
         } else if (userDataB instanceof Pig && userDataA instanceof Obstacle) {
             Pig pig = (Pig) userDataB;
             float impactForce = calculateImpactForce(contact);
             if (impactForce > 5) { // Threshold value
+                score+=impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
+                    score+=100;
                 }
             }
         }
@@ -622,9 +686,12 @@ public class Level implements Screen {
             if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
                 pig.setHealth( (int) (pig.getHealth()-((pig.getYpos()-pig.getSprite().getY())*0.5f)));
                 pig.setFalldamage(true);
+                score+= (pig.getYpos()-pig.getSprite().getY())*0.5f;
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
+
+                    score+=100;
                 }
             }
         } else if (userDataB instanceof Pig && fixtureA.getBody().getType() == BodyDef.BodyType.StaticBody) {
@@ -632,9 +699,11 @@ public class Level implements Screen {
             if(pig.getYpos()-pig.getSprite().getY()>10 &&!pig.isFalldamage()){
                 pig.setHealth((int) (pig.getHealth()-((pig.getYpos()-pig.getSprite().getY())*0.5f)));
                 pig.setFalldamage(true);
+                score+= (pig.getYpos()-pig.getSprite().getY())*0.5f;
                 if(pig.getHealth() <= 0){
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
+                    score+=100;
                 }
             }
         }
@@ -710,5 +779,6 @@ public class Level implements Screen {
         muteTexture.dispose();
         unmuteTexture.dispose();
         font.dispose();
+        font1.dispose();
     }
 }
