@@ -44,9 +44,9 @@ public class WinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                game.setScreen(new LevelSelectScreen((Main) game));
-                if(level instanceof Level1){
+                if(level.levelno==1){
                     game.setScreen(new Level2((Main) game));
-                } else if (level instanceof Level2) {
+                } else if (level.levelno==2) {
                     game.setScreen(new Level3(((Main) game)));
                 }
                 else{
@@ -63,12 +63,12 @@ public class WinScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 //                game.setScreen(new Level3((Main) game));
                 // Restart the level
-                if(level instanceof Level1){
+                if(level.levelno==1){
                     game.setScreen(new Level1((Main) game));
-                } else if (level instanceof Level2) {
+                } else if (level.levelno==2) {
                     game.setScreen((new Level2((Main) game) ));
                 }
-                else if(level instanceof Level3){
+                else if(level.levelno==3){
                     game.setScreen(new Level3((Main) game));
                 }
             }

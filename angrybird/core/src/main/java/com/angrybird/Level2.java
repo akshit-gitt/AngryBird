@@ -20,6 +20,7 @@ public class Level2 extends Level{
     
     public Level2(Main game) {
         super(game);
+        this.levelno=2;
         this.spriteBatch=new SpriteBatch();
         this.slingshotx=38;
         this.slingshoty=base+6;

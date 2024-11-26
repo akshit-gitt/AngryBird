@@ -25,6 +25,7 @@ public class Level1 extends Level{
     int base=26;
     public Level1(Main game){
         super(game);
+        this.levelno=1;
         this.spriteBatch=new SpriteBatch();
         this.slingshotx=33;
         this.slingshoty=base+6;

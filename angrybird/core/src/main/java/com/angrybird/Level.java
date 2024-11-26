@@ -5,6 +5,7 @@ import com.angrybird.characters.pigs.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,6 +28,7 @@ import java.util.Objects;
 
 public class Level implements Screen {
     protected   World world;
+    int levelno;
     private BitmapFont font;
     private Bird selectedBird; // Bird being dragged
     private boolean isDragging = false; // Whether the bird is being dragged
@@ -37,10 +39,10 @@ public class Level implements Screen {
     private Main game;
     private float inputCooldown = 3f; // Cooldown time in seconds
     private float elapsedTime = 0f; // Tracks time since the level was loaded
-    private int score;
-    private int highScoreLevel1;
-    private int highScoreLevel2;
-    private int highScoreLevel3;
+    public int score;
+    public int highScoreLevel1;
+    public int highScoreLevel2;
+    public int highScoreLevel3;
     private Preferences prefs;
     //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
@@ -217,6 +219,7 @@ public class Level implements Screen {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                saveGame();
                 game.setScreen(new LevelSelectScreen(game));
             }
         });
@@ -451,11 +454,11 @@ public class Level implements Screen {
         font1.getData().setScale(0.4f); // Adjust the scale as needed
         String scoreText = "Score: " + score;
         String highScoreText = "High Score: ";
-        if (this instanceof Level1) {
+        if (this.levelno==1) {
             highScoreText += highScoreLevel1;
-        } else if (this instanceof Level2) {
+        } else if (this.levelno==2) {
             highScoreText += highScoreLevel2;
-        } else if (this instanceof Level3) {
+        } else if (this.levelno==3) {
             highScoreText += highScoreLevel3;
         }
         float x = 60; // X position of the score
@@ -470,6 +473,57 @@ public class Level implements Screen {
         stage.act(delta);
         stage.draw();
     }
+    private void saveGame() {
+        // Open a file to write the data
+        FileHandle file;
+        if(this.levelno==1) {
+            file=Gdx.files.local("savegame1.txt");
+        }
+        else if(this.levelno==2){
+            file=Gdx.files.local("savegame2.txt");
+        }
+        else{
+            file=Gdx.files.local("savegame3.txt");
+        }
+        StringBuilder sb = new StringBuilder();
+
+        // Save the level number
+        sb.append("Level: ").append(this.levelno).append("\n");
+
+        // Save birds
+        for (Bird bird : birds) {
+            sb.append("Bird: ").append(bird.getClass().getSimpleName())
+                    .append(" Position: ").append(bird.getBody().getPosition().x).append(",").append(bird.getBody().getPosition().y)
+                    .append(" Velocity: ").append(bird.getBody().getLinearVelocity().x).append(",").append(bird.getBody().getLinearVelocity().y)
+                    .append(" Damage: ").append(bird.getDamage())
+                    .append(" Launched: ").append(bird.isIslaunched())  // Save whether the bird has been launched
+                    .append("\n");
+        }
+
+        // Save pigs
+        for (Pig pig : pigs) {
+            sb.append("Pig: ").append(pig.getClass().getSimpleName())
+                    .append(" Position: ").append(pig.getBody().getPosition().x).append(",").append(pig.getBody().getPosition().y)
+                    .append(" Velocity: ").append(pig.getBody().getLinearVelocity().x).append(",").append(pig.getBody().getLinearVelocity().y)
+                    .append(" Health: ").append(pig.getHealth())
+                    .append("\n");
+        }
+
+        // Save obstacles
+        for (Obstacle obstacle : obstacles) {
+            sb.append("Obstacle: ").append(obstacle.getClass().getSimpleName())
+                    .append(" Position: ").append(obstacle.getBody().getPosition().x).append(",").append(obstacle.getBody().getPosition().y)
+                    .append(" Velocity: ").append(obstacle.getBody().getLinearVelocity().x).append(",").append(obstacle.getBody().getLinearVelocity().y)
+                    .append(" Health: ").append(obstacle.getHealth())
+                    .append(" Rotation: ").append(obstacle.getBody().getAngle())
+                    .append("\n");
+        }
+        sb.append(score);
+        // Write the state to the file
+        file.writeString(sb.toString(), false);
+        System.out.println("Game saved!");
+    }
+
     private void updateHighScore() {
         if (this instanceof Level1) {
             if (score > highScoreLevel1) {

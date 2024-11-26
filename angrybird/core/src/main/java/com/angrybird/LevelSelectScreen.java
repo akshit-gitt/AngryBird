@@ -112,73 +112,73 @@ public class LevelSelectScreen implements Screen {
     //     stage.addActor(outputLabel);
     // }
     private void createButtons() {
-    // Use viewport dimensions instead of screen dimensions
-    float row_height = viewport.getWorldHeight() / 12;
-    float col_width = viewport.getWorldWidth() / 12;
+        // Use viewport dimensions instead of screen dimensions
+        float row_height = viewport.getWorldHeight() / 12;
+        float col_width = viewport.getWorldWidth() / 12;
 
-    float centerX = viewport.getWorldWidth() / 2f;
-    float buttonSpacing = col_width * 2.5f;
+        float centerX = viewport.getWorldWidth() / 2f;
+        float buttonSpacing = col_width * 2.5f;
 
-    // Level 2 Button
-    ImageButton.ImageButtonStyle styleLevel2 = new ImageButton.ImageButtonStyle();
-    styleLevel2.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_1.png")));
-    ImageButton Level2 = new ImageButton(styleLevel2);
-    Level2.setSize(col_width * 2.15f, row_height * 1.9f);
-    Level2.setPosition(centerX - Level2.getWidth() / 2, row_height * 5);
-    Level2.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            game.setScreen(new Level2(game));
-        }
-    });
-    stage.addActor(Level2);
+        // Level 2 Button
+        ImageButton.ImageButtonStyle styleLevel2 = new ImageButton.ImageButtonStyle();
+        styleLevel2.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_1.png")));
+        ImageButton Level2 = new ImageButton(styleLevel2);
+        Level2.setSize(col_width * 2.15f, row_height * 1.9f);
+        Level2.setPosition(centerX - Level2.getWidth() / 2, row_height * 5);
+        Level2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new Level2(game));
+            }
+        });
+        stage.addActor(Level2);
 
-    // Level 1 Button
-    ImageButton.ImageButtonStyle styleLevel1 = new ImageButton.ImageButtonStyle();
-    styleLevel1.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img.png")));
-    ImageButton Level1 = new ImageButton(styleLevel1);
-    Level1.setSize(col_width * 1.95f, row_height * 1.95f);
-    Level1.setPosition(centerX - buttonSpacing - Level1.getWidth(), row_height * 5);
-    Level1.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            game.setScreen(new Level1(game));
-        }
-    });
-    stage.addActor(Level1);
+        // Level 1 Button
+        ImageButton.ImageButtonStyle styleLevel1 = new ImageButton.ImageButtonStyle();
+        styleLevel1.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img.png")));
+        ImageButton Level1 = new ImageButton(styleLevel1);
+        Level1.setSize(col_width * 1.95f, row_height * 1.95f);
+        Level1.setPosition(centerX - buttonSpacing - Level1.getWidth(), row_height * 5);
+        Level1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new Level1(game));
+            }
+        });
+        stage.addActor(Level1);
 
-    // Level 3 Button
-    ImageButton.ImageButtonStyle styleLevel3 = new ImageButton.ImageButtonStyle();
-    styleLevel3.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_2.png")));
-    ImageButton Level3 = new ImageButton(styleLevel3);
-    Level3.setSize(col_width * 2f, row_height * 2f);
-    Level3.setPosition(centerX + buttonSpacing, row_height * 5);
-    Level3.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            game.setScreen(new Level3(game));
-        }
-    });
-    stage.addActor(Level3);
+        // Level 3 Button
+        ImageButton.ImageButtonStyle styleLevel3 = new ImageButton.ImageButtonStyle();
+        styleLevel3.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("img_2.png")));
+        ImageButton Level3 = new ImageButton(styleLevel3);
+        Level3.setSize(col_width * 2f, row_height * 2f);
+        Level3.setPosition(centerX + buttonSpacing, row_height * 5);
+        Level3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new Level3(game));
+            }
+        });
+        stage.addActor(Level3);
 
-    // Load Game Button
-    ImageButton.ImageButtonStyle styleLoadGame = new ImageButton.ImageButtonStyle();
-    styleLoadGame.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("load_game.png")));
-    ImageButton loadGameButton = new ImageButton(styleLoadGame);
-    loadGameButton.setSize(col_width * 2f, row_height * 2f);
-    loadGameButton.setPosition(
-        viewport.getWorldWidth() - loadGameButton.getWidth() - 20,
-        20
-    );
-    loadGameButton.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            System.out.println("Load Game button clicked!");
-            game.setScreen(new SavedGamesScreen(game));
-        }
-    });
-    stage.addActor(loadGameButton);
-}
+        // Load Game Button
+        ImageButton.ImageButtonStyle styleLoadGame = new ImageButton.ImageButtonStyle();
+        styleLoadGame.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("load_game.png")));
+        ImageButton loadGameButton = new ImageButton(styleLoadGame);
+        loadGameButton.setSize(col_width * 2f, row_height * 2f);
+        loadGameButton.setPosition(
+                viewport.getWorldWidth() - loadGameButton.getWidth() - 20,
+                20
+        );
+        loadGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Load Game button clicked!");
+                game.setScreen(new SavedGamesScreen(game));
+            }
+        });
+        stage.addActor(loadGameButton);
+    }
 
     @Override
     public void render(float delta) {
