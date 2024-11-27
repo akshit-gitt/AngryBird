@@ -77,7 +77,7 @@ public class Level2 extends Level{
         birds.add(new BlueBird(world,7,base));
         birds.add(new YellowBird(world,18,base));
         birds.add(new RedBird(world,25,base));
-        birds.add(new YellowBird(world,38,base+5));
+        birds.add(new YellowBird(world,38,base+6));
 
         obstacles.add(new Wood(world,110,base+10,5,20));
         obstacles.add(new Wood(world,130,base+10,5,20));

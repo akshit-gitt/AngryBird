@@ -79,7 +79,7 @@ public class Level1 extends Level{
         SlingshotSprite.setY(base);
         birds.add(new RedBird(world,13,base));
         birds.add(new YellowBird(world,20,base));
-        birds.add(new RedBird(world,33,base+5));
+        birds.add(new RedBird(world,33,base+6));
         obstacles.add(new Wood(world,100,base+10,5,20));
         obstacles.add(new Wood(world,180,base+10,5,20));
         obstacles.add(new Woodh(world,100,base+23.5f,20,5));

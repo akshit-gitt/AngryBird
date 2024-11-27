@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class WinScreen implements Screen {
+    Music winmusic=Gdx.audio.newMusic(Gdx.files.internal("win.wav"));
     private final Game game;
     private Stage stage;
     private Skin skin;
@@ -28,7 +30,7 @@ public class WinScreen implements Screen {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
+        winmusic.play();
         // Initialize examboard image
         examboard = new Image(new Texture("examboard.png"));
         stage.addActor(examboard);

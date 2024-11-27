@@ -5,6 +5,7 @@ import com.angrybird.characters.pigs.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -30,6 +31,7 @@ public class Level implements Screen {
     protected   World world;
     int levelno;
     private BitmapFont font;
+    Music collideSound=Gdx.audio.newMusic(Gdx.files.internal("collision.mp3"));
     private Bird selectedBird; // Bird being dragged
     private boolean isDragging = false; // Whether the bird is being dragged
     private Vector2 dragStart = new Vector2(); // Start point of the drag
@@ -139,7 +141,7 @@ public class Level implements Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-                handleCollision(contact);
+               GameLogic(contact);
             }
 
             @Override
@@ -352,7 +354,7 @@ public class Level implements Screen {
 
         elapsedTime += delta;
         if(elapsedTime>inputCooldown && !birds.isEmpty()){
-            handleInput();
+            launch();
         }
         trackBirdTimers(delta);
         // Render all sprites
@@ -594,7 +596,7 @@ public class Level implements Screen {
         lastBird.setLaunchTime(-1f); // Reset its timer
     }
 
-    private void handleInput() {
+    private void launch() {
         if (elapsedTime <= inputCooldown) return;
         if (Gdx.input.isTouched()) {
             Vector2 pointer = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
@@ -663,7 +665,7 @@ public class Level implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-    private void handleCollision(Contact contact) {
+    private void GameLogic(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
@@ -675,6 +677,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataA;
             pig.setHealth(pig.getHealth() - 20);
             score+=20;
+            collideSound.play();
             if (pig.getHealth() <= 0) {
                 pigsToRemove.add(pig); // Add to removal list
                 score+=100;
@@ -683,6 +686,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataB;
             pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
             score+=20;
+            collideSound.play();
             if (pig.getHealth() <= 0) {
                 pigsToRemove.add(pig);
                 score+=100;
