@@ -4,6 +4,8 @@ back.png
 blank.png
 blue bird.png
 blue bird.webp
+collision.mp3
+config.properties
 default pig.png
 download.png
 examboard.png
@@ -24,6 +26,7 @@ level2.jpg
 level3.jpg
 LevelSelect.png
 load_game.png
+lose.mp3
 music.mp3
 mute.png
 pause.png
@@ -54,6 +57,7 @@ Toons_Stone_Block.webp
 tumblr_inline_n312f5a8UM1rbgnxv.jpg
 unmute.png
 weak pig.png
+win.wav
 wood obstacle.png
 wood.png
 woodh.png
