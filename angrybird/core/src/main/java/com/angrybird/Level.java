@@ -374,10 +374,31 @@ public class Level implements Screen {
             font.draw(spriteBatch, "" + obstacle.getHealth(), position.x+5, position.y + 5); // Offset for better visibility
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && birds.get(birds.size()-1).isIslaunched()) {
             Bird bird = birds.get(birds.size() - 1); // Example: Launch the first bird
-            bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
-            System.out.println("Impulse applied to bird!");
+            if(bird instanceof BlueBird){
+                bird.getBody().setGravityScale(15);
+            }
+            if(bird instanceof RedBird){
+                for (Fixture fixture : bird.getBody().getFixtureList()) {
+                    Shape shape = fixture.getShape();
+                    if (shape instanceof CircleShape) {
+                        CircleShape circle = (CircleShape) shape;
+                        float currentRadius = circle.getRadius();
+                        circle.setRadius(6f);  // Double the physics radius
+                        break;
+                    }
+                }
+                bird.setXsize(14);
+                bird.setYsize(14);
+                bird.getSprite().setOriginCenter();
+            }
+            if(bird instanceof YellowBird){
+                bird.getBody().setGravityScale(0);
+                bird.getBody().setLinearVelocity(bird.getBody().getLinearVelocity().x,0);
+            }
+            //bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
+            //System.out.println("Impulse applied to bird!");
         }
 
         SlingshotSprite.setSize(15, 15);
@@ -674,25 +695,38 @@ public class Level implements Screen {
 
         // Bird collides with Pig
         if (userDataA instanceof Pig && userDataB instanceof Bird) {
+            if(userDataB instanceof YellowBird){
+                YellowBird yellowBird=(YellowBird) userDataB;
+                yellowBird.getBody().setGravityScale(1);
+            }
             Pig pig = (Pig) userDataA;
             pig.setHealth(pig.getHealth() - 20);
             score+=20;
-            collideSound.play();
+            //collideSound.play();
             if (pig.getHealth() <= 0) {
+                collideSound.play();
                 pigsToRemove.add(pig); // Add to removal list
                 score+=100;
             }
         } else if (userDataB instanceof Pig && userDataA instanceof Bird) {
+            if(userDataA instanceof YellowBird){
+                YellowBird yellowBird=(YellowBird) userDataA;
+                yellowBird.getBody().setGravityScale(1);
+            }
             Pig pig = (Pig) userDataB;
             pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
             score+=20;
-            collideSound.play();
             if (pig.getHealth() <= 0) {
+                collideSound.play();
                 pigsToRemove.add(pig);
                 score+=100;
             }
         }
         if (userDataA instanceof Obstacle && userDataB instanceof Bird) {
+            if(userDataB instanceof YellowBird){
+                YellowBird yellowBird=(YellowBird) userDataB;
+                yellowBird.getBody().setGravityScale(1);
+            }
             Obstacle obstacle = (Obstacle) userDataA;
             obstacle.setHealth(obstacle.getHealth() - 20); // Reduce pig's health
             score+=20;
@@ -702,6 +736,10 @@ public class Level implements Screen {
                 score+=50;
             }
         } else if (userDataB instanceof Obstacle && userDataA instanceof Bird) {
+            if(userDataA instanceof YellowBird){
+                YellowBird yellowBird=(YellowBird) userDataA;
+                yellowBird.getBody().setGravityScale(1);
+            }
             Obstacle obstacle = (Obstacle) userDataB;
             obstacle.setHealth(obstacle.getHealth() - 20);
              // Reduce pig's health
@@ -721,6 +759,7 @@ public class Level implements Screen {
                 score+=impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
+                    collideSound.play();
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
                     score+=100;
@@ -733,6 +772,7 @@ public class Level implements Screen {
                 score+=impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
+                    collideSound.play();
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
                     score+=100;
@@ -746,6 +786,7 @@ public class Level implements Screen {
                 pig.setFalldamage(true);
                 score+= (pig.getYpos()-pig.getSprite().getY())*0.5f;
                 if(pig.getHealth() <= 0){
+                    collideSound.play();
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
 
@@ -759,11 +800,20 @@ public class Level implements Screen {
                 pig.setFalldamage(true);
                 score+= (pig.getYpos()-pig.getSprite().getY())*0.5f;
                 if(pig.getHealth() <= 0){
+                    collideSound.play();
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
                     score+=100;
                 }
             }
+        }
+        if((userDataB instanceof YellowBird && fixtureA.getBody().getType() == BodyDef.BodyType.StaticBody)){
+            YellowBird yellowBird=(YellowBird) userDataB;
+            yellowBird.getBody().setGravityScale(1);
+        }
+        else if (userDataA instanceof YellowBird && fixtureB.getBody().getType() == BodyDef.BodyType.StaticBody) {
+            YellowBird yellowBird=(YellowBird) userDataA;
+            yellowBird.getBody().setGravityScale(1);
         }
         // Example: Add more collision logic here
 
