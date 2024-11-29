@@ -361,7 +361,7 @@ public class Level implements Screen {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         // Draw background
-        
+
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         for (Pig pig : pigs) {
             Vector2 position = pig.getBody().getPosition(); // Get pig's position
@@ -374,7 +374,7 @@ public class Level implements Screen {
             font.draw(spriteBatch, "" + obstacle.getHealth(), position.x+5, position.y + 5); // Offset for better visibility
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && birds.get(birds.size()-1).isIslaunched()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  && birds.get(birds.size()-1).isIslaunched()) {
             Bird bird = birds.get(birds.size() - 1); // Example: Launch the first bird
             if(bird instanceof BlueBird){
                 bird.getBody().setGravityScale(15);
@@ -398,7 +398,7 @@ public class Level implements Screen {
                 bird.getBody().setLinearVelocity(bird.getBody().getLinearVelocity().x,0);
             }
             //bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
-            //System.out.println("Impulse applied to bird!");
+            //System.out.println("Impulse applied to bird!")
         }
 
         SlingshotSprite.setSize(15, 15);
@@ -472,7 +472,7 @@ public class Level implements Screen {
             updateHighScore();
             game.setScreen(new WinScreen(game,this));
         }
-        
+
         font1.setColor(Color.WHITE);
         font1.getData().setScale(0.4f); // Adjust the scale as needed
         String scoreText = "Score: " + score;
@@ -685,7 +685,36 @@ public class Level implements Screen {
         viewport.update(width, height, true);
         stage.getViewport().update(width, height, true);
     }
+    private void checkBlocksAbove(float x, float y) {
+        // Check each obstacle to see if it's above the destroyed block
+        for (Obstacle obstacle : obstacles) {
+            // Get position of current obstacle
+            float obstacleX = obstacle.getBody().getPosition().x;
+            float obstacleY = obstacle.getBody().getPosition().y;
 
+            // Check if obstacle is above the destroyed block (within a small horizontal range)
+            float horizontalRange = 2f; // Adjust this value based on your block sizes
+            if (Math.abs(obstacleX - x) < horizontalRange && obstacleY > y) {
+                // Deal one hit of damage
+                obstacle.setHealth(obstacle.getHealth() - 5);
+                score += 20;
+
+                // If block is destroyed, trigger cascade
+                if (obstacle.getHealth() <= 0) {
+                    float destroyedX = obstacle.getBody().getPosition().x;
+                    float destroyedY = obstacle.getBody().getPosition().y;
+
+                    obstaclesToRemove.add(obstacle);
+                    obstacles.remove(obstacle);
+                    score += 50;
+
+                    // Recursively check blocks above this one
+                    checkBlocksAbove(destroyedX, destroyedY);
+                    break; // Break to avoid ConcurrentModificationException
+                }
+            }
+        }
+    }
     private void GameLogic(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
@@ -702,7 +731,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataA;
             pig.setHealth(pig.getHealth() - 20);
             score+=20;
-            //collideSound.play();
+
             if (pig.getHealth() <= 0) {
                 collideSound.play();
                 pigsToRemove.add(pig); // Add to removal list
@@ -716,12 +745,14 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataB;
             pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
             score+=20;
+
             if (pig.getHealth() <= 0) {
                 collideSound.play();
                 pigsToRemove.add(pig);
                 score+=100;
             }
         }
+
         if (userDataA instanceof Obstacle && userDataB instanceof Bird) {
             if(userDataB instanceof YellowBird){
                 YellowBird yellowBird=(YellowBird) userDataB;
@@ -731,13 +762,19 @@ public class Level implements Screen {
             obstacle.setHealth(obstacle.getHealth() - 20); // Reduce pig's health
             score+=20;
             if (obstacle.getHealth() <= 0) {
-                obstaclesToRemove.add(obstacle); // Add to removal list
+                float x = obstacle.getBody().getPosition().x;
+                float y = obstacle.getBody().getPosition().y;
+
+                obstaclesToRemove.add(obstacle);
                 obstacles.remove(obstacle);
-                score+=50;
+                score += 50;
+
+                // Check for cascade destruction
+                checkBlocksAbove(x, y);
             }
         } else if (userDataB instanceof Obstacle && userDataA instanceof Bird) {
             if(userDataA instanceof YellowBird){
-                YellowBird yellowBird=(YellowBird) userDataA;
+                YellowBird yellowBird=(YellowBird) userDataB;
                 yellowBird.getBody().setGravityScale(1);
             }
             Obstacle obstacle = (Obstacle) userDataB;
@@ -745,18 +782,25 @@ public class Level implements Screen {
              // Reduce pig's health
             score+=20;
             if (obstacle.getHealth() <= 0) {
-                obstaclesToRemove.add(obstacle); // Add to removal list
+                float x = obstacle.getBody().getPosition().x;
+                float y = obstacle.getBody().getPosition().y;
+
+                obstaclesToRemove.add(obstacle);
                 obstacles.remove(obstacle);
-                score+=50;
+                score += 50;
+
+                // Check for cascade destruction
+                checkBlocksAbove(x, y);
+
             }
 
         }
         if (userDataA instanceof Pig && userDataB instanceof Obstacle) {
             Pig pig = (Pig) userDataA;
             float impactForce = calculateImpactForce(contact);
-            
+
             if (impactForce > 5) { // Threshold value
-                score+=impactForce;
+                score+= (int) impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
                     collideSound.play();
@@ -772,6 +816,7 @@ public class Level implements Screen {
                 score+=impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
+
                     collideSound.play();
                     pigsToRemove.add(pig);
                     pigs.remove(pig);
