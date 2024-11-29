@@ -12,7 +12,5 @@ public class Wood extends Obstacle{
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
         this.health=20;
-
-        //this.damage=30;
     }
 }

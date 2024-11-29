@@ -24,39 +24,36 @@ public class Obstacle {
         this.ypos = ypos;
         this.width = width;
         this.height = height;
-        // Create body definition
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody; // Now affected by gravity
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(xpos, ypos);
-        bodyDef.gravityScale = 1.0f; // Add gravity
+        bodyDef.gravityScale = 1.0f;
 
-        // Create the body
         body = world.createBody(bodyDef);
-        // Add this to constructor after creating the body
-        body.setUserData(this); // For collision detection
+        body.setUserData(this);
         // Create the shape
         PolygonShape box = new PolygonShape();
-        box.setAsBox(width / 2, height*0.5f); // Half-width and half-height
+        box.setAsBox(width / 2, height*0.5f);
 
         // Create the fixture
         FixtureDef fixtureDef = new FixtureDef();
         if(this instanceof Wood || this instanceof Woodh) {
             fixtureDef.shape = box;
-            fixtureDef.density = 0.5f;    // Mass property
-            fixtureDef.friction = 0.5f;  // Sliding friction
-            fixtureDef.restitution = 0.1f; // Bounciness
+            fixtureDef.density = 0.5f;
+            fixtureDef.friction = 0.5f;
+            fixtureDef.restitution = 0.1f;
         }
         else if(this instanceof Glass || this instanceof Glassh){
             fixtureDef.shape = box;
-            fixtureDef.density = 1f;    // Mass property
-            fixtureDef.friction = 0.5f;  // Sliding friction
-            fixtureDef.restitution = 0.1f; // Bounciness
+            fixtureDef.density = 1f;
+            fixtureDef.friction = 0.5f;
+            fixtureDef.restitution = 0.1f;
         }
         else if(this instanceof Stone || this instanceof Stoneh){
             fixtureDef.shape = box;
-            fixtureDef.density = 1.3f;    // Mass property
-            fixtureDef.friction = 0.5f;  // Sliding friction
-            fixtureDef.restitution = 0.1f; // Bounciness
+            fixtureDef.density = 1.3f;
+            fixtureDef.friction = 0.5f;
+            fixtureDef.restitution = 0.1f;
         }
 
         body.createFixture(fixtureDef);
@@ -103,10 +100,7 @@ public class Obstacle {
     }
 
     public void updateShape() {
-        // Remove existing fixtures
         body.destroyFixture(body.getFixtureList().first());
-
-        // Create new shape with updated dimensions
         PolygonShape box = new PolygonShape();
         box.setAsBox(width / 2, height / 2);
 

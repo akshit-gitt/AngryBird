@@ -31,21 +31,15 @@ public class WinScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         winmusic.play();
-        // Initialize examboard image
         examboard = new Image(new Texture("examboard.png"));
         stage.addActor(examboard);
-
-        // You Win Label
         youWinLabel = new Label("You Win!", skin);
         youWinLabel.setFontScale(2);
         stage.addActor(youWinLabel);
-
-        // Next Level Button
         nextLevelButton = new TextButton("Next Level", skin);
         nextLevelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                game.setScreen(new LevelSelectScreen((Main) game));
                 if(level.levelno==1){
                     game.setScreen(new Level2((Main) game));
                 } else if (level.levelno==2) {
@@ -58,13 +52,10 @@ public class WinScreen implements Screen {
         });
         stage.addActor(nextLevelButton);
 
-        // Restart Button
         restartButton = new TextButton("Restart", skin);
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                game.setScreen(new Level3((Main) game));
-                // Restart the level
                 if(level.levelno==1){
                     game.setScreen(new Level1((Main) game));
                 } else if (level.levelno==2) {
@@ -99,15 +90,12 @@ public class WinScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-
-        // Update examboard size and position relative to screen size
         float examboardWidth = width * 0.6f;
         float examboardHeight = height * 0.4f;
         examboard.setSize(examboardWidth, examboardHeight);
         examboard.setPosition((width - examboardWidth) / 2, (height - examboardHeight) / 2);
         float buttonWidth = width * 0.25f;
         float buttonHeight = height * 0.08f;
-        // Position label and buttons relative to examboard
         youWinLabel.setPosition(width / 2 - youWinLabel.getWidth(), (height / 2 + examboardHeight / 2)  - examboardHeight/8);
         nextLevelButton.setSize(buttonWidth, buttonHeight);
         nextLevelButton.setPosition(width / 2 - nextLevelButton.getWidth() / 2, height / 2 - examboardHeight/4);

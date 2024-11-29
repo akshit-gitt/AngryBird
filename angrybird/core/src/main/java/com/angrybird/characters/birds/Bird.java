@@ -9,7 +9,6 @@ public class Bird {
     protected Body body;
     Sprite sprite;
     int damage;
-    float speedMultiplier;
     float xpos;
     float ypos;
     int xsize;
@@ -34,9 +33,6 @@ public class Bird {
         return sprite;
     }
 
-    public float getSpeedMultiplier() {
-        return speedMultiplier;
-    }
 
     public int getDamage() {
         return damage;
@@ -52,10 +48,6 @@ public class Bird {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public void setSpeedMultiplier(float speedMultiplier) {
-        this.speedMultiplier = speedMultiplier;
     }
 
     public void setSprite(Sprite sprite) {

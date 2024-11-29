@@ -31,11 +31,6 @@ public class FirstScreen implements Screen {
     public void show() {
         introimage = new Texture("intro.png");
         viewport = new FitViewport(160, 120);
-        // music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-        // music.setLooping(true);
-        // music.setVolume(.5f);
-        // music.play();
-     
     }
 
     @Override

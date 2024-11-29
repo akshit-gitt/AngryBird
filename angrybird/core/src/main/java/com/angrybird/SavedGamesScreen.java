@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class SavedGamesScreen implements Screen {
-    private final Main game; // Reference to the game instance
+    private final Main game;
     private Stage stage;
     private Texture backgroundTexture;
 
@@ -47,40 +47,32 @@ public class SavedGamesScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        // Load and set the background image
-        backgroundTexture = new Texture("pause_background.png"); // Replace with your image file
+        backgroundTexture = new Texture("pause_background.png");
         Image backgroundImage = new Image(new TextureRegionDrawable(backgroundTexture));
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
-        // Create table for button alignment
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        // Create button style with larger text and black box background
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         BitmapFont font = new BitmapFont(); // Default font
         font.getData().setScale(2.0f); // Make the text larger
         buttonStyle.font = font;
 
-        // Create a black box texture
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
         pixmap.fill();
         Drawable blackBox = new TextureRegionDrawable(new Texture(pixmap));
         pixmap.dispose();
 
-        // Set the black box as the background
-        buttonStyle.up = blackBox; // Normal state background
-        buttonStyle.down = blackBox; // Pressed state background
+        buttonStyle.up = blackBox;
+        buttonStyle.down = blackBox;
 
-        // Create buttons
         TextButton savedGame1 = new TextButton("Saved Game 1", buttonStyle);
         TextButton savedGame2 = new TextButton("Saved Game 2", buttonStyle);
         TextButton savedGame3 = new TextButton("Saved Game 3", buttonStyle);
-
-        // Add click listeners
         savedGame1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -104,8 +96,6 @@ public class SavedGamesScreen implements Screen {
                 loadgame(3);
             }
         });
-
-        // Add buttons to the table with padding
         table.add(savedGame1).padBottom(30).width(300).height(100).row();
         table.add(savedGame2).padBottom(30).width(300).height(100).row();
         table.add(savedGame3).width(300).height(100).row();
@@ -134,38 +124,27 @@ public class SavedGamesScreen implements Screen {
                 newLevel.background = new Texture("level1.jpg");
                 newLevel.viewport = new FitViewport(250, 120);
                 BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef.type = BodyDef.BodyType.StaticBody;
                 bodyDef.position.set(33, 28);
-                bodyDef.gravityScale = 1.0f; // Add gravity
-
-                // Create the body
+                bodyDef.gravityScale = 1.0f;
                 Body body = newLevel.world.createBody(bodyDef);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box = new PolygonShape();
-                box.setAsBox(3, 5); // Half-width and half-height
+                box.setAsBox(3, 5);
 
-                // Create the fixture
                 FixtureDef fixtureDef = new FixtureDef();
                 fixtureDef.shape = box;
                 body.createFixture(fixtureDef);
                 box.dispose();
 
                 BodyDef bodyDef2 = new BodyDef();
-                bodyDef2.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef2.type = BodyDef.BodyType.StaticBody;
                 bodyDef2.position.set(25, 28);
-                bodyDef2.gravityScale = 1.0f; // Add gravity
-
-                // Create the body
+                bodyDef2.gravityScale = 1.0f;
                 Body body2 = newLevel.world.createBody(bodyDef2);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box2 = new PolygonShape();
-                box2.setAsBox(2, 250); // Half-width and half-height
-
-                // Create the fixture
+                box2.setAsBox(2, 250);
                 FixtureDef fixtureDef2 = new FixtureDef();
                 fixtureDef2.shape = box;
                 body2.createFixture(fixtureDef2);
@@ -175,23 +154,15 @@ public class SavedGamesScreen implements Screen {
                 newLevel.SlingshotSprite.setY(26);
                 BodyDef groundBodyDef = new BodyDef();
                 groundBodyDef.type = BodyDef.BodyType.StaticBody;
-                groundBodyDef.position.set(125, 24); // Center X at 125, Y slightly below base
+                groundBodyDef.position.set(125, 24);
 
-                // Create the body
+
                 Body groundBody = newLevel.world.createBody(groundBodyDef);
-
-                // Define the shape of the ground
                 PolygonShape groundShape = new PolygonShape();
-                groundShape.setAsBox(125, 3); // Adjust width and height
-
-                // Attach the shape to the body
+                groundShape.setAsBox(125, 3);
                 groundBody.createFixture(groundShape, 0.0f);
-
-                // Dispose of the shape to free resources
                 groundShape.dispose();
-                // Parse birds
 
-                // Parse and load birds, pigs, and obstacles from the save file
                 for (int i = 1; i < lines.length; i++) {
                     String line = lines[i].trim();
                     if (line.startsWith("Bird")) {
@@ -202,7 +173,7 @@ public class SavedGamesScreen implements Screen {
                         float velX = Float.parseFloat(parts[5].split(",")[0]);
                         float velY = Float.parseFloat(parts[5].split(",")[1]);
                         int damage = Integer.parseInt(parts[7]);
-                        boolean isLaunched = Boolean.parseBoolean(parts[9]); // Load isLaunched attribute
+                        boolean isLaunched = Boolean.parseBoolean(parts[9]);
 
                         Bird bird = null;
                         if (birdType.equals("RedBird")) {
@@ -213,10 +184,10 @@ public class SavedGamesScreen implements Screen {
                             bird = new BlueBird(newLevel.world, xpos, ypos);
                         }
                         if (bird != null) {
-                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            bird.setDamage(damage);  // Set damage
-                            bird.setIslaunched(isLaunched); // Set the isLaunched attribute
-                            newLevel.birds.add(bird); // Add bird to the new level
+                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            bird.setDamage(damage);
+                            bird.setIslaunched(isLaunched);
+                            newLevel.birds.add(bird);
                         }
                     } else if (line.startsWith("Pig")) {
                         String[] parts = line.split(" ");
@@ -236,8 +207,8 @@ public class SavedGamesScreen implements Screen {
 
                         if (pig != null) {
                             pig.setHealth(health);
-                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            newLevel.pigs.add(pig); // Add pig to the new level
+                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            newLevel.pigs.add(pig);
                         }
                     } else if (line.startsWith("Obstacle")) {
                         String[] parts = line.split(" ");
@@ -266,10 +237,10 @@ public class SavedGamesScreen implements Screen {
 
                         if (obstacle != null) {
                             obstacle.setHealth(health);
-                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY)); // Set velocity
-                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle); // Set angle (rotation)
-                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle)); // Update sprite rotation
-                            newLevel.obstacles.add(obstacle); // Add obstacle to the new level
+                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle);
+                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle));
+                            newLevel.obstacles.add(obstacle);
                         }
                     }
                     else{
@@ -286,38 +257,27 @@ public class SavedGamesScreen implements Screen {
                 newLevel.background = new Texture("level2.jpg");
                 newLevel.viewport = new FitViewport(250, 120);
                 BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef.type = BodyDef.BodyType.StaticBody;
                 bodyDef.position.set(38, 39);
-                bodyDef.gravityScale = 1.0f; // Add gravity
-
-                // Create the body
+                bodyDef.gravityScale = 1.0f;
                 Body body = newLevel.world.createBody(bodyDef);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box = new PolygonShape();
-                box.setAsBox(3, 5); // Half-width and half-height
-
-                // Create the fixture
+                box.setAsBox(3, 5);
                 FixtureDef fixtureDef = new FixtureDef();
                 fixtureDef.shape = box;
                 body.createFixture(fixtureDef);
                 box.dispose();
 
                 BodyDef bodyDef2 = new BodyDef();
-                bodyDef2.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef2.type = BodyDef.BodyType.StaticBody;
                 bodyDef2.position.set(30, 39);
-                bodyDef2.gravityScale = 1.0f; // Add gravity
-
-                // Create the body
+                bodyDef2.gravityScale = 1.0f;
                 Body body2 = newLevel.world.createBody(bodyDef2);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box2 = new PolygonShape();
-                box2.setAsBox(2, 250); // Half-width and half-height
+                box2.setAsBox(2, 250);
 
-                // Create the fixture
                 FixtureDef fixtureDef2 = new FixtureDef();
                 fixtureDef2.shape = box;
                 body2.createFixture(fixtureDef2);
@@ -327,21 +287,13 @@ public class SavedGamesScreen implements Screen {
                 newLevel.SlingshotSprite.setY(37);
                 BodyDef groundBodyDef = new BodyDef();
                 groundBodyDef.type = BodyDef.BodyType.StaticBody;
-                groundBodyDef.position.set(125, 35); // Center X at 125, Y slightly below base
+                groundBodyDef.position.set(125, 35);
 
-                // Create the body
                 Body groundBody = newLevel.world.createBody(groundBodyDef);
-
-                // Define the shape of the ground
                 PolygonShape groundShape = new PolygonShape();
-                groundShape.setAsBox(125, 3); // Adjust width and height
-
-                // Attach the shape to the body
+                groundShape.setAsBox(125, 3);
                 groundBody.createFixture(groundShape, 0.0f);
-
-                // Dispose of the shape to free resources
                 groundShape.dispose();
-                // Parse birds
                 for (int i = 1; i < lines.length; i++) {
                     String line = lines[i].trim();
                     if (line.startsWith("Bird")) {
@@ -352,7 +304,7 @@ public class SavedGamesScreen implements Screen {
                         float velX = Float.parseFloat(parts[5].split(",")[0]);
                         float velY = Float.parseFloat(parts[5].split(",")[1]);
                         int damage = Integer.parseInt(parts[7]);
-                        boolean isLaunched = Boolean.parseBoolean(parts[9]); // Load isLaunched attribute
+                        boolean isLaunched = Boolean.parseBoolean(parts[9]);
 
                         Bird bird = null;
                         if (birdType.equals("RedBird")) {
@@ -363,10 +315,10 @@ public class SavedGamesScreen implements Screen {
                             bird = new BlueBird(newLevel.world, xpos, ypos);
                         }
                         if (bird != null) {
-                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            bird.setDamage(damage);  // Set damage
-                            bird.setIslaunched(isLaunched); // Set the isLaunched attribute
-                            newLevel.birds.add(bird); // Add bird to the new level
+                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            bird.setDamage(damage);
+                            bird.setIslaunched(isLaunched);
+                            newLevel.birds.add(bird);
                         }
                     } else if (line.startsWith("Pig")) {
                         String[] parts = line.split(" ");
@@ -386,8 +338,8 @@ public class SavedGamesScreen implements Screen {
 
                         if (pig != null) {
                             pig.setHealth(health);
-                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            newLevel.pigs.add(pig); // Add pig to the new level
+                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            newLevel.pigs.add(pig);
                         }
                     } else if (line.startsWith("Obstacle")) {
                         String[] parts = line.split(" ");
@@ -416,10 +368,10 @@ public class SavedGamesScreen implements Screen {
 
                         if (obstacle != null) {
                             obstacle.setHealth(health);
-                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY)); // Set velocity
-                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle); // Set angle (rotation)
-                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle)); // Update sprite rotation
-                            newLevel.obstacles.add(obstacle); // Add obstacle to the new level
+                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle);
+                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle));
+                            newLevel.obstacles.add(obstacle);
                         }
                     }
                     else{
@@ -434,38 +386,30 @@ public class SavedGamesScreen implements Screen {
                 newLevel.background = new Texture("level3.jpg");
                 newLevel.viewport = new FitViewport(250, 120);
                 BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef.type = BodyDef.BodyType.StaticBody;
                 bodyDef.position.set(38, 39);
-                bodyDef.gravityScale = 1.0f; // Add gravity
+                bodyDef.gravityScale = 1.0f;
 
-                // Create the body
                 Body body = newLevel.world.createBody(bodyDef);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box = new PolygonShape();
-                box.setAsBox(3, 5); // Half-width and half-height
+                box.setAsBox(3, 5);
 
-                // Create the fixture
                 FixtureDef fixtureDef = new FixtureDef();
                 fixtureDef.shape = box;
                 body.createFixture(fixtureDef);
                 box.dispose();
 
                 BodyDef bodyDef2 = new BodyDef();
-                bodyDef2.type = BodyDef.BodyType.StaticBody; // Now affected by gravity
+                bodyDef2.type = BodyDef.BodyType.StaticBody;
                 bodyDef2.position.set(30, 39);
-                bodyDef2.gravityScale = 1.0f; // Add gravity
+                bodyDef2.gravityScale = 1.0f;
 
-                // Create the body
                 Body body2 = newLevel.world.createBody(bodyDef2);
-                // Add this to constructor after creating the body
-                body.setUserData(this); // For collision detection
-                // Create the shape
+                body.setUserData(this);
                 PolygonShape box2 = new PolygonShape();
-                box2.setAsBox(2, 250); // Half-width and half-height
+                box2.setAsBox(2, 250);
 
-                // Create the fixture
                 FixtureDef fixtureDef2 = new FixtureDef();
                 fixtureDef2.shape = box;
                 body2.createFixture(fixtureDef2);
@@ -475,21 +419,12 @@ public class SavedGamesScreen implements Screen {
                 newLevel.SlingshotSprite.setY(37);
                 BodyDef groundBodyDef = new BodyDef();
                 groundBodyDef.type = BodyDef.BodyType.StaticBody;
-                groundBodyDef.position.set(125, 35); // Center X at 125, Y slightly below base
-
-                // Create the body
+                groundBodyDef.position.set(125, 35);
                 Body groundBody = newLevel.world.createBody(groundBodyDef);
-
-                // Define the shape of the ground
                 PolygonShape groundShape = new PolygonShape();
-                groundShape.setAsBox(125, 3); // Adjust width and height
-
-                // Attach the shape to the body
+                groundShape.setAsBox(125, 3);
                 groundBody.createFixture(groundShape, 0.0f);
-
-                // Dispose of the shape to free resources
                 groundShape.dispose();
-                // Parse birds
                 for (int i = 1; i < lines.length; i++) {
                     String line = lines[i].trim();
                     if (line.startsWith("Bird")) {
@@ -500,7 +435,7 @@ public class SavedGamesScreen implements Screen {
                         float velX = Float.parseFloat(parts[5].split(",")[0]);
                         float velY = Float.parseFloat(parts[5].split(",")[1]);
                         int damage = Integer.parseInt(parts[7]);
-                        boolean isLaunched = Boolean.parseBoolean(parts[9]); // Load isLaunched attribute
+                        boolean isLaunched = Boolean.parseBoolean(parts[9]);
 
                         Bird bird = null;
                         if (birdType.equals("RedBird")) {
@@ -511,10 +446,10 @@ public class SavedGamesScreen implements Screen {
                             bird = new BlueBird(newLevel.world, xpos, ypos);
                         }
                         if (bird != null) {
-                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            bird.setDamage(damage);  // Set damage
-                            bird.setIslaunched(isLaunched); // Set the isLaunched attribute
-                            newLevel.birds.add(bird); // Add bird to the new level
+                            bird.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            bird.setDamage(damage);
+                            bird.setIslaunched(isLaunched);
+                            newLevel.birds.add(bird);
                         }
                     } else if (line.startsWith("Pig")) {
                         String[] parts = line.split(" ");
@@ -534,8 +469,8 @@ public class SavedGamesScreen implements Screen {
 
                         if (pig != null) {
                             pig.setHealth(health);
-                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));  // Set velocity
-                            newLevel.pigs.add(pig); // Add pig to the new level
+                            pig.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            newLevel.pigs.add(pig);
                         }
                     } else if (line.startsWith("Obstacle")) {
                         String[] parts = line.split(" ");
@@ -564,10 +499,10 @@ public class SavedGamesScreen implements Screen {
 
                         if (obstacle != null) {
                             obstacle.setHealth(health);
-                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY)); // Set velocity
-                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle); // Set angle (rotation)
-                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle)); // Update sprite rotation
-                            newLevel.obstacles.add(obstacle); // Add obstacle to the new level
+                            obstacle.getBody().setLinearVelocity(new Vector2(velX, velY));
+                            obstacle.getBody().setTransform(obstacle.getBody().getPosition(), angle);
+                            obstacle.getSprite().setRotation((float) Math.toDegrees(angle));
+                            newLevel.obstacles.add(obstacle);
                         }
                     }
                     else{
@@ -576,7 +511,7 @@ public class SavedGamesScreen implements Screen {
                 }
             }
 
-            game.setScreen(newLevel);  // Go to the loaded level
+            game.setScreen(newLevel);
         } else {
             System.out.println("No saved game found.");
         }

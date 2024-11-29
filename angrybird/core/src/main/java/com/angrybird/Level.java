@@ -32,21 +32,20 @@ public class Level implements Screen {
     int levelno;
     private BitmapFont font;
     Music collideSound=Gdx.audio.newMusic(Gdx.files.internal("collision.mp3"));
-    private Bird selectedBird; // Bird being dragged
-    private boolean isDragging = false; // Whether the bird is being dragged
-    private Vector2 dragStart = new Vector2(); // Start point of the drag
-    private Vector2 dragEnd = new Vector2(); // End point of the drag
-    private final float MAX_DRAG_DISTANCE = 50f; // Maximum drag distance for the slingshot
+    private Bird selectedBird;
+    private boolean isDragging = false;
+    private Vector2 dragStart = new Vector2();
+    private Vector2 dragEnd = new Vector2();
+    private final float MAX_DRAG_DISTANCE = 50f;
     protected Box2DDebugRenderer debugRenderer;
     private Main game;
-    private float inputCooldown = 3f; // Cooldown time in seconds
-    private float elapsedTime = 0f; // Tracks time since the level was loaded
+    private float inputCooldown = 3f;
+    private float elapsedTime = 0f;
     public int score;
     public int highScoreLevel1;
     public int highScoreLevel2;
     public int highScoreLevel3;
     private Preferences prefs;
-    //    PauseMenuScreen pausemenuscreen;
     SpriteBatch spriteBatch;
     float slingshotx;
     float slingshoty;
@@ -74,11 +73,10 @@ public class Level implements Screen {
     private Sprite arrowSprite;
     private boolean paused = false;
     private BitmapFont font1;
-    TextButton winButton;
-    TextButton loseButton;
+   // TextButton winButton;
+    //TextButton loseButton;
     public Level(Main game) {
         this.game = game;
-//        pausemenuscreen = new PauseMenuScreen(game, this);
         this.spriteBatch = new SpriteBatch();
         this.viewport = new FitViewport(250, 120);
         font = new BitmapFont(); // Default LibGDX font
@@ -86,10 +84,8 @@ public class Level implements Screen {
         font.getData().setScale(0.2f); // Optional: Scale down the font size
         stage = new Stage(viewport);
         world = new World(new Vector2(0, -19.6f), true);
-        debugRenderer = new Box2DDebugRenderer();
+        //debugRenderer = new Box2DDebugRenderer();
         createWorldBounds();
-        // Load textures
-//        background = new Texture("background.png");
         examboardTexture = new Texture("examboard.png");
         resumeTexture = new Texture("resume.png");
         saveTexture = new Texture("saveandexit.png");
@@ -99,12 +95,10 @@ public class Level implements Screen {
         font1 = new BitmapFont();
         prefs = Gdx.app.getPreferences("MyPreferences");
         highScoreLevel1 = prefs.getInteger("highScoreLevel1", 0); // Default to 0 if not set
-    highScoreLevel2 = prefs.getInteger("highScoreLevel2", 0); // Default to 0 if not set
-    highScoreLevel3 = prefs.getInteger("highScoreLevel3", 0); // Default to 0 if not set
-        // Initialize the skin for UI elements
+        highScoreLevel2 = prefs.getInteger("highScoreLevel2", 0); // Default to 0 if not set
+        highScoreLevel3 = prefs.getInteger("highScoreLevel3", 0); // Default to 0 if not set
         this.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        // Set up pause button
         ImageButton.ImageButtonStyle pauseStyle = new ImageButton.ImageButtonStyle();
         pauseStyle.imageUp = new TextureRegionDrawable(new Texture(Gdx.files.internal("pause.png")));
         pauseButton = new ImageButton(pauseStyle);
@@ -130,8 +124,6 @@ public class Level implements Screen {
                 game.setScreen(new LevelSelectScreen(game));
             }
         });
-        //setupWinAndLoseButtons();
-        // Add buttons to the stage
         stage.addActor(pauseButton);
         stage.addActor(backButton);
         //stage.addActor(winButton);
@@ -141,7 +133,7 @@ public class Level implements Screen {
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
-               GameLogic(contact);
+                GameLogic(contact);
             }
 
             @Override
@@ -157,8 +149,6 @@ public class Level implements Screen {
 
     private void showPauseDialog() {
         paused = true;
-
-        // Create darkening overlay
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(0, 0, 0, 0.5f);
         pixmap.fill();
@@ -171,7 +161,6 @@ public class Level implements Screen {
         overlay.getColor().a = 0f;
         overlay.addAction(Actions.fadeIn(0.3f));
 
-        // Create centered dialog
         final Dialog dialog = new Dialog("", skin);
         dialog.setSize(120, 80); // Adjusted size to fit buttons
         dialog.setPosition(
@@ -180,12 +169,10 @@ public class Level implements Screen {
         );
         dialog.setBackground(new TextureRegionDrawable(new TextureRegion(examboardTexture)));
 
-        // Create table with specific sizing
         Table buttonTable = new Table();
-        buttonTable.defaults().pad(0.25f); // Add padding between buttons
-        buttonTable.center(); // Center align all contents
+        buttonTable.defaults().pad(0.25f);
+        buttonTable.center();
 
-        // Create uniform sized buttons
         float buttonWidth = 60;
         float buttonHeight = 18;
 
@@ -195,20 +182,16 @@ public class Level implements Screen {
                 isMuted ? new TextureRegionDrawable(unmuteTexture) : new TextureRegionDrawable(muteTexture)
         );
 
-        // Set uniform sizes
         resumeButton.setSize(buttonWidth, buttonHeight);
         saveButton.setSize(buttonWidth, buttonHeight);
         muteButton.setSize(buttonWidth, buttonHeight);
 
-        // Add buttons to table with uniform sizing
         buttonTable.add(resumeButton).size(buttonWidth, buttonHeight).row();
         buttonTable.add(saveButton).size(buttonWidth, buttonHeight).row();
         buttonTable.add(muteButton).size(buttonWidth, buttonHeight).row();
 
-        // Center the button table vertically and horizontally in the dialog
         dialog.getContentTable().add(buttonTable).expand().padTop(5).padLeft(5).center();
 
-        // Add listeners
         resumeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -236,11 +219,9 @@ public class Level implements Screen {
             }
         });
 
-        // Add overlay and dialog to stage
         stage.addActor(overlay);
         stage.addActor(dialog);
 
-        // Make dialog modal
         dialog.setModal(true);
         dialog.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -248,7 +229,7 @@ public class Level implements Screen {
             }
         });
     }
-    private void setupWinAndLoseButtons() {
+    /*private void setupWinAndLoseButtons() {
         // Initialize the Win button with smaller size
         final Level curLevel = this;
         winButton = new TextButton("Win", skin);
@@ -276,8 +257,8 @@ public class Level implements Screen {
 
         // Add buttons to the stage
         //stage.addActor(winButton);
-        //stage.addActor(loseButton);
-    }
+        //stage.addActor(loseButton);*/
+
     private void resumeGame() {
         paused = false;
         Gdx.input.setInputProcessor(stage);
@@ -300,56 +281,40 @@ public class Level implements Screen {
         }
 
         if (paused) {
-            // If the game is paused, render the game screen first
             ScreenUtils.clear(Color.BLACK);
-
-            // Apply the viewport
             viewport.apply();
-
-            // Render all sprites
             spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
             if(!MusicManager.isMuted){
                 MusicManager.play();
             }
             spriteBatch.begin();
-            // Draw background
             spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-
-            // Draw slingshot
             SlingshotSprite.setSize(15, 15);
             SlingshotSprite.draw(spriteBatch);
 
-            // Draw birds
             for (Bird bird : birds) {
                 bird.getSprite().draw(spriteBatch);
             }
 
-            // Draw obstacles
             for (Obstacle obstacle : obstacles) {
                 obstacle.getSprite().draw(spriteBatch);
             }
 
-            // Draw pigs
             for (Pig pig : pigs) {
                 pig.getSprite().draw(spriteBatch);
             }
 
             spriteBatch.end();
 
-            // Draw the debug lines (hitboxes)
-            debugRenderer.render(world, viewport.getCamera().combined);
+            //debugRenderer.render(world, viewport.getCamera().combined);
 
-            // Draw the stage (UI)
             stage.act(delta);
             stage.draw();
             return;
         }
-        // Step the physics world
         world.step(1 / 60f, 6, 2);
 
-        // Clear the screen
         ScreenUtils.clear(Color.BLACK);
-        // Apply the viewport
         viewport.apply();
 
         elapsedTime += delta;
@@ -357,22 +322,21 @@ public class Level implements Screen {
             launch();
         }
         trackBirdTimers(delta);
-        // Render all sprites
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
         // Draw background
 
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-        for (Pig pig : pigs) {
+        /*for (Pig pig : pigs) {
             Vector2 position = pig.getBody().getPosition(); // Get pig's position
             font.draw(spriteBatch, "" + pig.getHealth(), position.x+5, position.y + 5); // Offset for better visibility
-        }
+        }*/
 
-// Draw health for obstacles
+/*// Draw health for obstacles
         for (Obstacle obstacle : obstacles) {
             Vector2 position = obstacle.getBody().getPosition(); // Get obstacle's position
             font.draw(spriteBatch, "" + obstacle.getHealth(), position.x+5, position.y + 5); // Offset for better visibility
-        }
+        }*/
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  && birds.get(birds.size()-1).isIslaunched()) {
             Bird bird = birds.get(birds.size() - 1); // Example: Launch the first bird
@@ -397,13 +361,11 @@ public class Level implements Screen {
                 bird.getBody().setGravityScale(0);
                 bird.getBody().setLinearVelocity(bird.getBody().getLinearVelocity().x,0);
             }
-            //bird.getBody().applyLinearImpulse(new Vector2(200, 100), bird.getBody().getWorldCenter(), true);
-            //System.out.println("Impulse applied to bird!")
         }
 
         SlingshotSprite.setSize(15, 15);
         SlingshotSprite.draw(spriteBatch);;
-        // Draw obstacles
+
         for (Obstacle obstacle : obstacles) {
             obstacle.getSprite().setSize(obstacle.getWidth(), obstacle.getHeight());
             obstacle.getSprite().draw(spriteBatch);
@@ -418,7 +380,7 @@ public class Level implements Screen {
             sprite.setRotation((float) Math.toDegrees(body.getAngle())); // Rotate based on physics body angle
             sprite.setOriginCenter();
         }
-        // Draw birds and pigs
+
         for (Bird bird : birds) {
             bird.getSprite().setSize(bird.getXsize(), bird.getYsize());
             bird.getSprite().draw(spriteBatch);
@@ -430,7 +392,7 @@ public class Level implements Screen {
                     body.getPosition().x - sprite.getWidth() / 2,
                     body.getPosition().y - sprite.getHeight() / 2
             );
-            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2)); // Rotate based on physics body angle
+            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2));
             sprite.setOriginCenter();
         }
         for (Pig pig : pigs) {
@@ -444,7 +406,7 @@ public class Level implements Screen {
                     body.getPosition().x - sprite.getWidth() / 2,
                     body.getPosition().y - sprite.getHeight() / 2
             );
-            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2)); // Rotate based on physics body angle
+            sprite.setRotation((float) Math.toDegrees(body.getAngle()/2));
             sprite.setOriginCenter();
         }
         if (isDragging && selectedBird != null) {
@@ -455,14 +417,14 @@ public class Level implements Screen {
                 world.destroyBody(pig.getBody());
                 pigs.remove(pig);
             }
-            pigsToRemove.clear(); // Clear the temporary list
+            pigsToRemove.clear();
         }
         if (!obstaclesToRemove.isEmpty()) {
             for (Obstacle obstacle : obstaclesToRemove) {
                 world.destroyBody(obstacle.getBody());
-                pigs.remove(obstacle);
+                obstacles.remove(obstacle);
             }
-            obstaclesToRemove.clear(); // Clear the temporary list
+            obstaclesToRemove.clear();
         }
         if(birds.isEmpty() &&!pigs.isEmpty()){
             updateHighScore();
@@ -474,7 +436,7 @@ public class Level implements Screen {
         }
 
         font1.setColor(Color.WHITE);
-        font1.getData().setScale(0.4f); // Adjust the scale as needed
+        font1.getData().setScale(0.4f);
         String scoreText = "Score: " + score;
         String highScoreText = "High Score: ";
         if (this.levelno==1) {
@@ -484,20 +446,18 @@ public class Level implements Screen {
         } else if (this.levelno==3) {
             highScoreText += highScoreLevel3;
         }
-        float x = 60; // X position of the score
-        float y = viewport.getWorldHeight() - 10; // Y position of the score
+        float x = 60;
+        float y = viewport.getWorldHeight() - 10;
         font1.draw(spriteBatch, scoreText, x, y);
-        font1.draw(spriteBatch, highScoreText, x, y - 10); // Adjust Y position for high score
+        font1.draw(spriteBatch, highScoreText, x, y - 10);
         spriteBatch.end();
 
-        // Draw the debug lines (hitboxes)
-        debugRenderer.render(world, viewport.getCamera().combined);
-        // Draw UI
+        //debugRenderer.render(world, viewport.getCamera().combined);
+
         stage.act(delta);
         stage.draw();
     }
     private void saveGame() {
-        // Open a file to write the data
         FileHandle file;
         if(this.levelno==1) {
             file=Gdx.files.local("savegame1.txt");
@@ -509,11 +469,8 @@ public class Level implements Screen {
             file=Gdx.files.local("savegame3.txt");
         }
         StringBuilder sb = new StringBuilder();
-
-        // Save the level number
         sb.append("Level: ").append(this.levelno).append("\n");
 
-        // Save birds
         for (Bird bird : birds) {
             sb.append("Bird: ").append(bird.getClass().getSimpleName())
                     .append(" Position: ").append(bird.getBody().getPosition().x).append(",").append(bird.getBody().getPosition().y)
@@ -523,7 +480,6 @@ public class Level implements Screen {
                     .append("\n");
         }
 
-        // Save pigs
         for (Pig pig : pigs) {
             sb.append("Pig: ").append(pig.getClass().getSimpleName())
                     .append(" Position: ").append(pig.getBody().getPosition().x).append(",").append(pig.getBody().getPosition().y)
@@ -532,7 +488,6 @@ public class Level implements Screen {
                     .append("\n");
         }
 
-        // Save obstacles
         for (Obstacle obstacle : obstacles) {
             sb.append("Obstacle: ").append(obstacle.getClass().getSimpleName())
                     .append(" Position: ").append(obstacle.getBody().getPosition().x).append(",").append(obstacle.getBody().getPosition().y)
@@ -542,7 +497,6 @@ public class Level implements Screen {
                     .append("\n");
         }
         sb.append(score);
-        // Write the state to the file
         file.writeString(sb.toString(), false);
         System.out.println("Game saved!");
     }
@@ -573,12 +527,9 @@ public class Level implements Screen {
 
         for (Bird bird : birds) {
             if (bird.isIslaunched()) {
-                // Update the bird's launch timer
                 bird.setLaunchTime(bird.getLaunchTime() + delta);
 
-                // Check if the bird should be removed
                 if (bird.getLaunchTime() >= 15f) {
-                    // Mark the bird for removal
                     toRemove.add(bird);
                 }
             }
@@ -586,31 +537,14 @@ public class Level implements Screen {
 
         // Remove expired birds and shift remaining birds
         for (Bird bird : toRemove) {
-            // Remove bird's body from the physics world
             world.destroyBody(bird.getBody());
-
-            // Remove bird from the list
             birds.remove(bird);
-
-            // Shift remaining birds
             shiftBird();
         }
     }
 
     private void shiftBird(){
         if (birds.isEmpty()) return;
-
-        // Move remaining birds forward
-        /*for (int i = 1; i < birds.size(); i++) {
-            Bird currentBird = birds.get(i);
-            Bird previousBird = birds.get(i - 1);
-
-            // Move the current bird to the previous bird's position
-            Vector2 previousPosition = previousBird.getBody().getPosition();
-            currentBird.getBody().setTransform(previousPosition, 0);
-        }*/
-
-        // Set the last bird in the list to the slingshot position
         Bird lastBird = birds.get(birds.size() - 1);
         lastBird.getBody().setTransform(new Vector2(slingshotx, slingshoty), 0); // Replace with slingshot position
         lastBird.setIslaunched(false); // Make it ready for launching
@@ -626,7 +560,6 @@ public class Level implements Screen {
             float y=selectedBird.getYpos();
             if (!isDragging && !birds.isEmpty()) {
                 // Check if the last bird is clicked
-
                 if (selectedBird.getSprite().getBoundingRectangle().contains(pointer.x, pointer.y)) {
                     isDragging = true;
                     dragStart.set(selectedBird.getBody().getPosition()); // Bird's initial position
@@ -634,7 +567,6 @@ public class Level implements Screen {
             }
 
             if (isDragging) {
-                // Update the drag position
                 dragEnd.set(pointer);
 
                 // Constrain drag distance
@@ -642,20 +574,12 @@ public class Level implements Screen {
                 if (dragDistance > MAX_DRAG_DISTANCE) {
                     dragEnd.set(dragStart.cpy().lerp(dragEnd, MAX_DRAG_DISTANCE / dragDistance));
                 }
-
-                // Draw a visual line to represent slingshot tension (optional for future)
             }
         } else if (isDragging && !selectedBird.isIslaunched()) {
-            // On release, launch the bird
             Vector2 launchForce = dragStart.cpy().sub(dragEnd).scl(100); // Scale force
             selectedBird.setIslaunched(true);
             selectedBird.setLaunchTime(0f);
             selectedBird.getBody().applyLinearImpulse(launchForce, selectedBird.getBody().getWorldCenter(), true);
-
-            // Remove launched bird from the list
-            //birds.remove(selectedBird);
-
-            // Reset dragging state
             isDragging = false;
             selectedBird = null;
         }
@@ -663,19 +587,15 @@ public class Level implements Screen {
     private void drawLaunchArrow() {
         if (dragStart.epsilonEquals(dragEnd, 0.1f)) return;
 
-        // Calculate the angle and length between dragStart and dragEnd
         float dx = dragStart.x - dragEnd.x;
         float dy = dragStart.y - dragEnd.y;
         float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx);
         float length = dragStart.dst(dragEnd);
 
-        // Set the arrow sprite properties
         arrowSprite.setPosition(dragStart.x, dragStart.y-3);
         arrowSprite.setSize(length, 5f); // Adjust the height for arrow thickness
         arrowSprite.setOrigin(0, selectedBird.getSprite().getHeight() / 2);
         arrowSprite.setRotation(angle);
-
-        // Draw the arrow sprite
         arrowSprite.draw(spriteBatch);
     }
 
@@ -686,20 +606,13 @@ public class Level implements Screen {
         stage.getViewport().update(width, height, true);
     }
     private void checkBlocksAbove(float x, float y) {
-        // Check each obstacle to see if it's above the destroyed block
         for (Obstacle obstacle : obstacles) {
-            // Get position of current obstacle
             float obstacleX = obstacle.getBody().getPosition().x;
             float obstacleY = obstacle.getBody().getPosition().y;
-
-            // Check if obstacle is above the destroyed block (within a small horizontal range)
-            float horizontalRange = 2f; // Adjust this value based on your block sizes
+            float horizontalRange = 2f;
             if (Math.abs(obstacleX - x) < horizontalRange && obstacleY > y) {
-                // Deal one hit of damage
                 obstacle.setHealth(obstacle.getHealth() - 5);
                 score += 20;
-
-                // If block is destroyed, trigger cascade
                 if (obstacle.getHealth() <= 0) {
                     float destroyedX = obstacle.getBody().getPosition().x;
                     float destroyedY = obstacle.getBody().getPosition().y;
@@ -707,10 +620,8 @@ public class Level implements Screen {
                     obstaclesToRemove.add(obstacle);
                     obstacles.remove(obstacle);
                     score += 50;
-
-                    // Recursively check blocks above this one
                     checkBlocksAbove(destroyedX, destroyedY);
-                    break; // Break to avoid ConcurrentModificationException
+                    break;
                 }
             }
         }
@@ -734,7 +645,7 @@ public class Level implements Screen {
 
             if (pig.getHealth() <= 0) {
                 collideSound.play();
-                pigsToRemove.add(pig); // Add to removal list
+                pigsToRemove.add(pig);
                 score+=100;
             }
         } else if (userDataB instanceof Pig && userDataA instanceof Bird) {
@@ -743,7 +654,7 @@ public class Level implements Screen {
                 yellowBird.getBody().setGravityScale(1);
             }
             Pig pig = (Pig) userDataB;
-            pig.setHealth(pig.getHealth() - 20); // Reduce pig's health
+            pig.setHealth(pig.getHealth() - 20);
             score+=20;
 
             if (pig.getHealth() <= 0) {
@@ -759,7 +670,7 @@ public class Level implements Screen {
                 yellowBird.getBody().setGravityScale(1);
             }
             Obstacle obstacle = (Obstacle) userDataA;
-            obstacle.setHealth(obstacle.getHealth() - 20); // Reduce pig's health
+            obstacle.setHealth(obstacle.getHealth() - 20);
             score+=20;
             if (obstacle.getHealth() <= 0) {
                 float x = obstacle.getBody().getPosition().x;
@@ -768,8 +679,6 @@ public class Level implements Screen {
                 obstaclesToRemove.add(obstacle);
                 obstacles.remove(obstacle);
                 score += 50;
-
-                // Check for cascade destruction
                 checkBlocksAbove(x, y);
             }
         } else if (userDataB instanceof Obstacle && userDataA instanceof Bird) {
@@ -779,7 +688,6 @@ public class Level implements Screen {
             }
             Obstacle obstacle = (Obstacle) userDataB;
             obstacle.setHealth(obstacle.getHealth() - 20);
-             // Reduce pig's health
             score+=20;
             if (obstacle.getHealth() <= 0) {
                 float x = obstacle.getBody().getPosition().x;
@@ -788,8 +696,6 @@ public class Level implements Screen {
                 obstaclesToRemove.add(obstacle);
                 obstacles.remove(obstacle);
                 score += 50;
-
-                // Check for cascade destruction
                 checkBlocksAbove(x, y);
 
             }
@@ -799,7 +705,7 @@ public class Level implements Screen {
             Pig pig = (Pig) userDataA;
             float impactForce = calculateImpactForce(contact);
 
-            if (impactForce > 5) { // Threshold value
+            if (impactForce > 5) {
                 score+= (int) impactForce;
                 pig.setHealth(pig.getHealth() - (int) impactForce);
                 if(pig.getHealth() <= 0){
@@ -860,7 +766,6 @@ public class Level implements Screen {
             YellowBird yellowBird=(YellowBird) userDataA;
             yellowBird.getBody().setGravityScale(1);
         }
-        // Example: Add more collision logic here
 
     }
     private float calculateImpactForce(Contact contact) {
@@ -879,7 +784,6 @@ public class Level implements Screen {
         return impactForce;
     }
     private void createWorldBounds() {
-        // Left boundary
         BodyDef leftWallDef = new BodyDef();
         leftWallDef.type = BodyDef.BodyType.StaticBody;
         leftWallDef.position.set(0, viewport.getWorldHeight() / 2);
@@ -889,7 +793,6 @@ public class Level implements Screen {
         leftWall.createFixture(leftEdge, 0);
         leftEdge.dispose();
 
-        // Right boundary
         BodyDef rightWallDef = new BodyDef();
         rightWallDef.type = BodyDef.BodyType.StaticBody;
         rightWallDef.position.set(viewport.getWorldWidth(), viewport.getWorldHeight() / 2);
@@ -899,7 +802,6 @@ public class Level implements Screen {
         rightWall.createFixture(rightEdge, 0);
         rightEdge.dispose();
 
-        // Top boundary
         BodyDef topWallDef = new BodyDef();
         topWallDef.type = BodyDef.BodyType.StaticBody;
         topWallDef.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight());
@@ -909,6 +811,11 @@ public class Level implements Screen {
         topWall.createFixture(topEdge, 0);
         topEdge.dispose();
     }
+
+    public ArrayList<Bird> getBirds() {
+        return birds;
+    }
+
     @Override
     public void pause() {}
 

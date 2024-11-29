@@ -37,7 +37,7 @@ public class MusicManager {
         }
     }
 
-    public static void setVolume(float volume) {
+        public static void setVolume(float volume) {
         if (music != null) {
             music.setVolume(volume);
         }

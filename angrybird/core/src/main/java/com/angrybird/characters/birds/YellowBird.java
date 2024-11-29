@@ -16,12 +16,12 @@ public class YellowBird extends Bird{
         body = world.createBody(bodyDef);
         body.setUserData(this);
         CircleShape shape = new CircleShape();
-        shape.setRadius(1.5f); // Adjust radius to bird size
+        shape.setRadius(1.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 2f;
         fixtureDef.friction = 0.5f;
-        fixtureDef.restitution = 0.5f; // Bouncy effect
+        fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
         shape.dispose();
@@ -32,6 +32,5 @@ public class YellowBird extends Bird{
         this.sprite.setX(xpos);
         this.sprite.setY(ypos);
         this.damage=40;
-        this.speedMultiplier=2f;
     }
 }
