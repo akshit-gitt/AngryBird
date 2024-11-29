@@ -17,6 +17,8 @@ some useful websites- https://pngtree.com/ , https://www.cleanpng.com/ , https:/
 Link for UML class diagram- https://lucid.app/lucidchart/282fcf31-6552-4fa8-a15a-bbbc9a7f314c/edit?viewport_loc=-4358%2C-197%2C5378%2C2397%2C0_0&invitationId=inv_7529f8d8-5b22-4390-b634-67dacaec2ede
 
 
+Updated readme.....
+
 Angry Birds: Functioning Game
 Angry Birds game is a libgdx project made using box2D physics engine which follows the gameplay similar to the original Angry Birds game. It has the following features-
 1)	3 Levels, each with unique birds, pigs and obstacles.
