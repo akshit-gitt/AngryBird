@@ -7,6 +7,7 @@ import com.angrybird.characters.birds.YellowBird;
 import com.angrybird.characters.obstacles.*;
 import com.angrybird.characters.pigs.Pig;
 import com.angrybird.characters.pigs.PigKing;
+import com.angrybird.characters.pigs.PigSoldier;
 import com.angrybird.characters.pigs.SimplePig;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -204,6 +205,10 @@ public class SavedGamesScreen implements Screen {
                         } else if (pigType.equals("PigKing")) {
                             pig = new PigKing(newLevel.world, xpos, ypos);
                         }
+                        else if(pigType.equals("PigSoldier")){
+                            pig=new PigSoldier(newLevel.world,xpos,ypos);
+                        }
+
 
                         if (pig != null) {
                             pig.setHealth(health);
@@ -334,6 +339,9 @@ public class SavedGamesScreen implements Screen {
                             pig = new SimplePig(newLevel.world, xpos, ypos);
                         } else if (pigType.equals("PigKing")) {
                             pig = new PigKing(newLevel.world, xpos, ypos);
+                        }
+                        else if(pigType.equals("PigSoldier")){
+                            pig=new PigSoldier(newLevel.world,xpos,ypos);
                         }
 
                         if (pig != null) {
@@ -466,6 +474,10 @@ public class SavedGamesScreen implements Screen {
                         } else if (pigType.equals("PigKing")) {
                             pig = new PigKing(newLevel.world, xpos, ypos);
                         }
+                        else if(pigType.equals("PigSoldier")){
+                            pig=new PigSoldier(newLevel.world,xpos,ypos);
+                        }
+
 
                         if (pig != null) {
                             pig.setHealth(health);
